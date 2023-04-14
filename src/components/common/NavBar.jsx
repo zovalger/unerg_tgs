@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Navbar, NavbarToggler, NavbarBrand, Button } from "reactstrap";
 
-export default function NavBar({ title, children }) {
+export default function NavBar({ left, title, right }) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggle = () => setIsOpen(!isOpen);
@@ -9,14 +9,17 @@ export default function NavBar({ title, children }) {
 	return (
 		<div>
 			<Navbar>
-				{/* <Button >...</Button> */}
+				{left}
 				<NavbarBrand
 				// href="/"
 				>
 					{title}
 				</NavbarBrand>
 
-				{children}
+				{/* {children} */}
+
+				{right}
+
 				{/* <NavbarToggler onClick={toggle} /> */}
 			</Navbar>
 		</div>

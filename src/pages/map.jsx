@@ -1,10 +1,17 @@
 import { GoLocation } from "react-icons/go";
+import { RxHamburgerMenu } from "react-icons/rx";
+
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
 import NavBar from "@/components/common/NavBar";
-import MapView from "@/components/MapView";
+
 import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const MapView = dynamic(() => import("@/components/MapView/MapView"), {
+	ssr: false,
+});
 
 const MainMap = () => {
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
@@ -13,22 +20,34 @@ const MainMap = () => {
 
 	return (
 		<div className="AppView">
-			<NavBar title={"Vista de mapa"}></NavBar>
+			{/* nav customizable */}
+			<NavBar
+				left={
+					<div color="primary" onClick={toggleOffcanvas}>
+						<RxHamburgerMenu />
+					</div>
+				}
+				title={"Vista de mapa"}
+				right={<></>}
+			/>
+
+			{/* contenedor del mapa */}
 
 			<div className="MapView__Container">
 				<MapView />
-
-				<ButtonFloatingContainer>
-					<Button color="primary">
-						<GoLocation />
-					</Button>
-				</ButtonFloatingContainer>
 			</div>
 
-			<div>
-				<Button color="primary" onClick={toggleOffcanvas}>
-					Open
+			{/* botones inferiores */}
+
+			<ButtonFloatingContainer>
+				<Button color="primary">
+					<GoLocation />
 				</Button>
+			</ButtonFloatingContainer>
+
+			{/* panel lateral desplegable */}
+
+			<div>
 				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
 					<OffcanvasHeader toggle={toggleOffcanvas}>Offcanvas</OffcanvasHeader>
 					<OffcanvasBody>

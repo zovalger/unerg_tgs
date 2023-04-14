@@ -6,15 +6,16 @@ $size: 4rem;
 	position: absolute;
 	bottom: 1rem;
 	right: 1rem;
-
+	
+	// z-index: 10;
 	button {
 		margin: 0.25rem;
 		border-radius: 50%;
 		width: $size;
 		height: $size;
 
-    // line-height: 0;
-    font-size: 1.5rem;
+		// line-height: 0;
+		font-size: 1.5rem;
 		display: inline-flex;
 		justify-content: center;
 		align-items: center;
