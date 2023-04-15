@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { Marker } from "react-leaflet";
 // import { VenueLocationIcon } from "./VenueLocationIcon";
 import MarkerPopup from "./MarkerPopup";
-import { VenueLocationIcon } from "./VenueLocationIcon";
 
 const BusesMarker = () => {
 	const { Buses } = useContext(MapContext);
