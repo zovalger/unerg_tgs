@@ -1,34 +1,28 @@
-import { useEffect, useState } from "react";
+import MapContext from "@/contexts/MapContext";
+import { useContext, useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import BusesMarker from "./BusesMarker";
+import WaypointMarker from "./waypointMarker";
 
 const MapView = () => {
-	const [isBrowser, setIsBrowser] = useState(false);
-	useEffect(() => {
-		setTimeout(() => {
-			setIsBrowser(true);
-		}, 1000);
-	}, []);
+	const { setMap, getCenterMap } = useContext(MapContext);
 
-	if (!isBrowser) return null;
-
-	return isBrowser ? (
+	return (
 		<MapContainer
 			center={{ lat: 9.9030296, lng: -67.3761181 }}
 			zoom={14}
-			scrollWheelZoom={false}
+			scrollWheelZoom={true}
+			ref={setMap}
 		>
-			<TileLayer
-				// attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-				url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-			/>
-			{/* <Marker position={[51.505, -0.09]}>
+			<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+			<WaypointMarker />
+			<BusesMarker />
+			{/* <Marker position={{ lat: 9.9030296, lng: -67.3761181 }}>
 				<Popup>
 					A pretty CSS3 popup. <br /> Easily customizable.
 				</Popup>
 			</Marker> */}
 		</MapContainer>
-	) : (
-		""
 	);
 };
 
