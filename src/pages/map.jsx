@@ -1,17 +1,22 @@
-import { GoLocation } from "react-icons/go";
-import { RxHamburgerMenu } from "react-icons/rx";
-
-import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
-
-import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
-import NavBar from "@/components/common/NavBar";
-
+// librerias y hooks
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-const MapView = dynamic(() => import("@/components/MapView/MapView"), {
-	ssr: false,
-});
+// componentes de otras librerias
+import { GoLocation } from "react-icons/go";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
+
+// my components
+import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
+import NavBar from "@/components/common/NavBar";
+
+const MapView = dynamic(
+	() => import("@/components/MapView_Leaflet/MapView"),
+	{
+		ssr: false,
+	}
+);
 
 const MainMap = () => {
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
