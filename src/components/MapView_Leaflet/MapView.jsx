@@ -4,11 +4,15 @@ import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import BusesMarker from "./BusesMarker";
 import WaypointMarker from "./waypointMarker";
 
+//CSS
+import style from '../../styles/Map/map.module.css'
+
 const MapView = () => {
 	const { setMap, getCenterMap } = useContext(MapContext);
 
 	return (
 		<MapContainer
+			className={style.map}
 			center={{ lat: 9.9030296, lng: -67.3761181 }}
 			zoom={14}
 			scrollWheelZoom={true}

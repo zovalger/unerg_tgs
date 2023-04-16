@@ -111,12 +111,14 @@ a {
 	flex-direction: column;
   width: 100vw;
   height: 100vh;
+  z-index: 1;
 }
 
 .MapView__Container {
 	background: green;
   flex-grow: 1;
   position: relative;
+  overflow: hidden;
 }
 
 
