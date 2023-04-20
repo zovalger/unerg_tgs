@@ -109,20 +109,19 @@ a {
 .AppView {
 	display: flex;
 	flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1;
 }
 
 .MapView__Container {
 	background: green;
-  flex-grow: 1;
-  position: relative;
-  overflow: hidden;
+	flex-grow: 1;
+	position: relative;
+	overflow: hidden;
 }
 
-
 .leaflet-container {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
