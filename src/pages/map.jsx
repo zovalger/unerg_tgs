@@ -11,8 +11,10 @@ import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
 import NavBar from "@/components/common/NavBar";
+import Routes from "../components/RouteView/Routes"
 
 import style from '../styles/Routes/routes_view.module.css'
+import { set } from "mongoose";
 
 const MapView = dynamic(
 	() => import("@/components/MapView_Leaflet/MapView"),
@@ -32,6 +34,12 @@ const MainMap = () => {
 		setRo_active(!ro_active)
 	}
 
+	const [ro_menu, setRo_menu] = useState(false);
+
+	const active_RoM = () => {
+		setRo_menu(true)
+	}
+
 	return (
 		<div className="AppView">
 			{/* nav customizable */}
@@ -49,7 +57,18 @@ const MainMap = () => {
 
 			<div className="MapView__Container" onClick={()=>{setRo_active(false)}}>
 				<MapView />
+
+				{ro_menu ?(
+				<div>
+					
+				</div>) 
+				:(undefined)}
+
+
+
 				{/*Contenedor de las rutas*/}
+
+
 			{ro_active ? 
 			<div className={style.Route_view}>
 				<h2>Rutas</h2>
@@ -88,8 +107,9 @@ const MainMap = () => {
 				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
 					<OffcanvasHeader toggle={toggleOffcanvas}>Offcanvas</OffcanvasHeader>
 					<OffcanvasBody>
-						<strong>This is the Offcanvas body.</strong>
+						<strong>This is the Offcanvas body.</strong>						
 					</OffcanvasBody>
+					<button>a</button>
 				</Offcanvas>
 			</div>
 
