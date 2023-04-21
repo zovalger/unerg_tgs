@@ -26,8 +26,19 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const MainMap = () => {
-	const { toogleViewUserCoord, getCoordsUser, viewUserCoord } =
-		useContext(MapContext);
+	const {
+		toogleViewUserCoord,
+		getCoordsUser,
+		viewUserCoord,
+		getCenterMap,
+		insertWaypoint,
+		clearWaypoint,
+		updateBus,
+		insertBus,
+		clearBuses,
+		insertRuta,
+		clearRutas,
+	} = useContext(MapContext);
 
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
@@ -111,6 +122,83 @@ const MainMap = () => {
 
 			{!ro_menu && (
 				<ButtonFloatingContainer>
+					<Button onClick={() => clearRutas()}>CR</Button>
+					<Button
+						onClick={() =>
+							insertRuta({
+								_id: "23",
+								name: "terminal centro",
+								description: "pequena descripsion de la ruta",
+								color: "#15f7f7",
+								state: "a",
+								waypoints: [
+									{ lat: 9.893479127907723, lng: -67.38630115985872 },
+									{ lat: 9.89664989850226, lng: -67.39130616188051 },
+									{ lat: 9.90058161152193, lng: -67.39688515663148 },
+									{ lat: 9.917470531072166, lng: -67.36860930919649 },
+									{ lat: 9.918379421974224, lng: -67.36763030290605 },
+									{ lat: 9.928799781647307, lng: -67.35660910606386 },
+									{ lat: 9.93310098959258, lng: -67.35528677701951 },
+									{ lat: 9.93858574029869, lng: -67.36102670431139 },
+								],
+								idTimetable: "objectId(Ruta_Timetable)",
+							})
+						}
+					>
+						IR
+					</Button>
+
+					<Button onClick={() => clearBuses()}>CB</Button>
+					<Button
+						onClick={() =>
+							updateBus({
+								_id: "3",
+								idRuta: "1",
+								capacity: 0.5,
+								state: "a",
+								coord: getCenterMap(),
+								name: "Bus 001",
+								num: "000",
+								placa: "ab00",
+							})
+						}
+					>
+						UB
+					</Button>
+
+					<Button
+						onClick={() => {
+							clearWaypoint();
+						}}
+					>
+						CW
+					</Button>
+
+					<Button
+						onClick={() => {
+							const w = {
+								_id: "1",
+								name: "parada 1",
+								type: "p",
+								state: "a",
+								coord: { lat: 9.9030296, lng: -67.3761181 },
+							};
+
+							w.coord = getCenterMap();
+
+							insertWaypoint(w);
+						}}
+					>
+						W
+					</Button>
+					<Button
+						onClick={() => {
+							console.log(getCenterMap());
+						}}
+					>
+						c
+					</Button>
+
 					<Button color="primary">
 						<TbRoute onClick={Ro_Btn} />
 					</Button>

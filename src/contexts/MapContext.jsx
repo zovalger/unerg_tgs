@@ -15,17 +15,19 @@ export const MapProvider = ({ children }) => {
 		return map.getCenter();
 	};
 
-	const setCenterMap = (coord = null) => {
+	const setCenterMap = (coord = null, zoom) => {
 		if (!coord) return;
 
 		if (!coord.lat || !coord.lng) return;
 
 		if (!map) return null;
 
-		return map.setView(coord);
+		return map.setView(coord, zoom);
 	};
 
-	// 	******************* Funcionabilidades de los waypoins *******************
+	// ****************************************************************************
+	// 									 	waypoins: funcionalidades y estados
+	// ****************************************************************************
 
 	const [Waypoints, setWaypoints] = useState([
 		{
@@ -56,6 +58,10 @@ export const MapProvider = ({ children }) => {
 		if (w instanceof Array) return setWaypoints([w]);
 
 		// si no es un array se inserta junto con los demas datos
+
+		if (!w.coord?.lat || !w.coord?.lat) return;
+
+		console.log(w.coord);
 		setWaypoints([...Waypoints, w]);
 	};
 
@@ -72,8 +78,8 @@ export const MapProvider = ({ children }) => {
 			state: "a",
 			coord: { lat: 9.908, lng: -67.379 },
 			name: "Bus 001",
-			num: String,
-			placa: String,
+			num: "000",
+			placa: "ab00",
 		},
 		{
 			_id: "2",
@@ -82,8 +88,8 @@ export const MapProvider = ({ children }) => {
 			state: "a",
 			coord: { lat: 9.91, lng: -67.385 },
 			name: "Bus 003",
-			num: String,
-			placa: String,
+			num: "000",
+			placa: "ab00",
 		},
 	]);
 
@@ -96,7 +102,7 @@ export const MapProvider = ({ children }) => {
 	};
 
 	const updateBus = (b) => {
-		const index = Buses.findIndex({ _id: b._id });
+		const index = Buses.findIndex((bus) => bus._id == b._id);
 
 		if (index == -1) return insertBus(b);
 
@@ -110,18 +116,18 @@ export const MapProvider = ({ children }) => {
 	// ******************* Funcionabilidades de las rutas *******************
 
 	const [Rutas, setRutas] = useState([
-		{
-			_id: "23",
-			name: "terminal centro",
-			description: "pequena descripsion de la ruta",
-			color: "#15f7f7",
-			state: "a",
-			waypoints: [
-				{ lat: 9.908, lng: -67.379 },
-				{ lat: 9.91, lng: -67.385 },
-			],
-			idTimetable: "objectId(Ruta_Timetable)",
-		},
+		// {
+		// 	_id: "23",
+		// 	name: "terminal centro",
+		// 	description: "pequena descripsion de la ruta",
+		// 	color: "#15f7f7",
+		// 	state: "a",
+		// 	waypoints: [
+		// 		{ lat: 9.908, lng: -67.379 },
+		// 		{ lat: 9.91, lng: -67.385 },
+		// 	],
+		// 	idTimetable: "objectId(Ruta_Timetable)",
+		// },
 
 		{
 			_id: "24",
@@ -131,7 +137,6 @@ export const MapProvider = ({ children }) => {
 			state: "a",
 			waypoints: [
 				{ lat: 9.904, lng: -67.379 },
-				// { lat: 9.91, lng: -68.385 },
 				{ lat: 9.9030296, lng: -67.3761181 },
 			],
 			idTimetable: "objectId(Ruta_Timetable)",
@@ -152,7 +157,7 @@ export const MapProvider = ({ children }) => {
 	// 							Funcionabilidades sobre el usuario
 	// ***************************************************************
 	const [viewUserCoord, setViewUserCoord] = useState(false);
-	const [userCoord, setUserCoord] = useState({ lat: 9.908, lng: -67.379 });
+	const [userCoord, setUserCoord] = useState({ lat: null, lng: null });
 
 	// cambia si se ve o no el icono del usuario
 	const toogleViewUserCoord = (v = null) =>
@@ -171,14 +176,14 @@ export const MapProvider = ({ children }) => {
 			console.log(coord);
 
 			setUserCoord(coord);
-			setCenterMap(coord);
+			setCenterMap(coord, 16);
 		};
 
 		const error = (error) => console.log(error);
 
-		const options = { enableHighAccuracy: true };
-
-		navigator.geolocation.getCurrentPosition(success, error, options);
+		navigator.geolocation.getCurrentPosition(success, error, {
+			enableHighAccuracy: true,
+		});
 	};
 
 	return (
@@ -206,7 +211,7 @@ export const MapProvider = ({ children }) => {
 				insertRuta,
 				clearRutas,
 
-				// other
+				// user
 				userCoord,
 				viewUserCoord,
 				toogleViewUserCoord,

@@ -13,10 +13,10 @@ const RutasLines = () => {
 function createCustomMarker(i, wp, nWps) {
 	var markerOptions = {
 		icon: L.icon({
-			iconUrl: "/StopBus_icon.png", // ruta al archivo de icono personalizado
-			iconSize: [32, 32], // tamaño del icono
+			iconUrl: "/hidden_icon.png",
+			iconSize: [1, 1],
 		}),
-		draggable: false, // la opción 'draggable' determina si el marcador se puede arrastrar
+		draggable: false,
 	};
 
 	return L.marker(wp.latLng, markerOptions);
