@@ -9,12 +9,13 @@ const UserMarker = () => {
 
 	if (!viewUserCoord) return null;
 
-	if (!userCoord.lat || !userCoord.lng)
-		return (
-			<Marker position={userCoord} icon={User_Icon}>
-				<MarkerPopup data={{ name: "Tu" }} />
-			</Marker>
-		);
+	if (!userCoord.lat || !userCoord.lng) return;
+
+	return (
+		<Marker position={userCoord} icon={User_Icon}>
+			<MarkerPopup data={{ name: "Tu" }} />
+		</Marker>
+	);
 };
 
 export default UserMarker;
