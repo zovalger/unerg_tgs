@@ -6,12 +6,14 @@ import dynamic from "next/dynamic";
 import { GoLocation } from "react-icons/go";
 import { TbRoute } from "react-icons/tb"; 
 import { RxHamburgerMenu } from "react-icons/rx";
+import { BiLeftArrow  } from "react-icons/bi";
+
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
 import NavBar from "@/components/common/NavBar";
-import Routes from "../components/RouteView/Routes"
+import Routes from "../components/RouteView/Routes";
 
 import style from '../styles/Routes/routes_view.module.css'
 import { set } from "mongoose";
@@ -30,41 +32,45 @@ const MainMap = () => {
 
 	const [ro_active, setRo_active] = useState(false);
 
-	const Ro_Btn = () =>{ 
-		setRo_active(!ro_active)
-	}
+	const Ro_Btn = () => setRo_active(!ro_active)
+	
 
 	const [ro_menu, setRo_menu] = useState(false);
 
 	const active_RoM = () => {
-		setRo_menu(true)
+		setRo_menu(!ro_menu);
+		setOffcanvasActive(!offcanvasActive);
 	}
+
 
 	return (
 		<div className="AppView">
 			{/* nav customizable */}
-			<NavBar
+			{ro_menu ? <NavBar 
 				left={
-					<div color="primary" onClick={toggleOffcanvas}>
-						<RxHamburgerMenu />
+					<div  onClick={()=> setRo_menu(false)}>
+						<BiLeftArrow />
 					</div>
 				}
-				title={"Vista de mapa"}
 				right={<></>}
-			/>
+			/> : 	<NavBar
+						left={
+							<div  onClick={toggleOffcanvas}>
+								<RxHamburgerMenu />
+							</div>
+						}
+						title={"Vista de mapa"}
+						right={<></>}
+		
+					/>
+		}
+			
 
 			{/* contenedor del mapa */}
 
-			<div className="MapView__Container" onClick={()=>{setRo_active(false)}}>
+			<div className={ro_menu ? "MapView__ContainerRu" : "MapView__Container"} onClick={()=>{setRo_active(false)}}>
 				<MapView />
-
-				{ro_menu ?(
-				<div>
-					
-				</div>) 
-				:(undefined)}
-
-
+			
 
 				{/*Contenedor de las rutas*/}
 
@@ -90,9 +96,17 @@ const MainMap = () => {
 			: undefined}
 			</div>
 
+			{ro_menu &&(
+				<div className="container__rutas">
+					<Routes />
+				</div>
+				) 
+			}
+
 			{/* botones inferiores */}
 
-			<ButtonFloatingContainer>
+			{!ro_menu && (
+					<ButtonFloatingContainer>
 			<Button color="primary">
 					<TbRoute  onClick={Ro_Btn}/>
 				</Button>
@@ -100,6 +114,8 @@ const MainMap = () => {
 					<GoLocation />
 				</Button>
 			</ButtonFloatingContainer>
+				)}
+			
 
 			{/* panel lateral desplegable */}
 
@@ -107,9 +123,10 @@ const MainMap = () => {
 				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
 					<OffcanvasHeader toggle={toggleOffcanvas}>Offcanvas</OffcanvasHeader>
 					<OffcanvasBody>
-						<strong>This is the Offcanvas body.</strong>						
+						
+						<button onClick={active_RoM}>Rutas</button>					
 					</OffcanvasBody>
-					<button>a</button>
+					
 				</Offcanvas>
 			</div>
 
