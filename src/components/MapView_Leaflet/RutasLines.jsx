@@ -10,6 +10,18 @@ const RutasLines = () => {
 	return Rutas.map((r) => <Routing key={r._id} data={r} map={map} />);
 };
 
+function createCustomMarker(i, wp, nWps) {
+	var markerOptions = {
+		icon: L.icon({
+			iconUrl: "/StopBus_icon.png", // ruta al archivo de icono personalizado
+			iconSize: [32, 32], // tamaño del icono
+		}),
+		draggable: false, // la opción 'draggable' determina si el marcador se puede arrastrar
+	};
+
+	return L.marker(wp.latLng, markerOptions);
+}
+
 function Routing({ data, map }) {
 	const { waypoints } = data;
 
@@ -22,6 +34,7 @@ function Routing({ data, map }) {
 			draggableWaypoints: false,
 			show: false,
 			waypointIcon: StopBus_Icon,
+			createMarker: createCustomMarker,
 		}).addTo(map);
 
 		return () => map.removeControl(routingControl);

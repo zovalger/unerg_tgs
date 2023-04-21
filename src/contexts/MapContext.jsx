@@ -142,7 +142,33 @@ export const MapProvider = ({ children }) => {
 	// 							Funcionabilidades sobre el usuario
 	// ***************************************************************
 	const [viewUserCoord, setViewUserCoord] = useState(false);
-	const toogleViewUserCoord = () => setViewUserCoord(!viewUserCoord);
+	const [userCoord, setUserCoord] = useState({ lat: 9.908, lng: -67.379 });
+
+	// cambia si se ve o no el icono del usuario
+	const toogleViewUserCoord = (v = null) =>
+		setViewUserCoord(v != null ? v : !viewUserCoord);
+
+	// obtine y devuelva las coordenadas del usuario y las asigna al estado
+	const getCoordsUser = () => {
+		const success = (pos) => {
+			const {
+				coords: { latitude: lat, longitude: lng },
+			} = pos;
+
+			if (!lat || !lng) return;
+
+			const coord = { lat, lng };
+			console.log(coord);
+
+			setUserCoord(coord);
+		};
+
+		const error = (error) => console.log(error);
+
+		const options = { enableHighAccuracy: true };
+
+		navigator.geolocation.getCurrentPosition(success, error, options);
+	};
 
 	return (
 		<MapContext.Provider
@@ -169,7 +195,10 @@ export const MapProvider = ({ children }) => {
 				clearRutas,
 
 				// other
+				userCoord,
+				viewUserCoord,
 				toogleViewUserCoord,
+				getCoordsUser,
 			}}
 		>
 			{children}

@@ -1,7 +1,7 @@
 import L from 'leaflet';
 
 const Bus_Icon = L.icon({
-  iconUrl: '/Bus_Icon.png',
+  iconUrl: '/Bus_icon.png',
   iconSize: [30, 30],
   iconAnchor: [15, 15],
 });
