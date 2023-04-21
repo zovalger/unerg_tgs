@@ -15,6 +15,16 @@ export const MapProvider = ({ children }) => {
 		return map.getCenter();
 	};
 
+	const setCenterMap = (coord = null) => {
+		if (!coord) return;
+
+		if (!coord.lat || !coord.lng) return;
+
+		if (!map) return null;
+
+		return map.setView(coord);
+	};
+
 	// 	******************* Funcionabilidades de los waypoins *******************
 
 	const [Waypoints, setWaypoints] = useState([
@@ -161,6 +171,7 @@ export const MapProvider = ({ children }) => {
 			console.log(coord);
 
 			setUserCoord(coord);
+			setCenterMap(coord);
 		};
 
 		const error = (error) => console.log(error);
@@ -177,6 +188,7 @@ export const MapProvider = ({ children }) => {
 				map,
 				setMap,
 				getCenterMap,
+				setCenterMap,
 
 				// waypoins
 				Waypoints,

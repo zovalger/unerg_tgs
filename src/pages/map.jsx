@@ -26,7 +26,8 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const MainMap = () => {
-	const { toogleViewUserCoord, getCoordsUser } = useContext(MapContext);
+	const { toogleViewUserCoord, getCoordsUser, viewUserCoord } =
+		useContext(MapContext);
 
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
@@ -118,8 +119,13 @@ const MainMap = () => {
 					<Button
 						color="primary"
 						onClick={() => {
-							getCoordsUser();
-							toogleViewUserCoord();
+							// si esta en true se va a desactivar
+							if (viewUserCoord) {
+								toogleViewUserCoord(false);
+							} else {
+								toogleViewUserCoord(true);
+								getCoordsUser();
+							}
 						}}
 					>
 						<GoLocation />
