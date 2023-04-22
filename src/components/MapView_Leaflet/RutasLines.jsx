@@ -7,23 +7,33 @@ import StopBus_Icon from "./Waypoint_Icon";
 const RutasLines = () => {
 	const { Rutas, map } = useContext(MapContext);
 
-	return Rutas.map((r) => <Routing key={r._id} data={r} map={map} />);
+	return Rutas.map((r) => {
+		const error = r.waypoints.findIndex((w) => {
+			const { lat, lng } = w;
+			if (typeof lat != "number" || typeof lng != "number") return true;
+		});
+
+		console.log();
+		if (error >= 0) return;
+
+		return <Routing key={r._id} data={r} map={map} />;
+	});
 };
 
 function createCustomMarker(i, wp, nWps) {
 	var markerOptions = {
 		icon: L.icon({
-			iconUrl: "/StopBus_icon.png", // ruta al archivo de icono personalizado
-			iconSize: [32, 32], // tamaño del icono
+			iconUrl: "/hidden_icon.png",
+			iconSize: [1, 1],
 		}),
-		draggable: false, // la opción 'draggable' determina si el marcador se puede arrastrar
+		draggable: false,
 	};
 
 	return L.marker(wp.latLng, markerOptions);
 }
 
 function Routing({ data, map }) {
-	const { waypoints } = data;
+	const { waypoints, color } = data;
 
 	useEffect(() => {
 		if (!map) return;

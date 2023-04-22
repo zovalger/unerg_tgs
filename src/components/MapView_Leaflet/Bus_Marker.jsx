@@ -1,7 +1,6 @@
 import MapContext from "@/contexts/MapContext";
 import React, { useContext } from "react";
 import { Marker } from "react-leaflet";
-// import { VenueLocationIcon } from "./VenueLocationIcon";
 import Bus_Icon from "./Bus_Icon";
 
 import MarkerPopup from "./MarkerPopup";
@@ -9,20 +8,17 @@ import MarkerPopup from "./MarkerPopup";
 const BusMarker = () => {
 	const { Buses } = useContext(MapContext);
 
-	console.log(Buses);
+	return Buses.map((b, i) => {
+		const { coord } = b;
+		if (!coord) return;
 
-	// const markers =
+		const { lat, lng } = coord;
+		if (typeof lat != "number" || typeof lng != "number") return;
 
-	return Buses.map((w, i) => (
-		<Marker
-			key={i}
-			position={w.coord}
-
-			icon={Bus_Icon}
-		>
-			<MarkerPopup data={w} />
-		</Marker>
-	));
+		<Marker key={i} position={b.coord} icon={Bus_Icon}>
+			<MarkerPopup data={b} />
+		</Marker>;
+	});
 };
 
 export default BusMarker;

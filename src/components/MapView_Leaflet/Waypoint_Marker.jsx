@@ -1,22 +1,25 @@
 import MapContext from "@/contexts/MapContext";
 import React, { useContext } from "react";
 import { Marker } from "react-leaflet";
-// import { VenueLocationIcon } from "./VenueLocationIcon";
 import MarkerPopup from "./MarkerPopup";
 import StopBus_Icon from "./Waypoint_Icon";
 
 const WaypointMarker = () => {
 	const { Waypoints } = useContext(MapContext);
 
-	console.log(Waypoints);
+	return Waypoints.map((w, i) => {
+		const { coord } = w;
+		if (!coord) return;
 
-	// const markers =
+		const { lat, lng } = coord;
+		if (typeof lat != "number" || typeof lng != "number") return;
 
-	return Waypoints.map((w, i) => (
-		<Marker key={i} position={w.coord} icon={StopBus_Icon}>
-			<MarkerPopup data={w} />
-		</Marker>
-	));
+		return (
+			<Marker key={i} position={w.coord} icon={StopBus_Icon}>
+				<MarkerPopup data={w} />
+			</Marker>
+		);
+	});
 };
 
 export default WaypointMarker;

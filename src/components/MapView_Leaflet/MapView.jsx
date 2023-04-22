@@ -1,16 +1,17 @@
 import MapContext from "@/contexts/MapContext";
-import { useContext, useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import { useContext } from "react";
+import { MapContainer, TileLayer } from "react-leaflet";
 import BusMarker from "./Bus_Marker";
 import WaypointMarker from "./Waypoint_Marker";
 import RutasLines from "./RutasLines";
 import UserMarker from "./User_Marker";
+import CenterOfMap from "./CenterOfMap";
 
 //CSS
 import style from "../../styles/Map/map.module.css";
 
 const MapView = () => {
-	const { setMap, getCenterMap } = useContext(MapContext);
+	const { setMap } = useContext(MapContext);
 
 	return (
 		<MapContainer
@@ -21,15 +22,11 @@ const MapView = () => {
 			ref={setMap}
 		>
 			<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-			{/* <WaypointMarker />
+			<WaypointMarker />
 			<BusMarker />
-			<RutasLines /> */}
+			<RutasLines />
 			<UserMarker />
-			{/* <Marker position={{ lat: 9.9030296, lng: -67.3761181 }}>
-				<Popup>
-					A pretty CSS3 popup. <br /> Easily customizable.
-				</Popup>
-			</Marker> */}
+			<CenterOfMap />
 		</MapContainer>
 	);
 };
