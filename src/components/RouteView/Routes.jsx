@@ -1,5 +1,6 @@
 import Link from "next/link";
-import dynamic from "next/dynamic"
+import dynamic from "next/dynamic";
+import { useContext } from "react";
 
 //Estilos
 
@@ -8,8 +9,15 @@ import style from "../../styles/Routes/routes_view.module.css"
 
 //componentes
 
-export default function Routes(){
+import MapContext from "@/context/MapContext";
 
+
+const RutasLines = () => {
+    const {Rutas, map} = useContext(MapContext)
+}
+
+export default function Routes({Rutas}){
+    console.log(Rutas)
     return(
         <>
         <div className={style.container_routes}>
@@ -18,9 +26,9 @@ export default function Routes(){
            <BotonRu />
            <BotonRu />
              <BotonRu />
-               <BotonRu />
-                 <BotonRu />
-                   <BotonRu />
+            <BotonRu />
+                <BotonRu />
+                <BotonRu />
 
         </div>
         </>

@@ -70,7 +70,7 @@ const MainMap = () => {
 			{/* contenedor del mapa */}
 
 			<div
-				className={ro_menu ? "MapView__ContainerRu" : "MapView__Container"}
+				className={`${"MapView__Container"} ${ro_menu ? "MapView__ContainerRu"  : "" }`}
 				onClick={() => {
 					setRo_active(false);
 				}}
