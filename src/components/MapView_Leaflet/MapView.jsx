@@ -1,36 +1,17 @@
 import MapContext from "@/contexts/MapContext";
-import { useContext, useEffect, useState } from "react";
-import {
-	MapContainer,
-	Marker,
-	Popup,
-	TileLayer,
-	useMap,
-	Circle,
-	useMapEvents,
-} from "react-leaflet";
+import { useContext } from "react";
+import { MapContainer, TileLayer } from "react-leaflet";
 import BusMarker from "./Bus_Marker";
 import WaypointMarker from "./Waypoint_Marker";
 import RutasLines from "./RutasLines";
 import UserMarker from "./User_Marker";
+import CenterOfMap from "./CenterOfMap";
 
 //CSS
 import style from "../../styles/Map/map.module.css";
 
 const MapView = () => {
-	const { setMap, getCenterMap } = useContext(MapContext);
-
-	function CenterOfMap() {
-		const [center, setCenter] = useState([0, 0]);
-
-		useMapEvents({
-			move: () => {
-				setCenter(getCenterMap());
-			},
-		});
-
-		return <Circle center={center} radius={5} />;
-	}
+	const { setMap } = useContext(MapContext);
 
 	return (
 		<MapContainer
