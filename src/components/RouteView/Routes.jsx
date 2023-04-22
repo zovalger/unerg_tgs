@@ -7,41 +7,46 @@ import { useContext } from "react";
 import style from "../../styles/Routes/routes_view.module.css"
 
 
-//componentes
+// contextos
 
-import MapContext from "@/context/MapContext";
+import MapContext from "@/contexts/MapContext";
 
 
-const RutasLines = () => {
-    const {Rutas, map} = useContext(MapContext)
-}
 
-export default function Routes({Rutas}){
-    console.log(Rutas)
+
+export default function Routes(){
+
+    const { Rutas } = useContext(MapContext)
+
+    console.log(Rutas);
+
     return(
         <>
         <div className={style.container_routes}>
            <h2>Rutas disponibles</h2>
-          <BotonRu />
-           <BotonRu />
-           <BotonRu />
-             <BotonRu />
-            <BotonRu />
-                <BotonRu />
-                <BotonRu />
+            {Rutas.map((datos, id_1)=>{
+                return(
+                    <BotonRu 
+                    key= {id_1}
+                    datos = {datos}
+                    />
+                    )
+            })}
 
         </div>
         </>
     )
 }
 
-function BotonRu(){
+function BotonRu( {datos} ){
+    const { name, description } = datos
+    console.log(datos)
     return(
         <>
             <div className= {style.botonRuta}>
                 <div className={style.textContainer__Ru}>
-                    <h2>nombre de la ruta</h2>
-                    <p>inicio - fin</p>
+                    <h2>{name}</h2>
+                    <p>{description}</p>
                 </div>
                  <div className={style.textContainer__Ho}>
                     <p>hora inical - hora final</p>

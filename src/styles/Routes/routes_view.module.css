@@ -4,9 +4,11 @@
     align-items: center;
     justify-items: center;
     padding: 10px;
-    max-height: 100%;
+    padding-top: 10px;
+    min-height: 100%;
     width: 100%;
     overflow-y: auto;
+    transition: 1s;
 }
 
 .botonRuta{
@@ -17,10 +19,10 @@
     width: 100%;
     border: 2px solid black;
     background: #EDEDED;
-border-radius: 20px;
+    border-radius: 20px;
     margin: auto;
     margin-bottom: 10px;
-    padding: 5px;
+    padding: 7px;
 }
 
 .textContainer__Ru{
@@ -75,10 +77,34 @@ border-radius: 20px;
     animation-name: mov;
    
     animation-duration: 1.5s;
- 
 
 }
 
+
+/*Responsive*/
+
+@media screen and (max-width: 600px){
+
+    .textContainer__Ru h2{
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+    .textContainer__Ru p{
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+    .textContainer__Ho p{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+} 
+
+
+
+/*Animaciones*/
 @keyframes mov {
     from{
        bottom: -999px;
