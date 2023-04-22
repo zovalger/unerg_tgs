@@ -227,7 +227,7 @@ const MainMap = () => {
 				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
 					<OffcanvasHeader toggle={toggleOffcanvas}>Offcanvas</OffcanvasHeader>
 					<OffcanvasBody>
-						<button onClick={active_RoM}>Rutas</button>
+						<button onClick={active_RoM} className="btn_nav">Rutas</button>
 					</OffcanvasBody>
 				</Offcanvas>
 			</div>
