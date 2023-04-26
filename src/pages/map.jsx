@@ -19,6 +19,8 @@ import NavBar from "@/components/common/NavBar";
 import Routes from "../components/RouteView/Routes";
 
 import style from "../styles/Routes/routes_view.module.css";
+import styleN from "../styles/Nav/NavStyle.module.css"
+
 import { set } from "mongoose";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
@@ -52,16 +54,19 @@ const MainMap = () => {
 	const active_RoM = () => {
 		setRo_menu(!ro_menu);
 		setOffcanvasActive(!offcanvasActive);
+		setRo_active(false);
 	};
 
 	return (
 		<div className="AppView">
 			{/* nav customizable */}
 			{ro_menu ? (
-				<NavBar
+				<NavBar 
 					left={
 						<div onClick={() => setRo_menu(false)}>
+							<div className={style.btn_return}>
 							<BiLeftArrow />
+							</div>
 						</div>
 					}
 					right={<></>}
@@ -224,10 +229,13 @@ const MainMap = () => {
 			{/* panel lateral desplegable */}
 
 			<div>
-				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
-					<OffcanvasHeader toggle={toggleOffcanvas}>Offcanvas</OffcanvasHeader>
-					<OffcanvasBody>
-						<button onClick={active_RoM} className="btn_nav">Rutas</button>
+				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas} >
+					<OffcanvasHeader toggle={toggleOffcanvas} className={styleN.header_nav}><h2>UNERG-TGS</h2></OffcanvasHeader>
+					<OffcanvasBody style={{padding: 0}}>
+						<button onClick={active_RoM} className={styleN.btn_nav}>
+							<TbRoute className={styleN.route}/>
+							<p>Rutas</p>
+						</button>
 					</OffcanvasBody>
 				</Offcanvas>
 			</div>
