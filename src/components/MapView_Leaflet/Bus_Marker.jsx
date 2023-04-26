@@ -10,14 +10,17 @@ const BusMarker = () => {
 
 	return Buses.map((b, i) => {
 		const { coord } = b;
-		if (!coord) return;
+		if (!coord) return console.log("no esta el coord");
 
 		const { lat, lng } = coord;
-		if (typeof lat != "number" || typeof lng != "number") return;
+		if (typeof lat != "number" || typeof lng != "number")
+			return console.log("no son numeros");
 
-		<Marker key={i} position={b.coord} icon={Bus_Icon}>
-			<MarkerPopup data={b} />
-		</Marker>;
+		return (
+			<Marker key={i} position={b.coord} icon={Bus_Icon}>
+				<MarkerPopup data={b} />
+			</Marker>
+		);
 	});
 };
 
