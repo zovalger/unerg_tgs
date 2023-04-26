@@ -24,10 +24,6 @@
     transition: 0.6s; 
   }
 
-.btn_nav:hover{
-   font-size: 1.26rem;
-  }
-
 .btn_nav .route{
     font-size: 1.8rem;
   }
