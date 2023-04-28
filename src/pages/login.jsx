@@ -1,9 +1,11 @@
 import {Form, FormGroup, Input, Label, Button} from "reactstrap";
+import Link from "next/link";
 import style from "../styles/Login/login.module.css"
+import Layout from "@/layouts/layout";
 
 export function Login() { 
     return ( 
-<>
+<Layout>
 <div className={style.bg}>
   <div className={style.container}>
     <div className={style.content}>
@@ -53,9 +55,12 @@ export function Login() {
       Iniciar sesión
     </Button>
   </Form>
+  <Link href="/forgot-password" className={style.link}>
+    Olvide mi Contraseña
+  </Link>
   </div>
   </div>
-</>
+  </Layout>
     );
   }
   export default Login;

@@ -1,0 +1,60 @@
+.map{
+    max-height: 45%;
+    border-bottom-left-radius: 1.6em;
+    border-bottom-right-radius: 1.6em;
+}
+
+.menu{
+    height: 45%;
+    width: 92%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 7px 34px;
+    background: #FFFFFF;
+    border: 1px solid #949494;
+    border-radius: 20px;
+    box-shadow: inset 1px 2px 1px black;
+
+}
+
+.left{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.left .bus{
+    height: 100px;
+    width: 100px;
+}
+
+.left h2{
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+.right{ 
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.porcentaje{
+    display: flex;
+    width: 100px;
+    height: 90%;
+    background: #F2F8FF;
+    border: 1px solid #C5C5C5;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+}

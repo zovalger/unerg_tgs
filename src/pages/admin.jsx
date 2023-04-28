@@ -86,12 +86,13 @@ const MainMap = () => {
 				/>
 			) : (
 				<NavBar
+                    title={"UNERG-TGS"}
 					left={
 						<div onClick={toggleOffcanvas}>
 							<RxHamburgerMenu />
 						</div>
 					}
-					title={"Vista de mapa"}
+				
 					right={<></>}
 				/>
 			)}
