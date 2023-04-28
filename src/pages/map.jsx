@@ -17,7 +17,10 @@ import MapContext from "@/contexts/MapContext";
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
 import NavBar from "@/components/common/NavBar";
 import Routes from "../components/RouteView/Routes";
+import BotonRu from "@/components/RouteView/BotonRu";
 
+
+//Styles
 import style from "../styles/Routes/routes_view.module.css";
 import styleN from "../styles/Nav/NavStyle.module.css"
 
@@ -40,6 +43,7 @@ const MainMap = () => {
 		clearBuses,
 		insertRuta,
 		clearRutas,
+		Rutas,
 	} = useContext(MapContext);
 
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
@@ -53,7 +57,7 @@ const MainMap = () => {
 
 	const active_RoM = () => {
 		setRo_menu(!ro_menu);
-		setOffcanvasActive(!offcanvasActive);
+		setOffcanvasActive(false);
 		setRo_active(false);
 	};
 
@@ -62,13 +66,16 @@ const MainMap = () => {
 			{/* nav customizable */}
 			{ro_menu ? (
 				<NavBar 
-					left={
+					left={<>
 						<div onClick={() => setRo_menu(false)}>
 							<div className={style.btn_return}>
 							<BiLeftArrow />
 							</div>
 						</div>
+						<h2>Todas las rutas</h2>
+						</>
 					}
+					
 					right={<></>}
 				/>
 			) : (
@@ -98,21 +105,13 @@ const MainMap = () => {
 				{ro_active ? (
 					<div className={style.Route_view}>
 						<h2>Rutas</h2>
-						<ul>
-							{/*Aqui ira un map para el componente de la lista de rutas*/}
-							<li>Ruta1</li>
-							<li>Ruta2</li>
-							<li>Ruta3</li>
-							<li>Ruta4</li>
-							<li>Ruta1</li>
-							<li>Ruta2</li>
-							<li>Ruta3</li>
-							<li>Ruta4</li>
-							<li>Ruta1</li>
-							<li>Ruta2</li>
-							<li>Ruta3</li>
-							<li>Ruta4</li>
-						</ul>
+						{Rutas.map((datos, id_1)=>{
+							return(
+								<BotonRu 
+								key= {id_1}
+								datos = {datos}
+                   				 />
+                    	)})}
 					</div>
 				) : undefined}
 			</div>
@@ -205,7 +204,9 @@ const MainMap = () => {
 					</Button>
 
 					<Button color="primary">
-						<TbRoute onClick={Ro_Btn} />
+						<TbRoute 
+							onClick={Ro_Btn} 
+						/>
 					</Button>
 
 					{/* boton para obtener las coordenadas del usuario y mostrarla en el mapa */}
