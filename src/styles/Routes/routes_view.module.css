@@ -5,17 +5,18 @@
     justify-items: center;
     padding: 10px;
     padding-top: 10px;
-    min-height: 100%;
-    width: 100%;
+    max-height: 100%;
+    min-width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    position: relative;
 }
 
 .botonRuta{
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 100px;
+    min-height: 95px;
     width: 95%;
     background: #EDEDED;
     border-radius: 25px;
@@ -80,24 +81,6 @@
     bottom: 0;
 }
 
-.btn_return{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid black;
-    border-radius: 50%;
-    padding: 10px;
-}
-
-.btn_return{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid black;
-    border-radius: 50%;
-    padding: 10px;
-}
-
 /* Paradas */
 
 .textContainer__lu{
@@ -125,10 +108,69 @@
 }
 
 .textContainer__km p{
+    margin: 0;
     font-size: 1.10rem;
     font-weight: 600;
+
 }
 
+
+/* Paradas/Vista de edición */
+
+.delete{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 0 1 auto;
+    width: 20%;
+    cursor: pointer;
+}
+
+.delete svg{
+    color: rgb(208, 51, 51);
+    height: 28px;
+    width: 28px;
+}
+
+.textContainer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+}
+
+.edit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 1 auto;
+    width: 20%;
+    cursor: pointer;
+}
+
+.edit svg{
+    height: 30px;
+    width: 30px;
+}
+
+.add{
+    position: fixed;
+    right: 30px;
+    bottom: 20px;
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    border: none;
+    background: #D9D9D9;
+}
+
+.add svg{
+
+    color: black;
+    height: 45px;
+    width: 45px;
+
+}
 
 /*Responsive*/
 

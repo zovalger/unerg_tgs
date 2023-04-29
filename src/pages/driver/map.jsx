@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbBus } from "react-icons/tb";
-import { IoIosLogOut } from "react-icons/Io";
+import { IoIosLogOut } from "react-icons/io";
 
 import {
 	Button,

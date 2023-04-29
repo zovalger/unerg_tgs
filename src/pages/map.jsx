@@ -94,12 +94,14 @@ const MainMap = () => {
 						left={
 							<>
 								<div onClick={close}>
-									<div className={style.btn_return}>
+									<div className={styleN.btn_return}>
 										<BiLeftArrow />
 									</div>
 								</div>
-								{ro_menu && <h2>Todas las rutas</h2>}
-								{pa_menu && <h2>Todas las paradas</h2>}
+								<div className={styleN.title_nav}>
+									{ro_menu && <h2>Todas las rutas</h2>}
+									{pa_menu && <h2>Todas las paradas</h2>}
+								</div>
 							</>
 						}
 						right={<></>}
