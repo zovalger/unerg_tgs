@@ -20,5 +20,5 @@ export async function middleware(request) {
 }
 
 export const config = {
-	matcher: ["/api/waypoint/:path*"],
+	matcher: ["/api/waypoint/:path*", "/admin/:path*", "/driver/:path*"],
 };

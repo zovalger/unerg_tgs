@@ -1,66 +1,126 @@
-import {Form, FormGroup, Input, Label, Button} from "reactstrap";
+import {
+	Form,
+	FormGroup,
+	Input,
+	Label,
+	Button,
+	FormFeedback,
+} from "reactstrap";
 import Link from "next/link";
-import style from "../styles/Login/login.module.css"
+import style from "../styles/Login/login.module.css";
 import Layout from "@/layouts/layout";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import UserContext from "@/contexts/UserProvider";
+import { useContext, useState } from "react";
+import { login_Request } from "@/api/auth.api";
+import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
-export function Login() { 
-    return ( 
-<Layout>
-<div className={style.bg}>
-  <div className={style.container}>
-    <div className={style.content}>
-        <div className={style.title}>
-            <p>
-               <strong>
-                UNERG TGS 
-                </strong>
-            </p>
-            </div>
-            <div className={style.text}>
-            <p>
-                <strong> 
-                    Iniciar sesión
-                </strong>
-                </p>
-            </div>
-    </div>
-  <Form>
-    <FormGroup floating>
-      <Input
-      className={style.input}
-        id="exampleUser"
-        name="user"
-        placeholder="user"
-        type="user"
-      />
-      <Label className={style.label} for="exampleUser">
-        Usuario
-      </Label>
-    </FormGroup>
-    {' '}
-    <FormGroup floating>
-      <Input
-      className={style.input}
-        id="password"
-        name="password"
-        placeholder="password"
-        type="password"
-      /> 
-      <Label className={style.label} for="password">
-        Contraseña
-      </Label>
-    </FormGroup>
-    {' '}
-    <Button className={style.button}>
-      Iniciar sesión
-    </Button>
-  </Form>
-  <Link href="/forgot-password" className={style.link}>
-    Olvide mi Contraseña
-  </Link>
-  </div>
-  </div>
-  </Layout>
-    );
-  }
-  export default Login;
+export function Login() {
+	const { login } = useContext(UserContext);
+	const [isSubmiting, setIsSubmiting] = useState(false);
+	const router = useRouter();
+
+	const formik = useFormik({
+		initialValues: {
+			email: "",
+			password: "",
+		},
+		validationSchema: Yup.object({
+			email: Yup.string()
+				.required()
+				.email(
+					"El texto introducido no tiene el formato de un correo electrónico"
+				),
+			password: Yup.string().required(""),
+		}),
+		onSubmit: (formData) => {
+			console.log(formData);
+
+			if (isSubmiting) return;
+			setIsSubmiting(true);
+
+			try {
+				const myPromise = login(formData);
+
+				toast.promise(myPromise, {
+					loading: "Enviando",
+					success: (res) => {
+						console.log(res);
+						router.push("/admin/map");
+						return "autenticado correctamente";
+					},
+					error: (err, res) => {
+						setIsSubmiting(false);
+
+						return err.response.data.error.message;
+					},
+				});
+			} catch (error) {
+				setIsSubmiting(false);
+				console.log(error);
+			}
+		},
+	});
+	return (
+		<Layout>
+			<div className={style.bg}>
+				<div className={style.container}>
+					<div className={style.content}>
+						<div className={style.title}>
+							<p>
+								<strong>UNERG TGS</strong>
+							</p>
+						</div>
+						<div className={style.text}>
+							<p>
+								<strong>Iniciar sesión</strong>
+							</p>
+						</div>
+					</div>
+					<Form onSubmit={formik.handleSubmit}>
+						<FormGroup floating>
+							<Input
+								className={style.input}
+								value={formik.values.email}
+								invalid={!!formik.errors.email}
+								onChange={formik.handleChange}
+								id="email"
+								name="email"
+								placeholder="Correo electrónico"
+								type="email"
+							/>
+							{/* <FormFeedback>{formik.errors.email}</FormFeedback> */}
+
+							<Label className={style.label} for="email">
+								Correo electrónico
+							</Label>
+						</FormGroup>
+
+						<FormGroup floating>
+							<Input
+								className={style.input}
+								value={formik.values.password}
+								invalid={!!formik.errors.password}
+								onChange={formik.handleChange}
+								id="password"
+								name="password"
+								placeholder="password"
+								type="password"
+							/>
+							<Label className={style.label} for="password">
+								Contraseña
+							</Label>
+						</FormGroup>
+						<Button className={style.button}>Iniciar sesión</Button>
+					</Form>
+					<Link href="/forgot-password" className={style.link}>
+						Olvide mi Contraseña
+					</Link>
+				</div>
+			</div>
+		</Layout>
+	);
+}
+export default Login;

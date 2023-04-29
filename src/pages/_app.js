@@ -4,11 +4,17 @@ import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
 import "@/styles/globals.css";
 import { MapProvider } from "@/contexts/MapContext";
+import { UserProvider } from "@/contexts/UserProvider";
+import { Toaster } from "react-hot-toast";
 
 export default function App({ Component, pageProps }) {
 	return (
-		<MapProvider>
-			<Component {...pageProps} />
-		</MapProvider>
+		<UserProvider>
+			<MapProvider>
+				<Toaster />
+
+				<Component {...pageProps} />
+			</MapProvider>
+		</UserProvider>
 	);
 }

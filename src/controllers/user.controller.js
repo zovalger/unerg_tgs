@@ -56,7 +56,7 @@ export async function loginUser_controller(req, res) {
 		const serialized = serialize("authCookie", token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			sameSite: "none",
+			sameSite: false,
 			maxAge: 1000 * 60 * 60 * 24 * 30,
 			path: "/",
 		});
@@ -92,7 +92,8 @@ export async function logoutUser_controller(req, res) {
 		res.setHeader("Set-Cookie", serialized);
 
 		return res.status(200).json({
-			auth: true,
+			auth: false,
+			success: true,
 			message: "Logout successful",
 		});
 	} catch (error) {
