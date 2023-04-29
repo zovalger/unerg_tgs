@@ -19,6 +19,7 @@ const MapView = () => {
 			center={{ lat: 9.9030296, lng: -67.3761181 }}
 			zoom={14}
 			scrollWheelZoom={true}
+			attributionControl={false}
 			ref={setMap}
 		>
 			<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

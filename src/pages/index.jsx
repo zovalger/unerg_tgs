@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Container } from "reactstrap";
 import io from "socket.io-client";
 let socket;
 
@@ -35,16 +36,24 @@ const Home = () => {
 		// 	value={input}
 		// 	onChange={onChangeHandler}
 		// />
-<>
-
-<Link href={"/login"}>login</Link>
-<br />
-<Link href={"/map"}>mapa</Link>
-<br />
-<Link href={"/admin/map"}>mapa admin</Link>
-<br />
-<Link href={"/driver/map"}>mapa de conductor</Link>
-</>
+		<>
+			<Container></Container>
+			<Link href={"/map"} className="btn btn-info w-100 m-2">
+				mapa
+			</Link>
+			<br />
+			<Link href={"/login"} className="btn btn-info w-100 m-2">
+				login
+			</Link>
+			<br />
+			<Link href={"/admin/map"} className="btn btn-info w-100 m-2">
+				mapa admin
+			</Link>
+			<br />
+			<Link href={"/driver/map"} className="btn btn-info w-100 m-2">
+				mapa de conductor
+			</Link>
+		</>
 	);
 };
 
