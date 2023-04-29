@@ -109,8 +109,8 @@
     justify-content: center;
 }
 
-.textContainer__lu p{
-    font-size: 1rem;
+.textContainer__lu h2{
+    font-size: 1.60rem;
     font-weight: 600;
 }
 
@@ -125,7 +125,7 @@
 }
 
 .textContainer__km p{
-    font-size: 1rem;
+    font-size: 1.10rem;
     font-weight: 600;
 }
 

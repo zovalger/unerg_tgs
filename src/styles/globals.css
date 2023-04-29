@@ -109,7 +109,7 @@ a {
 .AppView {
 	display: flex;
 	flex-direction: column;
-	width: 100vw;
+	max-width: 100vw;
 	height: 100vh;
 	z-index: 1;
 }

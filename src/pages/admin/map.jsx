@@ -172,7 +172,7 @@ const MainMap = () => {
 
 			{/* botones inferiores */}
 
-			{!ro_menu || !pa_menu && (
+			{!ro_menu && !pa_menu && (
 				<ButtonFloatingContainer>
 					<Button onClick={() => clearRutas()}>CR</Button>
 					<Button
