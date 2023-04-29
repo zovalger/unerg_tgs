@@ -24,7 +24,7 @@ export default function Bus_stop( {edit} ) {
       <div className={style.container_routes}>
         <h2>Paradas</h2>
         
-        {edit && (<button className={style.add}><IoIosAdd /></button>)}
+        {edit && (<Link href={"./add"} className={style.add}><IoIosAdd /></Link>)}
 
         {edit 
         ?

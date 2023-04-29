@@ -46,7 +46,7 @@ const MainMap = () => {
 
 	const { logout, user } = useContext(UserContext);
 
-	console.log(user)
+
 
 	const {
 		toogleViewUserCoord,
