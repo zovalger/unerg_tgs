@@ -39,7 +39,13 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const MainMap = () => {
-	const { logout } = useContext(UserContext);
+
+
+	//useContext
+
+	const { logout, user } = useContext(UserContext);
+
+	console.log(user)
 
 	const {
 		toogleViewUserCoord,
@@ -56,6 +62,8 @@ const MainMap = () => {
 		Rutas,
 	} = useContext(MapContext);
 
+	//useState
+
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 
@@ -63,7 +71,7 @@ const MainMap = () => {
 
 	const Ro_Btn = () => setRo_active(!ro_active);
 
-	//Vista de las rutas
+		//Vista de las rutas
 
 	const [ro_menu, setRo_menu] = useState(false);
 
@@ -73,7 +81,7 @@ const MainMap = () => {
 		setRo_active(false);
 	};
 
-	//Vista de las paradas
+		//Vista de las paradas
 
 	const [pa_menu, setPa_menu] = useState(false);
 
@@ -83,7 +91,7 @@ const MainMap = () => {
 		setRo_active(false);
 	};
 
-	//Cerrar vistas
+		//Cerrar vistas
 
 	const close = () => {
 		setRo_menu(false);
@@ -207,7 +215,9 @@ const MainMap = () => {
 								</div>
 
 								<div className={styleN.user__info}>
-									<p>PEPE</p>
+
+								
+									<p>PEPE</p>				
 									<p>V-29.852.475</p>
 									<p>{"(Rango)"}</p>
 								</div>

@@ -39,7 +39,11 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const MainMap = () => {
-	const { logout } = useContext(UserContext);
+	
+	//useContext
+
+	const { logout, user } = useContext(UserContext);
+	
 	const router = useRouter();
 
 	const {
@@ -51,6 +55,7 @@ const MainMap = () => {
 		Rutas,
 	} = useContext(MapContext);
 
+	//useState
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 

@@ -139,6 +139,7 @@ const MainMap = () => {
 						</div>
 					) : undefined}
 				</div>
+				
 				{/*Abrir vista de rutas*/}
 				{ro_menu && (
 					<div className="container__rutas">
