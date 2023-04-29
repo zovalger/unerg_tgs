@@ -98,6 +98,37 @@
     padding: 10px;
 }
 
+/* Paradas */
+
+.textContainer__lu{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    padding-left: 5px;
+    justify-content: center;
+}
+
+.textContainer__lu p{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.textContainer__km{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 100%;
+    padding-left: 5px;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.textContainer__km p{
+    font-size: 1rem;
+    font-weight: 600;
+}
+
 
 /*Responsive*/
 

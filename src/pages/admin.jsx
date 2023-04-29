@@ -1,12 +1,15 @@
 // librerias y hooks
 import { useContext, useState } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+
 
 // componentes de otras librerias
 import { GoLocation } from "react-icons/go";
 import { TbRoute } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BiLeftArrow } from "react-icons/bi";
+import {GiBusStop} from "react-icons/gi"
 
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
@@ -18,6 +21,7 @@ import ButtonFloatingContainer from "@/components/common/ButtonFloating_Containe
 import NavBar from "@/components/common/NavBar";
 import Routes from "@/components/RouteView/Routes";
 import BotonRu from "@/components/RouteView/BotonRu";
+import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
 
 //Layouts
@@ -58,6 +62,9 @@ const MainMap = () => {
 
 	const Ro_Btn = () => setRo_active(!ro_active);
 
+
+	//Vista de las rutas
+
 	const [ro_menu, setRo_menu] = useState(false);
 
 	const active_RoM = () => {
@@ -65,20 +72,39 @@ const MainMap = () => {
 		setOffcanvasActive(false);
 		setRo_active(false);
 	};
+ 
+	//Vista de las paradas
+
+	const [pa_menu, setPa_menu] = useState(false);
+
+	const active_PaM = () => {
+		setPa_menu(!pa_menu);
+		setOffcanvasActive(false);
+		setRo_active(false);
+	};
+
+	//Cerrar vistas 
+
+	const close = () =>{
+		setRo_menu(false);
+		setPa_menu(false);
+	}
 
 	return (
 	<Layout>
 		<div className="AppView">
 			{/* nav customizable */}
-			{ro_menu ? (
+			{ro_menu || pa_menu ? (
 				<NavBar 
 					left={<>
-						<div onClick={() => setRo_menu(false)}>
+						<div onClick={close}>
 							<div className={style.btn_return}>
 							<BiLeftArrow />
 							</div>
 						</div>
-						<h2>Todas las rutas</h2>
+						{ro_menu && (<h2>Todas las rutas</h2>)}
+						{pa_menu && (<h2>Todas las paradas</h2>)}
+						
 						</>
 					}
 					
@@ -100,14 +126,14 @@ const MainMap = () => {
 			{/* contenedor del mapa */}
 
 			<div
-				className={`${"MapView__Container"} ${ro_menu ? "MapView__ContainerRu"  : "" }`}
+				className={`${"MapView__Container"} ${ro_menu || pa_menu ? "MapView__ContainerRu"  : "" }`}
 				onClick={() => {
 					setRo_active(false);
 				}}
 			>
 				<MapView />
 
-				{/*Contenedor de las rutas*/}
+				{/*Contenedor desplegable de las rutas*/}
 
 				{ro_active ? (
 					<div className={style.Route_view}>
@@ -121,17 +147,32 @@ const MainMap = () => {
                     	)})}
 					</div>
 				) : undefined}
-			</div>
 
+			</div>			
+			
+			{/*Abrir vista de rutas*/}
 			{ro_menu && (
 				<div className="container__rutas">
 					<Routes />
 				</div>
 			)}
 
+			{/*Abrir vista de paradas*/}
+
+			{pa_menu && (
+				<div className="container__rutas">
+					<Bus_stop />
+				</div>
+			)}
+
+
+
+
+
+
 			{/* botones inferiores */}
 
-			{!ro_menu && (
+			{!ro_menu || !pa_menu && (
 				<ButtonFloatingContainer>
 					<Button onClick={() => clearRutas()}>CR</Button>
 					<Button
@@ -238,7 +279,31 @@ const MainMap = () => {
 
 			<div>
 				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas} >
-					<OffcanvasHeader toggle={toggleOffcanvas} className={styleN.header_nav}><h2>UNERG-TGS</h2></OffcanvasHeader>
+					<OffcanvasHeader toggle={toggleOffcanvas} className={styleN.header_nav}>
+
+						 <div className={styleN.user_container}>
+
+                            <div className={styleN.user__img}>
+								<div className={styleN.container__img}>
+									<Image
+										src={"/User_icon.png"}
+										height={400}
+										width={400}
+										alt="Perfil"
+									/>
+								</div>
+                            </div>
+
+                            <div className={styleN.user__info}>
+                                <p>PEPE</p>
+								<p>V-29.852.475</p>
+								<p>{"(Rango)"}</p>
+                            </div>
+
+                        </div>
+
+						
+						</OffcanvasHeader>
 					<OffcanvasBody style={{padding: 0}}>
 
 						<button className={styleN.btn_nav} 
@@ -261,6 +326,10 @@ const MainMap = () => {
 							<p>Rutas</p>
 						</button>
 
+						<button onClick={active_PaM} className={styleN.btn_nav}>
+							<GiBusStop className={styleN.route}/>
+							<p>Paradas</p>
+						</button>
 					</OffcanvasBody>
 				</Offcanvas>
 			</div>

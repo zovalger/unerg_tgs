@@ -7,6 +7,7 @@ import { GoLocation } from "react-icons/go";
 import { TbRoute } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BiLeftArrow } from "react-icons/bi";
+import {GiBusStop} from "react-icons/gi"
 
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
@@ -18,6 +19,7 @@ import ButtonFloatingContainer from "@/components/common/ButtonFloating_Containe
 import NavBar from "@/components/common/NavBar";
 import Routes from "@/components/RouteView/Routes";
 import BotonRu from "@/components/RouteView/BotonRu";
+import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
 
 //Layouts
@@ -58,6 +60,8 @@ const MainMap = () => {
 
 	const Ro_Btn = () => setRo_active(!ro_active);
 
+	//Vista de las rutas
+
 	const [ro_menu, setRo_menu] = useState(false);
 
 	const active_RoM = () => {
@@ -65,20 +69,39 @@ const MainMap = () => {
 		setOffcanvasActive(false);
 		setRo_active(false);
 	};
+ 
+	//Vista de las paradas
+
+	const [pa_menu, setPa_menu] = useState(false);
+
+	const active_PaM = () => {
+		setPa_menu(!pa_menu);
+		setOffcanvasActive(false);
+		setRo_active(false);
+	};
+
+	//Cerrar vistas 
+
+	const close = () =>{
+		setRo_menu(false);
+		setPa_menu(false);
+	}
 
 	return (
 	<Layout>
 		<div className="AppView">
 			{/* nav customizable */}
-			{ro_menu ? (
+			{ro_menu || pa_menu ? (
 				<NavBar 
 					left={<>
-						<div onClick={() => setRo_menu(false)}>
+						<div onClick={close}>
 							<div className={style.btn_return}>
 							<BiLeftArrow />
 							</div>
 						</div>
-						<h2>Todas las rutas</h2>
+						{ro_menu && (<h2>Todas las rutas</h2>)}
+						{pa_menu && (<h2>Todas las paradas</h2>)}
+						
 						</>
 					}
 					
@@ -106,7 +129,7 @@ const MainMap = () => {
 			>
 				<MapView />
 
-				{/*Contenedor de las rutas*/}
+				{/*Contenedor desplegable de las rutas*/}
 
 				{ro_active ? (
 					<div className={style.Route_view}>
@@ -121,16 +144,27 @@ const MainMap = () => {
 					</div>
 				) : undefined}
 			</div>
+	{/*Abrir vista de rutas*/}
+		{ro_menu && (
+					<div className="container__rutas">
+						<Routes />
+					</div>
+				)}
 
-			{ro_menu && (
-				<div className="container__rutas">
-					<Routes />
-				</div>
-			)}
+				{/*Abrir vista de paradas*/}
+
+				{pa_menu && (
+					<div className="container__rutas">
+						<Bus_stop />
+					</div>
+				)}
+
+
+
 
 			{/* botones inferiores */}
 
-			{!ro_menu && (
+			{!ro_menu || !pa_menu && (
 				<ButtonFloatingContainer>
 					<Button onClick={() => clearRutas()}>CR</Button>
 					<Button
@@ -241,15 +275,15 @@ const MainMap = () => {
 					<OffcanvasBody style={{padding: 0}}>
 
 						<button className={styleN.btn_nav} 
-						onClick={() => {
+							onClick={() => {
 							// si esta en true se va a desactivar
-							if (viewUserCoord) {
-								toogleViewUserCoord(false);
-							} else {
-								toogleViewUserCoord(true);
-								getCoordsUser();
-								setOffcanvasActive(!offcanvasActive)
-							}
+								if (viewUserCoord) {
+									toogleViewUserCoord(false);
+								} else {
+									toogleViewUserCoord(true);
+									getCoordsUser();
+									setOffcanvasActive(!offcanvasActive)
+								}
 						}}>
 							<GoLocation className={styleN.route}/>
 							<p>Mi Ubicación</p>
@@ -258,6 +292,11 @@ const MainMap = () => {
 						<button onClick={active_RoM} className={styleN.btn_nav}>
 							<TbRoute className={styleN.route}/>
 							<p>Rutas</p>
+						</button>
+
+						<button onClick={active_PaM} className={styleN.btn_nav}>
+							<GiBusStop className={styleN.route}/>
+							<p>Paradas</p>
 						</button>
 
 					</OffcanvasBody>

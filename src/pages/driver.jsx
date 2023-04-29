@@ -8,6 +8,7 @@ import Image from "next/image";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbBus } from "react-icons/tb"
 
+
 import { Button, Container, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 // contextos
@@ -95,18 +96,20 @@ const MainMap = ()  => {
                         <div className={styleN.user_container}>
 
                             <div className={styleN.user__img}>
-								{/* <div className={styleN.container__img}>
+								<div className={styleN.container__img}>
 									<Image
 										src={"/User_icon.png"}
 										height={400}
 										width={400}
 										alt="Perfil"
 									/>
-								</div> */}
+								</div>
                             </div>
 
                             <div className={styleN.user__info}>
                                 <p>PEPE</p>
+								<p>V-29.852.475</p>
+								<p>{"(Rango)"}</p>
                             </div>
 
                         </div>
