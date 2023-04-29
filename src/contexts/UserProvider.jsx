@@ -28,6 +28,10 @@ export const UserProvider = ({ children }) => {
 		if (resProfile.data.error) throw new Error(resProfile.data.error.message);
 
 		setUser(resProfile.data);
+		console.log("login");
+		console.log(resProfile);
+
+		return resProfile.data;
 	};
 
 	const logout = async () => {

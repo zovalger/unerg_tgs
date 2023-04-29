@@ -84,7 +84,7 @@ export async function logoutUser_controller(req, res) {
 		const serialized = serialize("authCookie", null, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			sameSite: "none",
+			sameSite: false,
 			maxAge: 0,
 			path: "/",
 		});

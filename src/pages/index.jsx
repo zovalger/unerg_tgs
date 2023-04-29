@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
 let socket;
@@ -29,11 +30,21 @@ const Home = () => {
 	};
 
 	return (
-		<input
-			placeholder="Type something"
-			value={input}
-			onChange={onChangeHandler}
-		/>
+		// <input
+		// 	placeholder="Type something"
+		// 	value={input}
+		// 	onChange={onChangeHandler}
+		// />
+<>
+
+<Link href={"/login"}>login</Link>
+<br />
+<Link href={"/map"}>mapa</Link>
+<br />
+<Link href={"/admin/map"}>mapa admin</Link>
+<br />
+<Link href={"/driver/map"}>mapa de conductor</Link>
+</>
 	);
 };
 

@@ -46,9 +46,10 @@ export function Login() {
 
 				toast.promise(myPromise, {
 					loading: "Enviando",
-					success: (res) => {
-						console.log(res);
-						router.push("/admin/map");
+					success: (user) => {
+						console.log(user);
+
+						router.push(`/${user.role}/map`);
 						return "autenticado correctamente";
 					},
 					error: (err, res) => {
