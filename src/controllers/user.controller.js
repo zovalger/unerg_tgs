@@ -1,4 +1,4 @@
-import { createUser_service, loginUser_service } from "@/service/user.service";
+import { createUser_service, loginUser_service } from "@/services/user.service";
 import { serialize } from "cookie";
 import { sign, verify } from "jsonwebtoken";
 
