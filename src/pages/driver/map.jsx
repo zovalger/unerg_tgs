@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbBus } from "react-icons/tb"
-
+import { IoIosLogOut } from "react-icons/Io"
 
 import { Button, Container, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
@@ -119,6 +119,11 @@ const MainMap = ()  => {
                     <button className={styleN.btn_nav}>
 							<TbBus className={styleN.route}/>
 							<p>Rutas</p>
+						</button>
+
+						<button className={styleN.btn_nav__logout}>
+							<IoIosLogOut className={styleN.route}/>
+							<p>Salir</p>
 						</button>
 					</OffcanvasBody>
 				</Offcanvas>

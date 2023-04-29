@@ -143,3 +143,9 @@ a {
 .navbar {
   background-color: #00A2FE;
 }
+
+.offcanvas-body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}

@@ -9,7 +9,8 @@ import { GoLocation } from "react-icons/go";
 import { TbRoute } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BiLeftArrow } from "react-icons/bi";
-import {GiBusStop} from "react-icons/gi"
+import { GiBusStop } from "react-icons/gi"
+import { IoIosLogOut } from "react-icons/Io"
 
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
@@ -329,6 +330,11 @@ const MainMap = () => {
 						<button onClick={active_PaM} className={styleN.btn_nav}>
 							<GiBusStop className={styleN.route}/>
 							<p>Paradas</p>
+						</button>
+
+						<button className={styleN.btn_nav__logout}>
+							<IoIosLogOut className={styleN.route}/>
+							<p>Salir</p>
 						</button>
 					</OffcanvasBody>
 				</Offcanvas>
