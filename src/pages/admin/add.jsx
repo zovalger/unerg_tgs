@@ -61,7 +61,7 @@ const MainMap = () =>{
 					<NavBar 
 						left={
 							<>
-								<div onClick={close}>
+								<div>
 									<div className={styleN.btn_return}>
 										<BiLeftArrow />
 									</div>
@@ -85,11 +85,12 @@ const MainMap = () =>{
 					className={`${"MapView__Container"} ${"MapView__ContainerRu"}`}
 				>
 					<MapView />
-                    <div className="container__rutas">
-                        <Edit />
-                    </div>
 
 				</div>
+
+				<div className="container__rutas">
+                        <Edit />
+                    </div>
 			
 			</div>
         </Layout>

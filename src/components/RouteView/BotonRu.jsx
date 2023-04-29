@@ -2,7 +2,6 @@ import style from "../../styles/Routes/routes_view.module.css"
 
 export default function BotonRu( {datos} ){
     const { name, description } = datos
-    console.log(datos)
     return(
         <>
             <div className= {style.botonRuta}>
