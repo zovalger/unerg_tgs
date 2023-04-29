@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import { SECRET_WORD } from "./config";
 
 export async function middleware(request) {
 	const jwt = request.cookies.get("authCookie");
@@ -9,7 +10,7 @@ export async function middleware(request) {
 	try {
 		const { payload } = await jwtVerify(
 			jwt.value,
-			new TextEncoder().encode(process.env.SECRET_WORD)
+			new TextEncoder().encode(SECRET_WORD)
 		);
 		console.log(payload);
 		return NextResponse.next();
@@ -18,6 +19,6 @@ export async function middleware(request) {
 	}
 }
 
-// export const config = {
-// 	matcher: ["/api/hero/:path*", "/api/folder/:path*"],
-// };
+export const config = {
+	matcher: ["/api/waypoint/:path*"],
+};
