@@ -1,5 +1,5 @@
 // librerias y hooks
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
@@ -32,17 +32,20 @@ import style from "@/styles/Users/driver/driver.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
 import UserContext from "@/contexts/UserProvider";
-import { useRouter } from "next/router";
+import DriverContext from "@/contexts/Driver.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
 });
 
-const MainMap = () => {
+const DriveMap = () => {
 	const { logout } = useContext(UserContext);
-	const router = useRouter();
+	const { sendCoord } = useContext(DriverContext);
+
+	const [inter, setInter] = useState(null);
 
 	const {
+		getCenterMap,
 		toogleViewUserCoord,
 		getCoordsUser,
 		viewUserCoord,
@@ -118,8 +121,23 @@ const MainMap = () => {
 							</button>
 
 							<button
+								onClick={() => {
+									setInter(
+										setInterval(() => {
+											const coord = getCenterMap();
+											console.log(coord);
+											sendCoord(coord);
+										}, 500)
+									);
+								}}
+							>
+								iniciar servicio
+							</button>
+
+							<button
 								className={styleN.btn_nav__logout}
 								onClick={async () => {
+									clearInterval(inter);
 									await logout();
 									// router.push("/login");
 								}}
@@ -135,4 +153,4 @@ const MainMap = () => {
 	);
 };
 
-export default MainMap;
+export default DriveMap;

@@ -36,20 +36,8 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const MainMap = () => {
-	const {
-		toogleViewUserCoord,
-		getCoordsUser,
-		viewUserCoord,
-		getCenterMap,
-		insertWaypoint,
-		clearWaypoint,
-		updateBus,
-		insertBus,
-		clearBuses,
-		insertRuta,
-		clearRutas,
-		Rutas,
-	} = useContext(MapContext);
+	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
+		useContext(MapContext);
 
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);

@@ -30,6 +30,8 @@ export const createUser_service = async ({
 
 export const loginUser_service = async ({ email, password }) => {
 	try {
+
+		console.log(email,password);
 		const user = await UserModel.findOne({
 			email,
 			password: sign(password, SECRET_WORD),

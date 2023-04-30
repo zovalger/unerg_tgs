@@ -1,7 +1,8 @@
 import { login_Request, logout_Request, profile_Request } from "@/api/auth.api";
 import { useRouter } from "next/router";
+import SocketContext from "./Socket.context";
 
-const { createContext, useState } = require("react");
+const { createContext, useState, useContext } = require("react");
 
 const UserContext = createContext();
 
@@ -10,6 +11,8 @@ const UserContext = createContext();
 // ****************************************************************************
 
 export const UserProvider = ({ children }) => {
+	const { resetSocket } = useContext(SocketContext);
+
 	const [auth, setAuth] = useState(false);
 	const [user, setUser] = useState(null);
 
@@ -45,6 +48,9 @@ export const UserProvider = ({ children }) => {
 
 		setAuth(false);
 		setUser(null);
+
+		resetSocket();
+
 		router.push("/login");
 	};
 

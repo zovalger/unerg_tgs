@@ -1,18 +1,9 @@
-import { Server } from "socket.io";
+// import connectDb from "@/lib/db";
 
-const SocketHandler = (req, res) => {
-	if (res.socket.server.io) {
-		console.log("Socket is already running");
-	} else {
-		console.log("Socket is initializing");
-		const io = new Server(res.socket.server);
-		res.socket.server.io = io;
+import { socketInit } from "@/controllers/socket.controller";
 
-		io.on("connection", (socket) => {
-			socket.on("input-change", (msg) => console.log(msg));
-		});
-	}
-	res.end();
-};
+export default async function handler(req, res) {
+	// await connectDb();
 
-export default SocketHandler;
+	socketInit(req, res);
+}

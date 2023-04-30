@@ -16,9 +16,11 @@ import { useContext, useState } from "react";
 import { login_Request } from "@/api/auth.api";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import SocketContext from "@/contexts/Socket.context";
 
 export function Login() {
 	const { login } = useContext(UserContext);
+	const { resetSocket } = useContext(SocketContext);
 	const [isSubmiting, setIsSubmiting] = useState(false);
 	const router = useRouter();
 
@@ -33,12 +35,11 @@ export function Login() {
 				.email(
 					"El texto introducido no tiene el formato de un correo electrónico"
 				),
-			password: Yup.string().required(""),
+			password: Yup.string().required(),
 		}),
 		onSubmit: (formData) => {
-			console.log(formData);
-
 			if (isSubmiting) return;
+			console.log(formData);
 			setIsSubmiting(true);
 
 			try {
@@ -48,12 +49,14 @@ export function Login() {
 					loading: "Enviando",
 					success: (user) => {
 						console.log(user);
-
+						resetSocket();
 						router.push(`/${user.role}/map`);
 						return "autenticado correctamente";
 					},
 					error: (err, res) => {
 						setIsSubmiting(false);
+						console.log(err.response.data.error.message);
+						console.log(res);
 
 						return err.response.data.error.message;
 					},
