@@ -2,7 +2,7 @@ import { login_Request, logout_Request, profile_Request } from "@/api/auth.api";
 import { useRouter } from "next/router";
 import SocketContext from "./Socket.context";
 
-const { createContext, useState, useContext } = require("react");
+const { createContext, useState, useContext, useEffect } = require("react");
 
 const UserContext = createContext();
 
@@ -18,6 +18,16 @@ export const UserProvider = ({ children }) => {
 
 	const router = useRouter();
 
+	useEffect(() => {
+		if (user === null)
+			getDataUser()
+				.then((profile) => {
+					if (!profile) return;
+					setAuth(true);
+				})
+				.catch((error) => console.log(error));
+	}, [user]);
+
 	const login = async (credentials) => {
 		// try {
 		const resAuth = await login_Request(credentials);
@@ -26,15 +36,21 @@ export const UserProvider = ({ children }) => {
 
 		setAuth(true);
 
-		const resProfile = await profile_Request();
+		const profile = await getDataUser();
 
-		if (resProfile.data.error) throw new Error(resProfile.data.error.message);
+		return profile;
+	};
 
-		setUser(resProfile.data);
+	const getDataUser = async () => {
+		const res = await profile_Request();
+
+		if (res.data.error) throw new Error(res.data.error.message);
+
+		setUser(res.data);
 		console.log("login");
-		console.log(resProfile);
+		console.log(res);
 
-		return resProfile.data;
+		return res.data;
 	};
 
 	const logout = async () => {
@@ -46,12 +62,12 @@ export const UserProvider = ({ children }) => {
 
 		if (!success) throw new Error("Error innesperado");
 
+		router.push("/login");
+
 		setAuth(false);
 		setUser(null);
 
 		resetSocket();
-
-		router.push("/login");
 	};
 
 	return (

@@ -7,9 +7,9 @@ import Image from "next/image";
 import { GoLocation } from "react-icons/go";
 import { TbRoute } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { BiLeftArrow } from "react-icons/bi";
+import { BiLeftArrow, BiPencil } from "react-icons/bi";
 import { GiBusStop } from "react-icons/gi";
-import { IoIosLogOut } from "react-icons/Io";
+import { IoIosLogOut } from "react-icons/io";
 
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
@@ -39,22 +39,19 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const MainMap = () => {
-	const { logout } = useContext(UserContext);
+	//useContext
+
+	const { logout, user } = useContext(UserContext);
 
 	const {
 		toogleViewUserCoord,
 		getCoordsUser,
 		viewUserCoord,
-		getCenterMap,
-		insertWaypoint,
-		clearWaypoint,
-		updateBus,
-		insertBus,
-		clearBuses,
-		insertRuta,
-		clearRutas,
+
 		Rutas,
 	} = useContext(MapContext);
+
+	//useState
 
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
@@ -83,11 +80,20 @@ const MainMap = () => {
 		setRo_active(false);
 	};
 
+	//Boton de edición
+
+	const [edit, setEdit] = useState(false);
+
+	const btn_edit = () => {
+		setEdit(!edit);
+	};
+
 	//Cerrar vistas
 
 	const close = () => {
 		setRo_menu(false);
 		setPa_menu(false);
+		setEdit(false);
 	};
 
 	return (
@@ -99,12 +105,22 @@ const MainMap = () => {
 						left={
 							<>
 								<div onClick={close}>
-									<div className={style.btn_return}>
+									<div className={styleN.btn_return}>
 										<BiLeftArrow />
 									</div>
 								</div>
-								{ro_menu && <h2>Todas las rutas</h2>}
-								{pa_menu && <h2>Todas las paradas</h2>}
+								<div className={styleN.title_nav}>
+									{ro_menu && <h2>Todas las rutas</h2>}
+									{pa_menu && <h2>Todas las paradas</h2>}
+								</div>
+								{user
+									? user.role == "admin" &&
+									  pa_menu && (
+											<div className={styleN.btn_edit}>
+												<BiPencil onClick={btn_edit} />
+											</div>
+									  )
+									: ""}
 							</>
 						}
 						right={<></>}
@@ -121,7 +137,7 @@ const MainMap = () => {
 					/>
 				)}
 
-				{/* contenedor del mapa */}
+				{/* Contenedor del mapa */}
 
 				<div
 					className={`${"MapView__Container"} ${
@@ -146,6 +162,7 @@ const MainMap = () => {
 				</div>
 
 				{/*Abrir vista de rutas*/}
+
 				{ro_menu && (
 					<div className="container__rutas">
 						<Routes />
@@ -156,7 +173,7 @@ const MainMap = () => {
 
 				{pa_menu && (
 					<div className="container__rutas">
-						<Bus_stop />
+						<Bus_stop edit={edit} />
 					</div>
 				)}
 
@@ -207,9 +224,17 @@ const MainMap = () => {
 								</div>
 
 								<div className={styleN.user__info}>
-									<p>PEPE</p>
-									<p>V-29.852.475</p>
-									<p>{"(Rango)"}</p>
+									{user ? (
+										<>
+											<p>
+												{user.name} {user.lastname}
+											</p>
+											<p>V-29.852.475</p>
+											<p>{user.role}</p>
+										</>
+									) : (
+										""
+									)}
 								</div>
 							</div>
 						</OffcanvasHeader>

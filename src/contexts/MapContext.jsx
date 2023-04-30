@@ -118,16 +118,6 @@ export const MapProvider = ({ children }) => {
 			num: "000",
 			placa: "ab00",
 		},
-		{
-			_id: "2",
-			idRuta: "2",
-			capacity: 0.75,
-			state: "a",
-			coord: { lat: 9.91, lng: -67.385 },
-			name: "Bus 003",
-			num: "000",
-			placa: "ab00",
-		},
 	]);
 
 	const insertBus = (b = null) => {
@@ -156,19 +146,6 @@ export const MapProvider = ({ children }) => {
 	// ***************************************************************
 
 	const [Rutas, setRutas] = useState([
-		{
-			_id: "23",
-			name: "terminal centro",
-			description: "pequena descripsion de la ruta",
-			color: "#15f7f7",
-			state: "a",
-			waypoints: [
-				{ lat: 9.908529446698807, lng: -67.35505342483522 },
-				{ lat: 9.909882250532176, lng: -67.36144781112672 },
-				{ lat: 9.899693809471627, lng: -67.36136198043825 },
-			],
-			idTimetable: "objectId(Ruta_Timetable)",
-		},
 		{
 			_id: "24",
 			name: "unerg centro",

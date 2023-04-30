@@ -7,7 +7,7 @@ import Image from "next/image";
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbBus } from "react-icons/tb";
-import { IoIosLogOut } from "react-icons/Io";
+import { IoIosLogOut } from "react-icons/io";
 
 import {
 	Button,
@@ -39,7 +39,7 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const DriveMap = () => {
-	const { logout } = useContext(UserContext);
+	const { logout, user } = useContext(UserContext);
 	const { sendCoord } = useContext(DriverContext);
 
 	const [inter, setInter] = useState(null);
@@ -54,6 +54,7 @@ const DriveMap = () => {
 		Rutas,
 	} = useContext(MapContext);
 
+	//useState
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 
@@ -95,7 +96,7 @@ const DriveMap = () => {
 							toggle={toggleOffcanvas}
 							className={styleN.header_nav}
 						>
-							<div className={styleN.user_container}>
+									<div className={styleN.user_container}>
 								<div className={styleN.user__img}>
 									<div className={styleN.container__img}>
 										<Image
@@ -108,9 +109,17 @@ const DriveMap = () => {
 								</div>
 
 								<div className={styleN.user__info}>
-									<p>PEPE</p>
-									<p>V-29.852.475</p>
-									<p>{"(Rango)"}</p>
+									{user ? (
+										<>
+											<p>
+												{user.name} {user.lastname}
+											</p>
+											<p>V-29.852.475</p>
+											<p>{user.role}</p>
+										</>
+									) : (
+										""
+									)}
 								</div>
 							</div>
 						</OffcanvasHeader>
