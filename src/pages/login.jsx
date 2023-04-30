@@ -8,7 +8,7 @@ import {
 } from "reactstrap";
 import Link from "next/link";
 import style from "../styles/Login/login.module.css";
-import Layout from "@/layouts/layout";
+import Layout from "@/layouts/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import UserContext from "@/contexts/UserProvider";

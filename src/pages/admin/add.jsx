@@ -17,7 +17,7 @@ import NavBar from "@/components/common/NavBar";
 
 //Layouts
 
-import Layout from "@/layouts/layout";
+import Layout from "@/layouts/Layout";
 
 //Styles
 import style from "@/styles/Routes/routes_view.module.css";

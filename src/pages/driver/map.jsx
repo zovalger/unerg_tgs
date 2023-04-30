@@ -25,7 +25,7 @@ import NavBar from "@/components/common/NavBar";
 
 //Layouts
 
-import Layout from "@/layouts/layout";
+import Layout from "@/layouts/Layout";
 
 //Styles
 import style from "@/styles/Users/driver/driver.module.css";
