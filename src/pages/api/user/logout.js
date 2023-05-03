@@ -5,6 +5,7 @@ import {  logoutUser_controller } from "@/controllers/user.controller";
 
 export default async function handler(req, res) {
 	await connectDb();
+	console.log("logout");
 
 	if (req.method === "POST") return await logoutUser_controller(req, res);
 }
