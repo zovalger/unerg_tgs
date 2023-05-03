@@ -13,7 +13,6 @@ import styleForm from "../../styles/Edit/edit.module.css";
 //Retocar
 export default function Add_parada() {
 
-   
 	return (
 		<>
 			<div className={style.container_routes}>
@@ -34,26 +33,8 @@ export default function Add_parada() {
 							/>
 						</FormGroup>
 
-						{/* <FormGroup>
-							<Input
-								className={styleForm.input_check}
-								id="parada"
-								name="parada"
-								type="checkbox"
-							/>
-							<Label className={styleForm.label} for="parada"></Label>
-						</FormGroup>
-
-						<FormGroup>
-							<Input
-								className={styleForm.input_check}
-								id="control_point"
-								name="control_point"
-								type="checkbox"
-							/>
-							<Label className={styleForm.label} for="control_point"></Label>
-						</FormGroup> */}
-<h4>tipo</h4>
+						
+<h4>Tipo</h4>
 						<FormGroup check>
 							<Input name="radio2" type="radio" defaultChecked />
 							<Label check>Parada </Label>
