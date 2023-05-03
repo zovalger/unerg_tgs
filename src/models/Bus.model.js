@@ -4,7 +4,7 @@ const BusSchema = mongoose.Schema({
 	name: { type: String, required: true },
 	description: String,
 
-	state: { type: String, default: "a" },
+	status: { type: String, default: "a" },
 
 	coord: {
 		lat: { type: Number, required: true },

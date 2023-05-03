@@ -41,6 +41,7 @@ export const SocketProvider = ({ children }) => {
 	};
 
 	const resetSocket = () => {
+		socket.close()
 		socketInitializer();
 	};
 

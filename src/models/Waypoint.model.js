@@ -7,7 +7,7 @@ const WaypointSchema = mongoose.Schema({
 	// p: parada, c: control
 	type: { type: String, required: true, default: "p", enum: ["p", "c"] },
 
-	state: { type: String, default: "a" },
+	status: { type: String, default: "a" },
 
 	coord: {
 		lat: { type: Number, required: true },
