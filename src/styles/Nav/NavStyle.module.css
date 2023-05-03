@@ -24,6 +24,32 @@ margin-left: 8px;
   border: 2px solid black;
   border-radius: 50%;
   padding: 10px;
+  position: relative;
+  height: 50px;
+  width: 50px;
+}
+
+.btn_return:hover{
+
+  background-color: rgba(0, 0, 0, 0.056);
+
+}
+
+.btn_return a{
+
+  text-decoration: none;
+}
+
+.btn_return svg{
+
+  color: black;
+  font-size: 1.08rem;
+
+}
+
+.btn_return svg:hover{
+  color: rgb(37, 36, 36);
+  font-size: 1.10rem;
 }
 
 .btn_edit{
@@ -51,6 +77,8 @@ margin-left: 8px;
     font-size: 1.2rem;
     padding: 20px;
     transition: 0.6s; 
+    text-decoration: none;
+    color: black;
   }
 
   .btn_nav .route{

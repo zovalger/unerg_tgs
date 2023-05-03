@@ -2,6 +2,7 @@
 import { useContext, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 
 // componentes de otras librerias
 import { GoLocation } from "react-icons/go";
@@ -171,11 +172,11 @@ const MainMap = () => {
 
 				{/*Abrir vista de paradas*/}
 
-				{pa_menu && (
+				{/* {pa_menu && (
 					<div className="container__rutas">
 						<Bus_stop edit={edit} />
 					</div>
-				)}
+				)} */}
 
 				{/* botones inferiores */}
 
@@ -256,15 +257,15 @@ const MainMap = () => {
 								<p>Mi Ubicación</p>
 							</button>
 
-							<button onClick={active_RoM} className={styleN.btn_nav}>
+							<Link href={"./rutas/menu"} className={styleN.btn_nav}>
 								<TbRoute className={styleN.route} />
 								<p>Rutas</p>
-							</button>
+							</Link>
 
-							<button onClick={active_PaM} className={styleN.btn_nav}>
+							<Link href={"./paradas/menu"} className={styleN.btn_nav}>
 								<GiBusStop className={styleN.route} />
 								<p>Paradas</p>
-							</button>
+							</Link>
 
 							<button
 								className={styleN.btn_nav__logout}

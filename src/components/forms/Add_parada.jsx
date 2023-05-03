@@ -7,11 +7,13 @@ import {
 	FormFeedback,
 } from "reactstrap";
 
-import style from "../../../styles/Routes/routes_view.module.css";
-import styleForm from "../../../styles/Edit/edit.module.css";
+import style from "../../styles/Routes/routes_view.module.css";
+import styleForm from "../../styles/Edit/edit.module.css";
 
 //Retocar
-export default function Edit() {
+export default function Add_parada() {
+
+   
 	return (
 		<>
 			<div className={style.container_routes}>
