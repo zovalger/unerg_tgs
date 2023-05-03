@@ -1,7 +1,7 @@
 .bg {
     position: relative;
-    height: 100vh;
-    width: 100%;
+    min-height: 100vh;
+    min-width: 100%;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/img/background-login-unerg.jpg);
     background-size: cover;
     align-items: center;
@@ -62,3 +62,11 @@
     color: #00A2FE;
 }
 
+/*******  Responsive  ********/
+
+@media (max-width: 300px) {
+    .input {
+        max-width: 200px;
+    }
+
+  }
