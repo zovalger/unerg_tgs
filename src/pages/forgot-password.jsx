@@ -1,6 +1,6 @@
 import {Form, FormGroup, Input, Label, Button} from "reactstrap";
 import style from "../styles/Login/login.module.css"
-import Layout from "@/layouts/layout";
+import Layout from "@/layouts/Layout";
 
 export function forgot_password() { 
     return ( 

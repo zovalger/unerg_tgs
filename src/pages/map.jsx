@@ -23,7 +23,7 @@ import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
 //Layouts
 
-import Layout from "@/layouts/layout";
+import Layout from "@/layouts/Layout";
 
 //Styles
 import style from "@/styles/Routes/routes_view.module.css";
@@ -36,20 +36,8 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 });
 
 const MainMap = () => {
-	const {
-		toogleViewUserCoord,
-		getCoordsUser,
-		viewUserCoord,
-		getCenterMap,
-		insertWaypoint,
-		clearWaypoint,
-		updateBus,
-		insertBus,
-		clearBuses,
-		insertRuta,
-		clearRutas,
-		Rutas,
-	} = useContext(MapContext);
+	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
+		useContext(MapContext);
 
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);

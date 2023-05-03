@@ -13,38 +13,38 @@ import MapContext from "@/contexts/MapContext";
 // Componentes
 import BotonPa from "./BotonPa";
 import BotonPa_edit from "./BotonPa _edit";
-import { Button } from "bootstrap";
+// import { Button } from "bootstrap";
 
 import { IoIosAdd } from "react-icons/io";
 
-export default function Bus_stop( {edit} ) {
+export default function Bus_stop({ edit }) {
+	return (
+		<>
+			<div className={style.container_routes}>
+				<h2>Paradas</h2>
 
-  return (
-    <>
-      <div className={style.container_routes}>
-        <h2>Paradas</h2>
-        
-        {edit && (<Link href={"./add"} className={style.add}><IoIosAdd /></Link>)}
+				{edit && (
+					<Link href={"./add"} className={style.add}>
+						<IoIosAdd />
+					</Link>
+				)}
 
-        {edit 
-        ?
-        <>
-          <BotonPa_edit lugar="Terminal"  />
-          <BotonPa_edit lugar="Villa olimpica" />
-          <BotonPa_edit lugar="SAIME"  />
-          <BotonPa_edit lugar="UNERG"/>
-        </>
-        :
-        <>
-          <BotonPa lugar="Terminal" km="0.0" />
-          <BotonPa lugar="Villa olimpica" km="3.0" />
-          <BotonPa lugar="SAIME" km="4.2" />
-          <BotonPa lugar="UNERG" km="5.0" />
-        </>
-      }
-       
-
-      </div>
-    </>
-  );
+				{edit ? (
+					<>
+						<BotonPa_edit lugar="Terminal" />
+						<BotonPa_edit lugar="Villa olimpica" />
+						<BotonPa_edit lugar="SAIME" />
+						<BotonPa_edit lugar="UNERG" />
+					</>
+				) : (
+					<>
+						<BotonPa lugar="Terminal" km="0.0" />
+						<BotonPa lugar="Villa olimpica" km="3.0" />
+						<BotonPa lugar="SAIME" km="4.2" />
+						<BotonPa lugar="UNERG" km="5.0" />
+					</>
+				)}
+			</div>
+		</>
+	);
 }

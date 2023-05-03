@@ -1,5 +1,5 @@
 // librerias y hooks
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
@@ -25,28 +25,27 @@ import NavBar from "@/components/common/NavBar";
 
 //Layouts
 
-import Layout from "@/layouts/layout";
+import Layout from "@/layouts/Layout";
 
 //Styles
 import style from "@/styles/Users/driver/driver.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
 import UserContext from "@/contexts/UserProvider";
-import { useRouter } from "next/router";
+import DriverContext from "@/contexts/Driver.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
 });
 
-const MainMap = () => {
-	
-	//useContext
-
+const DriveMap = () => {
 	const { logout, user } = useContext(UserContext);
-	
-	const router = useRouter();
+	const { sendCoord } = useContext(DriverContext);
+
+	const [inter, setInter] = useState(null);
 
 	const {
+		getCenterMap,
 		toogleViewUserCoord,
 		getCoordsUser,
 		viewUserCoord,
@@ -97,7 +96,7 @@ const MainMap = () => {
 							toggle={toggleOffcanvas}
 							className={styleN.header_nav}
 						>
-							<div className={styleN.user_container}>
+									<div className={styleN.user_container}>
 								<div className={styleN.user__img}>
 									<div className={styleN.container__img}>
 										<Image
@@ -110,9 +109,17 @@ const MainMap = () => {
 								</div>
 
 								<div className={styleN.user__info}>
-									<p>PEPE</p>
-									<p>V-29.852.475</p>
-									<p>{"(Rango)"}</p>
+									{user ? (
+										<>
+											<p>
+												{user.name} {user.lastname}
+											</p>
+											<p>V-29.852.475</p>
+											<p>{user.role}</p>
+										</>
+									) : (
+										""
+									)}
 								</div>
 							</div>
 						</OffcanvasHeader>
@@ -123,8 +130,23 @@ const MainMap = () => {
 							</button>
 
 							<button
+								onClick={() => {
+									setInter(
+										setInterval(() => {
+											const coord = getCenterMap();
+											console.log(coord);
+											sendCoord(coord);
+										}, 500)
+									);
+								}}
+							>
+								iniciar servicio
+							</button>
+
+							<button
 								className={styleN.btn_nav__logout}
 								onClick={async () => {
+									clearInterval(inter);
 									await logout();
 									// router.push("/login");
 								}}
@@ -140,4 +162,4 @@ const MainMap = () => {
 	);
 };
 
-export default MainMap;
+export default DriveMap;

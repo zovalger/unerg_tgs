@@ -1,3 +1,4 @@
+import { SECRET_WORD } from "@/config";
 import { createUser_service, loginUser_service } from "@/services/user.service";
 import { serialize } from "cookie";
 import { sign, verify } from "jsonwebtoken";
@@ -35,10 +36,12 @@ export async function loginUser_controller(req, res) {
 	try {
 		const { email, password } = req.body;
 
+		console.log(email, password);
+
 		const user = await loginUser_service({ email, password });
 
 		if (!user)
-			return res.status(400).json({
+			return res.status(404).json({
 				auth: false,
 				error: { message: "usuario o contraseña invalido" },
 			});
@@ -51,7 +54,7 @@ export async function loginUser_controller(req, res) {
 			exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
 		};
 
-		const token = sign(optionToken, process.env.SECRET_WORD);
+		const token = sign(optionToken, SECRET_WORD);
 
 		const serialized = serialize("authCookie", token, {
 			httpOnly: true,
@@ -108,7 +111,7 @@ export async function profileUser_controller(req, res) {
 		return res.status(401).json({ error: { message: "no token" } });
 
 	try {
-		const user = verify(authCookie, process.env.SECRET_WORD);
+		const user = verify(authCookie, SECRET_WORD);
 		return res.status(200).json(user);
 	} catch (error) {
 		console.log(error);
