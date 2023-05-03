@@ -1,6 +1,6 @@
 .header_nav{
     display: flex;
-    height: 20%;
+    height: 140px;
     width: 100%;
     align-items: flex-start;
     background-color: #00A2FE;
@@ -95,16 +95,18 @@ margin-left: 8px;
   .user_container{
     display: flex;
     flex-direction: row;
-    width: 250px;
+    width: 100%;
     align-items: center;
-
+    justify-content: flex-start;
+    position: absolute;
   }
 
   .user__img{
     display: flex;
-    height: 100%;
-    width: 30%;
-    flex-grow: 1;
+    height: auto;
+    width: auto;
+    margin-right: 15px;
+
   }
 
   .container__img{
@@ -128,9 +130,10 @@ margin-left: 8px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     height: 100%;
     width: 50%;
-    flex-grow: 1;
+ 
   }
 
   .user__info p{
@@ -138,3 +141,45 @@ margin-left: 8px;
     height: 10px;
     text-align: start;
   }
+
+  
+@media (max-width: 320px) {
+
+  /***********Header Nav************/
+  .user__img{
+    
+    margin-right: 5px;
+
+  }
+
+  .container__img{
+ 
+    height: 50px; 
+    width: 50px;
+    
+
+
+  }
+
+  .user__info p{
+    font-size: 0.70rem;
+    height: 10px;
+    text-align: start;
+  }
+
+  /***************Botones****************/
+
+  .btn_nav p{
+    font-size: 1.02rem;
+  
+  }
+
+  .btn_nav__logout p{
+    font-size: 1.08rem;
+  
+  }
+
+
+
+
+}
