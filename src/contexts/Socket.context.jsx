@@ -1,5 +1,5 @@
 import io from "socket.io-client";
-import MapContext from "./MapContext";
+import MapContext from "./Map.context";
 
 const { createContext, useState, useEffect, useContext } = require("react");
 

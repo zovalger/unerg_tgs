@@ -1,4 +1,4 @@
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 import { useContext, useEffect } from "react";
 import L from "leaflet";
 import "leaflet-routing-machine";

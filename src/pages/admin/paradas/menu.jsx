@@ -1,6 +1,6 @@
-//React-Next 
+//React-Next
 import dynamic from "next/dynamic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 
 //Componentes
@@ -10,105 +10,96 @@ import NavBar from "@/components/common/NavBar";
 import { BiLeftArrow, BiPencil } from "react-icons/bi";
 import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
-
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css"
+import styleN from "../../../styles/Nav/NavStyle.module.css";
 
+//Contextos
 
-//Contextos 
+import MapContext from "@/contexts/Map.context";
 
-import MapContext from "@/contexts/MapContext";
-
-import UserContext from "@/contexts/UserProvider";
-
+import UserContext from "@/contexts/User.context";
+import { getAllWaypoints_Request } from "@/api/waypoint.api";
+import WaypointContext from "@/contexts/Waypoint.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
 });
 
-
 const MainMap = () => {
-	
+	//useContext
+	const { user } = useContext(UserContext);
 
-//useContext
-const { logout, user } = useContext(UserContext);
+	const { getCoordsUser, insertWaypoint } = useContext(MapContext);
+	const { setWaypoints, waypoints } = useContext(WaypointContext);
 
-	const {
-		toogleViewUserCoord,
-		getCoordsUser,
-		viewUserCoord,
+	//useState
 
-		Rutas,
-	} = useContext(MapContext);
+	const [edit, setEdit] = useState(false);
+	const getDataWaypoints = async () => {
+		try {
+			const { data } = await getAllWaypoints_Request();
 
+			console.log(data);
+			insertWaypoint(data);
 
+			setWaypoints(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-//useState
+	useEffect(() => {
+		getDataWaypoints();
+	}, []);
 
-const [edit, setEdit] = useState(false);
-
-const btn_edit = () => {
-    setEdit(!edit);
-};
+	const btn_edit = () => {
+		setEdit(!edit);
+	};
 
 	return (
 		<Layout>
 			<div className="AppView">
 				{/* nav customizable */}
 
-					<NavBar
-						left={
-							<>
-								<div>
-					
-									<Link className={styleN.btn_return} href={"../map"}>
-                                       
-										<BiLeftArrow />
-                                        
-									</Link>
-							
-								</div>
-								<div className={styleN.title_nav}>
-								    <h2>Todas las paradas</h2>
-								</div>
-								{user
-									? user.role == "admin" && (
-											<div className={styleN.btn_edit} onClick={btn_edit}>
-												<BiPencil />
-											</div>
-									  )
-									: ""}
-							</>
-						}
-						right={<></>}
-					/>
-			
+				<NavBar
+					left={
+						<>
+							<div>
+								<Link className={styleN.btn_return} href={"../map"}>
+									<BiLeftArrow />
+								</Link>
+							</div>
+							<div className={styleN.title_nav}>
+								<h2>Todas las paradas</h2>
+							</div>
+							{user
+								? user.role == "admin" && (
+										<div className={styleN.btn_edit} onClick={btn_edit}>
+											<BiPencil />
+										</div>
+								  )
+								: ""}
+						</>
+					}
+					right={<></>}
+				/>
 
 				{/* Contenedor del mapa */}
 
-				<div
-					className= {`${"MapView__Container"} ${"MapView__ContainerRu"}`}
-				>
+				<div className={`${"MapView__Container"} ${"MapView__ContainerRu"}`}>
 					<MapView />
-
 				</div>
-
 
 				{/*Abrir vista de paradas*/}
 
-				
-					<div className="container__rutas">
-						<Bus_stop edit={edit}/>
-					</div>
-	
-
-
-
-				<div>
+				<div className="container__rutas">
+					<Bus_stop edit={edit} data={waypoints} />
 				</div>
+
+				<div></div>
 			</div>
 		</Layout>
 	);
 };
 
-export default MainMap
+export default MainMap;

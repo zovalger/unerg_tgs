@@ -6,18 +6,15 @@ import {
 	updateRuta_service,
 } from "@/services/ruta.service";
 
-import { sign, verify } from "jsonwebtoken";
-
 export const createRuta_controller = async (req, res) => {
 	try {
-		const { name, description, type, state, coord } = req.body;
+		const { name, description, waypoints } = req.body;
 
 		const ruta = await createRuta_service({
 			name,
 			description,
-			type,
-			state,
-			coord,
+			waypoints,
+			// idTimetable,
 		});
 
 		if (!ruta)
@@ -63,14 +60,12 @@ export const getRuta_By_Id_controller = async (req, res) => {
 export const updateRuta_controller = async (req, res) => {
 	try {
 		const { _id } = req.query;
-		const { name, description, type, state, coord } = req.body;
+		const { name, description, waypoints } = req.body;
 
 		const ruta = await updateRuta_service(_id, {
 			name,
 			description,
-			type,
-			state,
-			coord,
+			waypoints,
 		});
 
 		if (!ruta)
@@ -87,6 +82,7 @@ export const deleteRuta_controller = async (req, res) => {
 		const { _id } = req.query;
 
 		const result = await deleteRuta_service(_id);
+		console.log(result);
 
 		if (!result)
 			res.status(500).json({ error: { message: "Error en el servidor" } });

@@ -8,7 +8,7 @@ import style from "../../../styles/Routes/routes_view.module.css";
 
 // contextos
 
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 
 // Componentes
 import BotonPa from "./BotonPa";
@@ -17,7 +17,7 @@ import BotonPa_edit from "./BotonPa _edit";
 
 import { IoIosAdd } from "react-icons/io";
 
-export default function Bus_stop({ edit }) {
+export default function Bus_stop({ edit, data }) {
 	return (
 		<>
 			<div className={style.container_routes}>
@@ -29,20 +29,12 @@ export default function Bus_stop({ edit }) {
 					</Link>
 				)}
 
-				{edit ? (
-					<>
-						<BotonPa_edit lugar="Terminal" />
-						<BotonPa_edit lugar="Villa olimpica" />
-						<BotonPa_edit lugar="SAIME" />
-						<BotonPa_edit lugar="UNERG" />
-					</>
-				) : (
-					<>
-						<BotonPa lugar="Terminal" km="0.0" />
-						<BotonPa lugar="Villa olimpica" km="3.0" />
-						<BotonPa lugar="SAIME" km="4.2" />
-						<BotonPa lugar="UNERG" km="5.0" />
-					</>
+				{data.map((w) =>
+					edit ? (
+						<BotonPa_edit data={w} key={w._id} />
+					) : (
+						<BotonPa data={w} key={w._id} />
+					)
 				)}
 			</div>
 		</>

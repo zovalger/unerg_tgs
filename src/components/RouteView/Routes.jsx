@@ -9,7 +9,7 @@ import style from "../../styles/Routes/routes_view.module.css"
 
 // contextos
 
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 
 
 // Componentes

@@ -1,4 +1,4 @@
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 import { useContext } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 import BusMarker from "./Bus_Marker";
@@ -11,7 +11,7 @@ import CenterOfMap from "./CenterOfMap";
 import style from "../../styles/Map/map.module.css";
 
 const MapView = () => {
-	const { setMap } = useContext(MapContext);
+	const { map } = useContext(MapContext);
 
 	return (
 		<MapContainer
@@ -20,7 +20,7 @@ const MapView = () => {
 			zoom={14}
 			scrollWheelZoom={true}
 			attributionControl={false}
-			ref={setMap}
+			ref={map}
 		>
 			<TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 			<WaypointMarker />

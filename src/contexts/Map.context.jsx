@@ -1,4 +1,4 @@
-const { createContext, useState } = require("react");
+const { createContext, useState, useRef } = require("react");
 
 const MapContext = createContext();
 
@@ -7,23 +7,23 @@ const MapContext = createContext();
 // ****************************************************************************
 
 export const MapProvider = ({ children }) => {
-	const [map, setMap] = useState(null);
+	const map = useRef(null);
 
 	// obtiene las coordenadas del centro del mapa
 	const getCenterMap = () => {
-		if (!map) return null;
+		if (!map.current) return null;
 
-		return map.getCenter();
+		return map.current.getCenter();
 	};
 
 	// se le dan coordenadas y zoom? para mover el mapa al punto especificado
 	const setCenterMap = (coord = null, zoom = null) => {
-		if (!map) return;
+		if (!map.current) return;
 		if (!coord) return;
 		if (!coord.lat || !coord.lng) return;
 		if (typeof zoom !== "number" && zoom != null) return;
 
-		return map.setView(coord, zoom);
+		return map.current.setView(coord, zoom);
 	};
 
 	// ***************************************************************
@@ -65,24 +65,7 @@ export const MapProvider = ({ children }) => {
 	// ****************************************************************************
 
 	// los datos de todos los waypoins
-	const [Waypoints, setWaypoints] = useState([
-		{
-			_id: "1",
-			name: "parada 1",
-			description: "String",
-			type: "p",
-			state: "a",
-			coord: { lat: 9.9030296, lng: -67.3761181 },
-		},
-		{
-			_id: "2",
-			name: "parada two",
-			description: "String",
-			type: "p",
-			state: "a",
-			coord: { lat: 9.904, lng: -67.379 },
-		},
-	]);
+	const [Waypoints, setWaypoints] = useState([]);
 
 	// insertar uno o varios waypoins
 	//
@@ -91,7 +74,7 @@ export const MapProvider = ({ children }) => {
 		if (!w) return;
 
 		// ver si es un array para reemplazar el array
-		if (w instanceof Array) return setWaypoints([w]);
+		if (w instanceof Array) return setWaypoints(w);
 
 		// si no es un array se inserta junto con los demas datos
 		if (!w.coord?.lat || !w.coord?.lat) return;
@@ -108,16 +91,16 @@ export const MapProvider = ({ children }) => {
 	// ***************************************************************
 
 	const [Buses, setBuses] = useState([
-		{
-			_id: "1",
-			idRuta: "1",
-			capacity: 0.5,
-			state: "a",
-			coord: { lat: 9.908, lng: -67.379 },
-			name: "Bus 001",
-			num: "000",
-			placa: "ab00",
-		},
+		// {
+		// 	_id: "1",
+		// 	idRuta: "1",
+		// 	capacity: 0.5,
+		// 	state: "a",
+		// 	coord: { lat: 9.908, lng: -67.379 },
+		// 	name: "Bus 001",
+		// 	num: "000",
+		// 	placa: "ab00",
+		// },
 	]);
 
 	const insertBus = (b = null) => {
@@ -146,18 +129,18 @@ export const MapProvider = ({ children }) => {
 	// ***************************************************************
 
 	const [Rutas, setRutas] = useState([
-		{
-			_id: "24",
-			name: "unerg centro",
-			description: "pequena descripsion de la ruta",
-			color: "#15f7f7",
-			state: "a",
-			waypoints: [
-				{ lat: 9.904, lng: -67.379 },
-				{ lat: 9.9030296, lng: -67.3761181 },
-			],
-			idTimetable: "objectId(Ruta_Timetable)",
-		},
+		// {
+		// 	_id: "24",
+		// 	name: "unerg centro",
+		// 	description: "pequena descripsion de la ruta",
+		// 	color: "#15f7f7",
+		// 	state: "a",
+		// 	waypoints: [
+		// 		{ lat: 9.904, lng: -67.379 },
+		// 		{ lat: 9.9030296, lng: -67.3761181 },
+		// 	],
+		// 	idTimetable: "objectId(Ruta_Timetable)",
+		// },
 	]);
 
 	const insertRuta = (r) => {
@@ -175,7 +158,6 @@ export const MapProvider = ({ children }) => {
 			value={{
 				// map
 				map,
-				setMap,
 				getCenterMap,
 				setCenterMap,
 
