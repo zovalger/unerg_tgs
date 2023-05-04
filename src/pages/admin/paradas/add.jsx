@@ -18,6 +18,8 @@ import styleN from "../../../styles/Nav/NavStyle.module.css";
 import MapContext from "@/contexts/Map.context";
 import UserContext from "@/contexts/User.context";
 import { createWaypoint_Request } from "@/api/waypoint.api";
+import { useRouter } from "next/router";
+import WaypointContext from "@/contexts/Waypoint.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -25,10 +27,11 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 
 const MainMap = () => {
 	//useContext
-	const { logout, user } = useContext(UserContext);
 
-	const { getCoordsUser } = useContext(MapContext);
+	const { insertWaypoint } = useContext(MapContext);
+	const { insert } = useContext(WaypointContext);
 
+	const router = useRouter();
 	//useState
 
 	const [edit, setEdit] = useState(false);
@@ -47,8 +50,15 @@ const MainMap = () => {
 		try {
 			const res = await createWaypoint_Request(formData);
 			console.log(res);
+
+			const w = res.data;
+			insertWaypoint(w);
+			insert(w);
+
+			router.back();
 		} catch (error) {
 			console.log(error);
+			setIsSubmitin(false);
 		}
 	};
 	return (

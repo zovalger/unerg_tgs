@@ -18,12 +18,15 @@ import MapContext from "@/contexts/Map.context";
 export default function Add_parada({ onSubmit }) {
 	const { getCenterMap } = useContext(MapContext);
 
-	const [center, setCenter] = useState(null);
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			const c = getCenterMap();
-			if (c) if (center.lat != c.lat || center.lng != c.lng) setCenter(c);
+			if (c)
+				if (
+					formik.values.coord.lat != c.lat ||
+					formik.values.coord.lng != c.lng
+				)
+					formik.setFieldValue("coord", c);
 		}, 300);
 
 		return () => {
@@ -35,16 +38,14 @@ export default function Add_parada({ onSubmit }) {
 		initialValues: {
 			name: "",
 			description: "",
-			coord: { lat: null, lng: null },
+			coord: { lat: 0, lng: 0 },
 			type: "p",
 		},
 		validationSchema: Yup.object({
 			name: Yup.string()
 				.required("El nombre es obligatorio")
-				.min(
-					7,
-					"El nombre es muy corto, Intente colocando también el apellido"
-				),
+				.min(3, "El nombre es muy corto"),
+			description: Yup.string().required("La descripcion es obligatoria"),
 		}),
 		onSubmit,
 	});
@@ -62,21 +63,43 @@ export default function Add_parada({ onSubmit }) {
 				<div className={styleForm.container__form}>
 					<Form className="container-xl">
 						<FormGroup>
-							<Label className={styleForm.label} for="new_parada">
+							<Label className={styleForm.label} for="name">
 								Nombre de la parada
 							</Label>
 							<Input
 								className={styleForm.input}
-								id="new_parada"
-								name="new_parada"
+								id="name"
+								name="name"
+								onChange={formik.handleChange}
+								value={formik.values.name}
 								placeholder="Nombre de la parada"
 								type="text"
+								invalid={!!formik.errors.name}
 							/>
+							<FormFeedback>{formik.errors.name}</FormFeedback>
 						</FormGroup>
+
+						<FormGroup>
+							<Label className={styleForm.label} for="description">
+								Descripcion
+							</Label>
+							<Input
+								className={styleForm.input}
+								id="description"
+								name="description"
+								onChange={formik.handleChange}
+								value={formik.values.description}
+								placeholder=""
+								type="textarea"
+								invalid={!!formik.errors.description}
+							/>
+							<FormFeedback>{formik.errors.description}</FormFeedback>
+						</FormGroup>
+
 						<h4>coordenadas</h4>
 
-						<div>latitud: {center.lat}</div>
-						<div>longitud: {center.lng}</div>
+						<div>latitud: {formik.values.coord.lat.toFixed(4)}</div>
+						<div>longitud: {formik.values.coord.lng.toFixed(4)}</div>
 
 						<h4>Tipo</h4>
 						<FormGroup check>
