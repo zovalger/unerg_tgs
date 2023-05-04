@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import { BiLeftArrow, BiPencil } from "react-icons/bi";
+import { IoIosArrowBack } from "react-icons/io";
 import Add_parada from "@/components/forms/Add_parada";
 
 
@@ -63,7 +63,7 @@ const btn_edit = () => {
 								<div>
 							
                                         <Link href={"./menu"} className={styleN.btn_return}>
-										<BiLeftArrow />
+										<IoIosArrowBack />
                                         </Link>
 								
 								</div>

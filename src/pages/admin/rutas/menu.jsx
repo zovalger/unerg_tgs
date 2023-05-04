@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import { BiLeftArrow, BiPencil } from "react-icons/bi";
+import { IoIosArrowBack } from "react-icons/io";
 import Routes from "@/components/RouteView/Routes";
 
 
@@ -63,7 +63,7 @@ const btn_edit = () => {
 					
 									<Link className={styleN.btn_return} href={"../map"}>
                                        
-										<BiLeftArrow />
+										<IoIosArrowBack />
                                         
 									</Link>
 							
@@ -92,7 +92,9 @@ const btn_edit = () => {
 
 				
 					<div className="container__rutas">
-						<Routes />
+						<Routes 
+						edit = {true}
+						/>
 					</div>
 	
 

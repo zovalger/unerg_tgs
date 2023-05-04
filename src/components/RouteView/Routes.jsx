@@ -14,9 +14,11 @@ import MapContext from "@/contexts/MapContext";
 
 // Componentes
 
+import { IoIosAdd } from "react-icons/io";
+
 import BotonRu from "./BotonRu";
 
-export default function Routes(){
+export default function Routes(props){
 
     const { Rutas } = useContext(MapContext)
 
@@ -24,6 +26,11 @@ export default function Routes(){
         <>
         <div className={style.container_routes}>
            <h2>Rutas disponibles</h2>
+            {props.edit && (
+                        <Link href={"./add"} className={style.add}>
+                            <IoIosAdd />
+                        </Link>
+                    )}
             {Rutas.map((datos, id_1)=>{
                 return(
                     <BotonRu 
