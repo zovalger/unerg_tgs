@@ -16,10 +16,9 @@ import styleN from "../../../styles/Nav/NavStyle.module.css"
 
 //Contextos 
 
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 
-import UserContext from "@/contexts/UserProvider";
-
+import UserContext from "@/contexts/User.context";
 
 
 

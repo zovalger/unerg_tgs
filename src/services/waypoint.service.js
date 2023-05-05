@@ -3,13 +3,14 @@ import { sign } from "jsonwebtoken";
 
 export const createWaypoint_service = async (data) => {
 	try {
-		const { name, description, type, state, coord } = data;
+		const { name, description, type, coord } = data;
+
+		console.log(name, description, type, coord);
 
 		const waypoint = new WaypointModel({
 			name,
 			description,
 			type,
-			state,
 			coord,
 		});
 
@@ -43,10 +44,32 @@ export const getWaypoint_by_Id_service = async (_id = null) => {
 
 export const getWaypoints_by_Ids_service = async (_ids = null) => {
 	try {
+		_ids.map((id) => {
+			if (typeof id.toString() !== "string")
+				throw new Error(`${id} no es un formato correcto de _id`);
+		});
+
+		const waypoints = await WaypointModel.find(
+			{ _id: { $in: _ids } },
+			(err, docs) => {
+				if (err) console.log(err);
+				else {
+					// ordenar los documentos según el orden de los _ids
+					const sortedDocs = ids.map((id) =>
+						docs.find((doc) => doc._id.toString() === id)
+					);
+					console.log(sortedDocs);
+				}
+			}
+		);
+
+		return waypoints.filter((w) => w !== undefined);
 	} catch (error) {
 		console.log(error);
 	}
 };
+
+// export const IsThatsWaypointCreated_service = async(_ids);
 
 export const getWaypoints_by_Name_service = async (
 	name = null,
@@ -80,12 +103,24 @@ export const updateWaypoint_service = async (_id, data) => {
 	}
 };
 
+export const createOrUpdateWapoint_service = async (data) => {
+	try {
+		const waypoint = data._id
+			? await updateWaypoint_service(data.id, data)
+			: await createWaypoint_service(data);
+
+		return waypoint;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export const deleteWaypoint_service = async (_id) => {
 	try {
 		const waypoint = await WaypointModel.findById(_id);
 
-		if (waypoint.state === "a") {
-			waypoint.state = "d";
+		if (waypoint.status === "a") {
+			waypoint.status = "d";
 			await waypoint.save();
 		} else {
 			// borrar definitivamente

@@ -18,7 +18,7 @@ import {
 } from "reactstrap";
 
 // contextos
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 
 // my components
 import NavBar from "@/components/common/NavBar";
@@ -31,7 +31,7 @@ import Layout from "@/layouts/Layout";
 import style from "@/styles/Users/driver/driver.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
-import UserContext from "@/contexts/UserProvider";
+import UserContext from "@/contexts/User.context";
 import DriverContext from "@/contexts/Driver.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {

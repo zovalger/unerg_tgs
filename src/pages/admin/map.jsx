@@ -15,7 +15,7 @@ import { IoIosLogOut } from "react-icons/io";
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 // contextos
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
@@ -32,7 +32,7 @@ import Layout from "@/layouts/Layout";
 import style from "@/styles/Routes/routes_view.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
-import UserContext from "@/contexts/UserProvider";
+import UserContext from "@/contexts/User.context";
 import { useRouter } from "next/router";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {

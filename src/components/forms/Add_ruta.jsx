@@ -21,7 +21,7 @@ export default function Add_ruta() {
                 type="text"
               />
 
-              <Label className={style.label} for="new_Ruta">
+              <Label className={style.label} for="description">
                 Descripción
               </Label>
               <Input
@@ -32,17 +32,18 @@ export default function Add_ruta() {
                 type="text"
               />
 
-
-			<Label className={style.label} for="new_Ruta">
-                Autobuses
+              {/*Modificar*/}
+			        <Label className={style.label} for="new_bus">
+                Autobuses asignados
               </Label>
               <Input
                 className={style.input}
-                id="description"
-                name="description"
-                placeholder="Descripción"
-                type="text"
+                id="new_bus"
+                name="new_bus"
+                type="select"
               />
+
+              <h2>Horario</h2>
 
             </FormGroup>
 

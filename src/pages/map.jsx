@@ -12,7 +12,7 @@ import { GiBusStop } from "react-icons/gi";
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 // contextos
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";

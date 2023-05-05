@@ -1,4 +1,4 @@
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 import React, { useContext } from "react";
 import { Marker } from "react-leaflet";
 import Bus_Icon from "./Bus_Icon";

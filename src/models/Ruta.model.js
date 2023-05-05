@@ -6,11 +6,6 @@ const RutaSchema = mongoose.Schema({
 
 	status: { type: String, default: "a" },
 
-	coord: {
-		lat: { type: Number, required: true },
-		lng: { type: Number, required: true },
-	},
-
 	// color: String,
 
 	waypoints: [

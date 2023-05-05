@@ -11,7 +11,7 @@ import style from "../styles/Login/login.module.css";
 import Layout from "@/layouts/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import UserContext from "@/contexts/UserProvider";
+import UserContext from "@/contexts/User.context";
 import { useContext, useState } from "react";
 import { login_Request } from "@/api/auth.api";
 import toast from "react-hot-toast";

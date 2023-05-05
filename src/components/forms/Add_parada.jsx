@@ -4,13 +4,56 @@ import {
 	Input,
 	Label,
 	Button,
+	FormFeedback
 } from "reactstrap";
 
 import style from "../../styles/Routes/routes_view.module.css";
 import styleForm from "../../styles/Edit/edit.module.css";
+import { useFormik } from "formik";
+import { useContext, useEffect, useState } from "react";
+import * as Yup from "yup";
+import MapContext from "@/contexts/Map.context";
 
 //Retocar
-export default function Add_parada() {
+export default function Add_parada({ onSubmit }) {
+	const { getCenterMap } = useContext(MapContext);
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			const c = getCenterMap();
+			if (c)
+				if (
+					formik.values.coord.lat != c.lat ||
+					formik.values.coord.lng != c.lng
+				)
+					formik.setFieldValue("coord", c);
+		}, 300);
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, []);
+
+	const formik = useFormik({
+		initialValues: {
+			name: "",
+			description: "",
+			coord: { lat: 0, lng: 0 },
+			type: "p",
+		},
+		validationSchema: Yup.object({
+			name: Yup.string()
+				.required("El nombre es obligatorio")
+				.min(3, "El nombre es muy corto"),
+			description: Yup.string().required("La descripcion es obligatoria"),
+		}),
+		onSubmit,
+	});
+
+	const onChangeType = (type) => {
+		console.log(type);
+		formik.setFieldValue("type", type);
+	};
 
 	return (
 		<>
@@ -20,33 +63,76 @@ export default function Add_parada() {
 				<div className={styleForm.container__form}>
 					<Form className="container-xl">
 						<FormGroup>
-							<Label className={styleForm.label} for="new_parada">
+							<Label className={styleForm.label} for="name">
 								Nombre de la parada
 							</Label>
 							<Input
 								className={styleForm.input}
-								id="new_parada"
-								name="new_parada"
+								id="name"
+								name="name"
+								onChange={formik.handleChange}
+								value={formik.values.name}
 								placeholder="Nombre de la parada"
 								type="text"
+								invalid={!!formik.errors.name}
 							/>
+							<FormFeedback>{formik.errors.name}</FormFeedback>
 						</FormGroup>
 
-						
-<h4>Tipo</h4>
+						<FormGroup>
+							<Label className={styleForm.label} for="description">
+								Descripcion
+							</Label>
+							<Input
+								className={styleForm.input}
+								id="description"
+								name="description"
+								onChange={formik.handleChange}
+								value={formik.values.description}
+								placeholder=""
+								type="textarea"
+								invalid={!!formik.errors.description}
+							/>
+							<FormFeedback>{formik.errors.description}</FormFeedback>
+						</FormGroup>
+
+						<h4>coordenadas</h4>
+
+						<div>latitud: {formik.values.coord.lat.toFixed(4)}</div>
+						<div>longitud: {formik.values.coord.lng.toFixed(4)}</div>
+
+						<h4>Tipo</h4>
 						<FormGroup check>
-							<Input name="radio2" type="radio" defaultChecked />
-							<Label check>Parada </Label>
+							<Input
+								name="type"
+								type="radio"
+								id="parada"
+								defaultChecked
+								onChange={() => onChangeType("p")}
+							/>
+							<Label check for="parada">
+								Parada
+							</Label>
 						</FormGroup>
-
 						<FormGroup check className="mb-3">
-							<Input name="radio2" type="radio" id="control_point  " />
+							<Input
+								name="type"
+								type="radio"
+								id="control_point"
+								onChange={() => onChangeType("c")}
+							/>
 							<Label check for="control_point">
 								Punto de Control
 							</Label>
 						</FormGroup>
-
-						<Button className={styleForm.button}>Guardar</Button>
+						<Button
+							className={`${styleForm.button} w-100`}
+							type="button"
+							color="primary"
+							onClick={formik.submitForm}
+						>
+							Guardar
+						</Button>
 					</Form>
 				</div>
 			</div>

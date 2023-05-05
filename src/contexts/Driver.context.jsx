@@ -1,8 +1,8 @@
 import { login_Request, logout_Request, profile_Request } from "@/api/auth.api";
 import { useRouter } from "next/router";
-import MapContext from "./MapContext";
+import MapContext from "./Map.context";
 import SocketContext from "./Socket.context";
-import UserContext from "./UserProvider";
+import UserContext from "./User.context";
 
 const { createContext, useState, useEffect, useContext } = require("react");
 

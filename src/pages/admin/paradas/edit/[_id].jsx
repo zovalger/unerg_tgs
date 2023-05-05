@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import { IoIosArrowBack } from "react-icons/io";
+import { BiLeftArrow, BiPencil } from "react-icons/bi";
 import Add_parada from "@/components/forms/Add_parada";
 
 //Estilos
@@ -18,8 +18,6 @@ import styleN from "../../../styles/Nav/NavStyle.module.css";
 import MapContext from "@/contexts/Map.context";
 import UserContext from "@/contexts/User.context";
 import { createWaypoint_Request } from "@/api/waypoint.api";
-import { useRouter } from "next/router";
-import WaypointContext from "@/contexts/Waypoint.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -27,11 +25,10 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 
 const MainMap = () => {
 	//useContext
+	const { logout, user } = useContext(UserContext);
 
-	const { insertWaypoint } = useContext(MapContext);
-	const { insert } = useContext(WaypointContext);
+	const { getCoordsUser } = useContext(MapContext);
 
-	const router = useRouter();
 	//useState
 
 	const [edit, setEdit] = useState(false);
@@ -50,15 +47,8 @@ const MainMap = () => {
 		try {
 			const res = await createWaypoint_Request(formData);
 			console.log(res);
-
-			const w = res.data;
-			insertWaypoint(w);
-			insert(w);
-
-			router.back();
 		} catch (error) {
 			console.log(error);
-			setIsSubmitin(false);
 		}
 	};
 	return (
@@ -66,25 +56,21 @@ const MainMap = () => {
 			<div className="AppView">
 				{/* nav customizable */}
 
-					<NavBar
-						left={
-							<>
-								<div>
-							
-                                        <Link href={"./menu"} className={styleN.btn_return}>
-										<IoIosArrowBack />
-                                        </Link>
-								
-								</div>
-								<div className={styleN.title_nav}>
-								    <h2>Agregar parada</h2>
-								</div>
-	
-							</>
-						}
-						right={<></>}
-					/>
-			
+				<NavBar
+					left={
+						<>
+							<div>
+								<Link href={"./menu"} className={styleN.btn_return}>
+									<BiLeftArrow />
+								</Link>
+							</div>
+							<div className={styleN.title_nav}>
+								<h2>Agregar parada</h2>
+							</div>
+						</>
+					}
+					right={<></>}
+				/>
 
 				{/* Contenedor del mapa */}
 

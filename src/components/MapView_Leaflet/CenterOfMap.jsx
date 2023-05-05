@@ -1,4 +1,4 @@
-import MapContext from "@/contexts/MapContext";
+import MapContext from "@/contexts/Map.context";
 import { useContext, useState } from "react";
 import { Circle, useMapEvents } from "react-leaflet";
 

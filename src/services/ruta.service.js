@@ -1,17 +1,39 @@
 import RutaModel from "@/models/Ruta.model";
+import { createOrUpdateWapoint_service } from "./waypoint.service";
 
 export const createRuta_service = async (data) => {
 	try {
-		const { name, description, type, state, coord } = data;
+		const { name, description, waypoints } = data;
+
+		// ver si hay una ruta con el mismo nombre
+		const oldRuta = await RutaModel.findOne({ name: new RegExp(name, "i") });
+		if (oldRuta) return { error: "ya existe una ruta con ese nombre" };
+
+		//  recorrer los waypoint para ver los que no estan creados
+		const waypointIds = await Promise.all(
+			await waypoints.map(async (w) => {
+				console.log(w);
+				if (typeof w === "string") return w;
+
+				const waypoint = await createOrUpdateWapoint_service(w);
+
+				return waypoint._id.toString();
+			})
+		);
+
+		// crear la ruta
+
+		console.log(waypointIds);
 
 		const ruta = new RutaModel({
 			name,
 			description,
-			type,
-			state,
-			coord,
+			waypoints: waypointIds,
 		});
 
+		console.log(ruta);
+
+		// devolverla al front
 		await ruta.save();
 
 		return ruta;
@@ -59,17 +81,24 @@ export const getRutas_by_Name_service = async (
 
 export const updateRuta_service = async (_id, data) => {
 	try {
-		const { name, description, type, state, coord } = data;
-
-		await RutaModel.findByIdAndUpdate(_id, {
-			name,
-			description,
-			type,
-			state,
-			coord,
-		});
+		const { name, description, waypoints } = data;
 
 		const ruta = await RutaModel.findById(_id);
+
+		if (!ruta) return { error: "No existe la ruta a actualizar" };
+
+		const waypointIds = await Promise.all(
+			await waypoints.map(async (w) => {
+				console.log(w);
+				if (typeof w === "string") return w;
+
+				const waypoint = await createOrUpdateWapoint_service(w);
+
+				return waypoint._id.toString();
+			})
+		);
+
+		await ruta.update({ name, description, waypoints: waypointIds });
 
 		console.log(ruta);
 
@@ -81,10 +110,14 @@ export const updateRuta_service = async (_id, data) => {
 
 export const deleteRuta_service = async (_id) => {
 	try {
-		const ruta = await RutaModel.findById(_id);
+		const ruta = await getRuta_by_Id_service(_id);
 
-		if (ruta.state === "a") {
-			ruta.state = "d";
+		console.log(ruta);
+
+		if (!ruta) return;
+
+		if (ruta.status === "a") {
+			ruta.status = "d";
 			await ruta.save();
 		} else {
 			// borrar definitivamente
