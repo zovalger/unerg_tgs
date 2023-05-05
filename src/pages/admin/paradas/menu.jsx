@@ -88,33 +88,28 @@ const MainMap = () => {
 			<div className="AppView">
 				{/* nav customizable */}
 
-					<NavBar
-						left={
-							<>
-								<div>
-					
-									<Link className={styleN.btn_return} href={"../map"}>
-                                       
-										<IoIosArrowBack />
-                                        
-									</Link>
-							
-								</div>
-								<div className={styleN.title_nav}>
-								    <h2>Todas las paradas</h2>
-								</div>
-								{user
-									? user.role == "admin" && (
-											<div className={styleN.btn_edit} onClick={btn_edit}>
-												<BiPencil />
-											</div>
-									  )
-									: ""}
-							</>
-						}
-						right={<></>}
-					/>
-			
+				<NavBar
+					left={
+						<>
+							<div>
+								<Link className={styleN.btn_return} href={"../map"}>
+									<IoIosArrowBack />
+								</Link>
+							</div>
+							<div className={styleN.title_nav}>
+								<h2>Todas las paradas</h2>
+							</div>
+							{user
+								? user.role == "admin" && (
+										<div className={styleN.btn_edit} onClick={btn_edit}>
+											<BiPencil />
+										</div>
+								  )
+								: ""}
+						</>
+					}
+					right={<></>}
+				/>
 
 				{/* Contenedor del mapa */}
 
