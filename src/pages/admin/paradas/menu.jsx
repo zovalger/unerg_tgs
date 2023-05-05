@@ -83,6 +83,7 @@ const MainMap = () => {
 		setEdit(!edit);
 	};
 
+	console.log(user)
 	return (
 		<Layout>
 			<div className="AppView">
@@ -99,13 +100,12 @@ const MainMap = () => {
 							<div className={styleN.title_nav}>
 								<h2>Todas las paradas</h2>
 							</div>
-							{user
-								? user.role == "admin" && (
+							{user && user.role == "admin" && (
 										<div className={styleN.btn_edit} onClick={btn_edit}>
 											<BiPencil />
 										</div>
 								  )
-								: ""}
+								}
 						</>
 					}
 					right={<></>}

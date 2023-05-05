@@ -27,7 +27,7 @@ export default function Routes(props){
         <div className={style.container_routes}>
            <h2>Rutas disponibles</h2>
             {props.edit && (
-                        <Link href={"./add"} className={style.add}>
+                        <Link href={"./add"} className={`${style.add} ${style.add__rutas}`}>
                             <IoIosAdd />
                         </Link>
                     )}

@@ -1,222 +1,271 @@
-.container_routes{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-items: center;
-    padding: 10px;
-    padding-top: 10px;
-    max-height: 100%;
-    min-width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: relative;
-}
-
-.botonRuta{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    min-height: 95px;
-    width: 95%;
-    background: #EDEDED;
-    border-radius: 25px;
-    margin: auto;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-.botonRuta:hover{
-
-    background: #c8c8c8;
+.container_routes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  padding: 10px;
+  padding-top: 20px;
+  max-height: 100%;
+  min-width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
 
 }
 
-.textContainer__Ru{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 100%;
-    padding-left: 5px;
-    align-self: flex-end;
+.botonRuta {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 95px;
+  width: 95%;
+  background: #ededed;
+  border-radius: 25px;
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
-.textContainer__Ru h2{
-    font-size: 2rem;
-    font-weight: 400;
+.botonRuta:hover {
+  background: #c8c8c8;
 }
 
-.textContainer__Ru p{
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0;
+.textContainer__Ru {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+  padding-left: 5px;
+  align-self: flex-end;
 }
 
-.textContainer__Ho{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 100%;
-    align-items: flex-end;
-    justify-content: flex-end;
-    align-self: flex-end;
-    padding-right: 5px;
+.textContainer__Ru h2 {
+  font-size: 2rem;
+  font-weight: 400;
 }
 
-.textContainer__Ho p{
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0;
+.textContainer__Ru p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0;
 }
 
-.Route_view{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-items: center;
-    border-radius: 2em;
-    padding: 10px;
-    background-color: white;
-    height: 45%;
-    width: 100%;
-    margin-bottom: 5px;
-    overflow-y: scroll;
-    position: absolute;
-    z-index: 2;
-    bottom: 0;
+.textContainer__Ho {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+  align-items: flex-end;
+  justify-content: flex-end;
+  align-self: flex-end;
+  padding-right: 5px;
+}
+
+.textContainer__Ho p {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.Route_view {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  border-radius: 2em;
+  padding: 10px;
+  background-color: white;
+  height: 45%;
+  width: 100%;
+  margin-bottom: 5px;
+  overflow-y: scroll;
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
 }
 
 /* Paradas */
 
-.textContainer__lu{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 100%;
-    padding-left: 5px;
-    justify-content: center;
+.textContainer__lu {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+  padding-left: 5px;
+  justify-content: center;
 }
 
-.textContainer__lu h2{
-    font-size: 1.60rem;
-    font-weight: 600;
+.textContainer__lu h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
-.textContainer__km{
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 100%;
-    padding-left: 5px;
-    align-items: flex-end;
-    justify-content: center;
+.textContainer__lu p {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
 }
 
-.textContainer__km p{
-    margin: 0;
-    font-size: 1.10rem;
-    font-weight: 600;
-
+.textContainer__km {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 100%;
+  padding-left: 5px;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-
-/* Paradas/Vista de edición */
-
-.delete{
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex: 0 1 auto;
-    width: 20%;
-    cursor: pointer;
+.textContainer__km p {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
-.delete svg{
-    color: rgb(208, 51, 51);
-    height: 28px;
-    width: 28px;
+/************** Paradas/Vista de edición *******************/
+
+.delete {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 0 1 auto;
+  width: 20%;
+  cursor: pointer;
 }
 
-.textContainer{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex: 1 1 auto;
+.delete svg {
+  color: rgb(208, 51, 51);
+  height: 28px;
+  width: 28px;
 }
 
-.edit{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 1 auto;
-    width: 20%;
-    cursor: pointer;
+.textContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1 1 auto;
 }
 
-.edit svg{
-    height: 30px;
-    width: 30px;
+.edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 1 auto;
+  width: 20%;
+  cursor: pointer;
 }
 
-.add{
-    position: fixed;
-    right: 30px;
-    bottom: 20px;
-    border-radius: 50%;
-    height: 60px;
-    width: 60px;
-    border: none;
-    background: #D9D9D9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.edit svg {
+  height: 30px;
+  width: 30px;
 }
 
-.add svg{
+.add {
+  position: fixed;
+  right: 30px;
+  bottom: 20px;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  background: #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    color: black;
-    height: 45px;
-    width: 45px;
+.add svg {
+  color: black;
+  height: 44px;
+  width: 44px;
+}
 
+/************** Rutas/Vista de edición *******************/
+
+.add__rutas {
+  background: #00a2fe;
+}
+
+.add__rutas svg {
+  color: rgb(255, 255, 255);
 }
 
 /*Responsive*/
 
-@media (max-width: 600px){
-
-    .textContainer__Ru h2{
+@media (max-width: 600px) {
+  .textContainer__Ru h2 {
     font-size: 1.5rem;
     font-weight: 400;
-}
+  }
 
-    .textContainer__Ru p{
+  .textContainer__Ru p {
     font-size: 0.8rem;
     font-weight: 600;
-}
+  }
 
-    .textContainer__Ho p{
+  .textContainer__Ho p {
     font-size: 1rem;
     font-weight: 600;
+  }
 }
 
-} 
+@media (max-width: 420px) {
+    
+    /***** Paradas ******/
+  
+    .textContainer__lu h2 {
+      font-size: 1.20rem;
+      font-weight: 600;
+    }
+  
+    .textContainer__lu p {
+      font-size: 0.80rem;
+    }
+  
+    .textContainer__km p {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+  }
+  
+
 
 @media (max-width: 300px) {
-    .botonRuta{
-        min-height: 65px;
-    }
+  /***** Rutas *****/
+  .botonRuta {
+    min-height: 65px;
+  }
 
-    .textContainer__Ru p{
-        font-size: 0.65rem;
-        font-weight: 400;
-    }
+  .textContainer__Ru p {
+    font-size: 0.65rem;
+    font-weight: 400;
+  }
 
-    .textContainer__Ho p{
-        font-size: 0.65rem;
-        font-weight: 400;
-    }
+  .textContainer__Ho p {
+    font-size: 0.65rem;
+    font-weight: 400;
+  }
 
-    .textContainer__Ru h2{
-        font-size: 1rem;
-        font-weight: 500;
-    }
+  .textContainer__Ru h2 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  /***** Paradas ******/
+
+  .textContainer__lu h2 {
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .textContainer__lu p {
+    font-size: 0.48rem;
+  }
+
+  .textContainer__km p {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
 }

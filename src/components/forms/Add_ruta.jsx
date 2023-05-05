@@ -1,8 +1,18 @@
+// React/Next
 import { useState } from "react";
+import Link from "next/link";
 
+
+//Componentes
 import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+import { BiPencil  } from "react-icons/bi";
 
+
+//Estilos
 import style from "../../styles/Edit/edit.module.css";
+
+
+
 
 //Retocar
 export default function Add_ruta() {
@@ -75,6 +85,7 @@ export default function Add_ruta() {
                   />
                 </div>
               </div>
+
                 {/*Modificar*/}
                 <Label className={style.label} for="parada">
                   Paradas
@@ -86,6 +97,13 @@ export default function Add_ruta() {
                   type="select"
                 />
                 </FormGroup>
+
+                <div className={style.Rutas__addParada}>
+                  <p>Editar Paradas</p>
+                  <Link href={"./parada/add"} className={`${style.add} ${style.add__rutas}`}>
+                             <BiPencil />
+                  </Link>
+                </div>
 
                 <FormGroup switch style={{padding:0}}>
                 <Label className={style.label} for="state">

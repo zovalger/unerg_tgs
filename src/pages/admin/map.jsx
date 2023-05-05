@@ -61,89 +61,29 @@ const MainMap = () => {
 
 	const Ro_Btn = () => setRo_active(!ro_active);
 
-	//Vista de las rutas
-
-	const [ro_menu, setRo_menu] = useState(false);
-
-	const active_RoM = () => {
-		setRo_menu(!ro_menu);
-		setOffcanvasActive(false);
-		setRo_active(false);
-	};
-
-	//Vista de las paradas
-
-	const [pa_menu, setPa_menu] = useState(false);
-
-	const active_PaM = () => {
-		setPa_menu(!pa_menu);
-		setOffcanvasActive(false);
-		setRo_active(false);
-	};
-
-	//Boton de edición
-
-	const [edit, setEdit] = useState(false);
-
-	const btn_edit = () => {
-		setEdit(!edit);
-	};
-
-	//Cerrar vistas
-
-	const close = () => {
-		setRo_menu(false);
-		setPa_menu(false);
-		setEdit(false);
-	};
+	
 
 	return (
 		<Layout>
 			<div className="AppView">
 				{/* nav customizable */}
-				{ro_menu || pa_menu ? (
-					<NavBar
-						left={
-							<>
-								<div onClick={close}>
-									<div className={styleN.btn_return}>
-										<BiLeftArrow />
-									</div>
-								</div>
-								<div className={styleN.title_nav}>
-									{ro_menu && <h2>Todas las rutas</h2>}
-									{pa_menu && <h2>Todas las paradas</h2>}
-								</div>
-								{user
-									? user.role == "admin" &&
-									  pa_menu && (
-											<div className={styleN.btn_edit}>
-												<BiPencil onClick={btn_edit} />
-											</div>
-									  )
-									: ""}
-							</>
-						}
-						right={<></>}
-					/>
-				) : (
+		
 					<NavBar
 						title={"UNERG-TGS"}
+						ViPrincipal={true}
 						left={
-							<div onClick={toggleOffcanvas}>
+							<div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
 								<RxHamburgerMenu />
 							</div>
 						}
 						right={<></>}
 					/>
-				)}
+		
 
 				{/* Contenedor del mapa */}
 
 				<div
-					className={`${"MapView__Container"} ${
-						ro_menu || pa_menu ? "MapView__ContainerRu" : ""
-					}`}
+					className="MapView__Container"
 					onClick={() => {
 						setRo_active(false);
 					}}
@@ -162,25 +102,13 @@ const MainMap = () => {
 					) : undefined}
 				</div>
 
-				{/*Abrir vista de rutas*/}
+			
 
-				{ro_menu && (
-					<div className="container__rutas">
-						<Routes />
-					</div>
-				)}
-
-				{/*Abrir vista de paradas*/}
-
-				{/* {pa_menu && (
-					<div className="container__rutas">
-						<Bus_stop edit={edit} />
-					</div>
-				)} */}
+			
 
 				{/* botones inferiores */}
 
-				{!ro_menu && !pa_menu && (
+	
 					<ButtonFloatingContainer>
 						<Button color="primary">
 							<TbRoute onClick={Ro_Btn} />
@@ -202,7 +130,7 @@ const MainMap = () => {
 							<GoLocation />
 						</Button>
 					</ButtonFloatingContainer>
-				)}
+			
 
 				{/* panel lateral desplegable */}
 

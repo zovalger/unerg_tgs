@@ -11,7 +11,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import Add_parada from "@/components/forms/Add_parada";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "../../../../styles/Nav/NavStyle.module.css";
 
 //Contextos
 
@@ -65,7 +65,7 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu"} className={styleN.btn_return}>
+								<Link href={"../add"} className={styleN.btn_return}>
 									<IoIosArrowBack />
 								</Link>
 							</div>

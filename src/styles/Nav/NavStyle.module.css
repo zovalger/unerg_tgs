@@ -11,12 +11,37 @@
     font-size: 2rem;
 }
 
-/*** nav ***/
+/******* Nav ******/
 
-.title_nav {
-margin-right: auto;
-margin-left: 8px;
+.HamburgerMenu svg{
+    height: 24px;
+    width: 24px;
 }
+
+.title_NavPrincipal{
+  margin-right: auto;
+  margin-left: 20px;
+  align-self: flex-start;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+
+/****** Nav de las otras vistas ******/
+.title_nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+margin-right: auto;
+margin-left: 20px;
+}
+
+.title_nav h2{
+
+font-size: 1.2rem;
+  font-weight: 600;
+
+  }
 
 
 .btn_return{
@@ -25,10 +50,10 @@ margin-left: 8px;
   justify-content: center;
   border: 2px solid black;
   border-radius: 50%;
-  padding: 10px;
+
   position: relative;
-  height: 50px;
-  width: 50px;
+  height: 35px;
+  width: 35px;
 }
 
 .btn_return:hover{
@@ -45,15 +70,15 @@ margin-left: 8px;
 .btn_return svg{
 
   color: black;
-  height: 40px;
-  width: 40px;
+  height: 20px;
+  width: 20px;
 
 }
 
 .btn_return svg:hover{
   color: rgb(37, 36, 36);
-  height: 45px;
-  width: 45px;
+  height: 22px;
+  width: 22px;
 }
 
 .btn_edit{
