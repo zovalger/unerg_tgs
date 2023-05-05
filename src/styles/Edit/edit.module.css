@@ -11,6 +11,25 @@ line-height: 24px;
 }
 
 .input {
-    width: 100%;
+    min-width: 300px;
     border-radius: 10px;
+}
+
+
+/************** Add_Rutas ****************/
+
+.container_AddRuta{
+    height: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  
+}
+
+@media (max-width:320px) {
+    .input {
+        min-width: 220px;
+    }
 }

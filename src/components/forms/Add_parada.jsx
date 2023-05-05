@@ -4,7 +4,7 @@ import {
 	Input,
 	Label,
 	Button,
-	FormFeedback,
+	FormFeedback
 } from "reactstrap";
 
 import style from "../../styles/Routes/routes_view.module.css";

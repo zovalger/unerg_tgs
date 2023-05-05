@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import { BiLeftArrow, BiPencil } from "react-icons/bi";
+import { IoIosArrowBack } from "react-icons/io";
 import Add_parada from "@/components/forms/Add_parada";
 
 //Estilos
@@ -66,21 +66,25 @@ const MainMap = () => {
 			<div className="AppView">
 				{/* nav customizable */}
 
-				<NavBar
-					left={
-						<>
-							<div>
-								<Link href={"./menu"} className={styleN.btn_return}>
-									<BiLeftArrow />
-								</Link>
-							</div>
-							<div className={styleN.title_nav}>
-								<h2>Agregar parada</h2>
-							</div>
-						</>
-					}
-					right={<></>}
-				/>
+					<NavBar
+						left={
+							<>
+								<div>
+							
+                                        <Link href={"./menu"} className={styleN.btn_return}>
+										<IoIosArrowBack />
+                                        </Link>
+								
+								</div>
+								<div className={styleN.title_nav}>
+								    <h2>Agregar parada</h2>
+								</div>
+	
+							</>
+						}
+						right={<></>}
+					/>
+			
 
 				{/* Contenedor del mapa */}
 

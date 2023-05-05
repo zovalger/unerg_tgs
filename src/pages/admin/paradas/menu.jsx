@@ -7,7 +7,8 @@ import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import { BiLeftArrow, BiPencil } from "react-icons/bi";
+import { BiPencil } from "react-icons/bi";
+import { IoIosArrowBack } from "react-icons/io";
 import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
 //Estilos
@@ -87,28 +88,33 @@ const MainMap = () => {
 			<div className="AppView">
 				{/* nav customizable */}
 
-				<NavBar
-					left={
-						<>
-							<div>
-								<Link className={styleN.btn_return} href={"../map"}>
-									<BiLeftArrow />
-								</Link>
-							</div>
-							<div className={styleN.title_nav}>
-								<h2>Todas las paradas</h2>
-							</div>
-							{user
-								? user.role == "admin" && (
-										<div className={styleN.btn_edit} onClick={btn_edit}>
-											<BiPencil />
-										</div>
-								  )
-								: ""}
-						</>
-					}
-					right={<></>}
-				/>
+					<NavBar
+						left={
+							<>
+								<div>
+					
+									<Link className={styleN.btn_return} href={"../map"}>
+                                       
+										<IoIosArrowBack />
+                                        
+									</Link>
+							
+								</div>
+								<div className={styleN.title_nav}>
+								    <h2>Todas las paradas</h2>
+								</div>
+								{user
+									? user.role == "admin" && (
+											<div className={styleN.btn_edit} onClick={btn_edit}>
+												<BiPencil />
+											</div>
+									  )
+									: ""}
+							</>
+						}
+						right={<></>}
+					/>
+			
 
 				{/* Contenedor del mapa */}
 
