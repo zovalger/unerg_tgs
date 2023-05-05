@@ -11,24 +11,31 @@ import { BiLeftArrow, BiPencil } from "react-icons/bi";
 import Add_parada from "@/components/forms/Add_parada";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
+import {
+	createWaypoint_Request,
+	updateWaypoint_Request,
+} from "@/api/waypoint.api";
+import WaypointContext from "@/contexts/Waypoint.context";
+import { useRouter } from "next/router";
 import MapContext from "@/contexts/Map.context";
-import UserContext from "@/contexts/User.context";
-import { createWaypoint_Request } from "@/api/waypoint.api";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
 });
 
 const MainMap = () => {
+	const router = useRouter();
 	//useContext
-	const { logout, user } = useContext(UserContext);
 
-	const { getCoordsUser } = useContext(MapContext);
+	const { getWaypoint, updateWaypoint } = useContext(WaypointContext);
+	const { insertWaypoint } = useContext(MapContext);
+	const { _id } = router.query;
 
+	console.log(_id);
 	//useState
 
 	const [edit, setEdit] = useState(false);
@@ -45,10 +52,19 @@ const MainMap = () => {
 		setIsSubmitin(true);
 
 		try {
-			const res = await createWaypoint_Request(formData);
+			const res = await updateWaypoint_Request(_id, formData);
 			console.log(res);
+
+			const w = res.data;
+
+			const newSet = updateWaypoint(w);
+
+			insertWaypoint(newSet);
+
+			router.back();
 		} catch (error) {
 			console.log(error);
+			setIsSubmitin(false);
 		}
 	};
 	return (
@@ -60,7 +76,7 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu"} className={styleN.btn_return}>
+								<Link href={"../menu"} className={styleN.btn_return}>
 									<BiLeftArrow />
 								</Link>
 							</div>
@@ -81,7 +97,7 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<Add_parada onSubmit={onSubmit} />
+					<Add_parada onSubmit={onSubmit} data={getWaypoint(_id)} />
 				</div>
 
 				<div></div>

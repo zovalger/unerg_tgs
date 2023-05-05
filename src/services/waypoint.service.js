@@ -22,9 +22,11 @@ export const createWaypoint_service = async (data) => {
 	}
 };
 
-export const getAllWaypoints_service = async () => {
+export const getAllActiveWaypoints_service = async () => {
 	try {
-		const waypoints = await WaypointModel.find({ state: { $ne: "d" } });
+		const waypoints = await WaypointModel.find({ status: { $ne: "d" } }).sort({
+			name: 1,
+		});
 
 		return waypoints;
 	} catch (error) {
