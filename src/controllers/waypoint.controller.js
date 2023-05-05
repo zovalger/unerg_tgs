@@ -1,7 +1,7 @@
 import {
 	createWaypoint_service,
 	deleteWaypoint_service,
-	getAllWaypoints_service,
+	getAllActiveWaypoints_service,
 	getWaypoint_by_Id_service,
 	updateWaypoint_service,
 } from "@/services/waypoint.service";
@@ -29,9 +29,9 @@ export const createWaypoint_controller = async (req, res) => {
 	}
 };
 
-export const getAllWaypoints_controller = async (req, res) => {
+export const getAllActiveWaypoints_controller = async (req, res) => {
 	try {
-		const waypoints = await getAllWaypoints_service();
+		const waypoints = await getAllActiveWaypoints_service();
 
 		if (!waypoints)
 			res.status(500).json({ error: { message: "Error en el servidor" } });

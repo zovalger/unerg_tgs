@@ -15,19 +15,26 @@ import * as Yup from "yup";
 import MapContext from "@/contexts/Map.context";
 
 //Retocar
-export default function Add_parada({ onSubmit }) {
-	const { getCenterMap } = useContext(MapContext);
+export default function Add_parada({ onSubmit, data }) {
+	const { getCenterMap, setCenterMap } = useContext(MapContext);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			const c = getCenterMap();
-			if (c)
-				if (
-					formik.values.coord.lat != c.lat ||
-					formik.values.coord.lng != c.lng
-				)
-					formik.setFieldValue("coord", c);
-		}, 300);
+		let interval = null;
+
+		if (data)
+			setTimeout(() => {
+				setCenterMap(data.coord, 15);
+
+				interval = setInterval(() => {
+					const c = getCenterMap();
+					if (c)
+						if (
+							formik.values.coord.lat != c.lat ||
+							formik.values.coord.lng != c.lng
+						)
+							formik.setFieldValue("coord", c);
+				}, 200);
+			}, 300);
 
 		return () => {
 			clearInterval(interval);
@@ -35,7 +42,7 @@ export default function Add_parada({ onSubmit }) {
 	}, []);
 
 	const formik = useFormik({
-		initialValues: {
+		initialValues: data || {
 			name: "",
 			description: "",
 			coord: { lat: 0, lng: 0 },
@@ -45,7 +52,7 @@ export default function Add_parada({ onSubmit }) {
 			name: Yup.string()
 				.required("El nombre es obligatorio")
 				.min(3, "El nombre es muy corto"),
-			description: Yup.string().required("La descripcion es obligatoria"),
+			description: Yup.string(),
 		}),
 		onSubmit,
 	});

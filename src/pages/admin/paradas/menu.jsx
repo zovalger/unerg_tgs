@@ -18,7 +18,10 @@ import styleN from "../../../styles/Nav/NavStyle.module.css";
 import MapContext from "@/contexts/Map.context";
 
 import UserContext from "@/contexts/User.context";
-import { getAllWaypoints_Request } from "@/api/waypoint.api";
+import {
+	deleteWaypoint_Request,
+	getAllWaypoints_Request,
+} from "@/api/waypoint.api";
 import WaypointContext from "@/contexts/Waypoint.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
@@ -29,8 +32,9 @@ const MainMap = () => {
 	//useContext
 	const { user } = useContext(UserContext);
 
-	const { getCoordsUser, insertWaypoint } = useContext(MapContext);
-	const { setWaypoints, waypoints } = useContext(WaypointContext);
+	const { insertWaypoint } = useContext(MapContext);
+	const { insert, waypoints, getWaypoint, dropWaypoint } =
+		useContext(WaypointContext);
 
 	//useState
 
@@ -42,7 +46,29 @@ const MainMap = () => {
 			console.log(data);
 			insertWaypoint(data);
 
-			setWaypoints(data);
+			insert(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const onDelete = async (_id) => {
+		try {
+			const msg = `Seguro que quiere eliminar la parada ${
+				getWaypoint(_id).name
+			}`;
+
+			const confirm = window.confirm(msg);
+
+			if (confirm) {
+				console.log("confim");
+				const res = await deleteWaypoint_Request(_id);
+				if (res.data.status == "d") {
+					const newSet = dropWaypoint(_id);
+
+					insertWaypoint(newSet);
+				}
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -93,7 +119,7 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<Bus_stop edit={edit} data={waypoints} />
+					<Bus_stop edit={edit} data={waypoints} onDelete={onDelete} />
 				</div>
 
 				<div></div>
