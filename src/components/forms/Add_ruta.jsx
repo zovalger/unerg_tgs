@@ -1,15 +1,33 @@
-import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+// React/Next
+import { useState } from "react";
+import Link from "next/link";
 
+
+//Componentes
+import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+import { BiPencil  } from "react-icons/bi";
+
+
+//Estilos
 import style from "../../styles/Edit/edit.module.css";
+
+
+
 
 //Retocar
 export default function Add_ruta() {
+
+  const [state, setState] = useState(true);
+
+
+
   return (
     <>
       <div className={style.container_AddRuta}>
         <div className={style.container__form}>
           <Form className="container-xl">
-            <FormGroup>
+            <FormGroup 
+            >
               <Label className={style.label} for="new_ruta">
                 Nombre de la Ruta
               </Label>
@@ -33,19 +51,84 @@ export default function Add_ruta() {
               />
 
               {/*Modificar*/}
-			        <Label className={style.label} for="new_bus">
+              <Label className={style.label} for="bus">
                 Autobuses asignados
               </Label>
               <Input
                 className={style.input}
-                id="new_bus"
-                name="new_bus"
+                id="bus"
+                name="bus"
                 type="select"
               />
 
-              <h2>Horario</h2>
+              <Label className={style.label} for="active_hours">
+                Horario
+              </Label>
+              <div className={style.container_hours}>
+                <div className={style.hours}>
+                  <p>Hora de inicio</p>
+                  <Input
+                    className={style.input}
+                    id="start_hours"
+                    name="start_hours"
+                    type="time"
+                  />
+                </div>
 
-            </FormGroup>
+                <div className={style.hours}>
+                  <p>Hora de Fin</p>
+                  <Input
+                    className={style.input}
+                    id="end_hours"
+                    name="end_hours"
+                    type="time"
+                  />
+                </div>
+              </div>
+
+                {/*Modificar*/}
+                <Label className={style.label} for="parada">
+                  Paradas
+                </Label>
+                <Input
+                  className={style.input}
+                  id="parada"
+                  name="parada"
+                  type="select"
+                />
+                </FormGroup>
+
+                <div className={style.Rutas__addParada}>
+                  <p>Editar Paradas</p>
+                  <Link href={"./parada/add"} className={`${style.add} ${style.add__rutas}`}>
+                             <BiPencil />
+                  </Link>
+                </div>
+
+                <FormGroup switch style={{padding:0}}>
+                <Label className={style.label} for="state">
+                  Estado de la Ruta
+                </Label>
+                <div className={style.container_check}>
+
+                  <div className={style.text}>
+                  {state ? <p>Activado</p> : <p>Desactivado</p> }  
+
+                  </div>
+
+                <Input
+                  className={style.input}
+                  id="state"
+                  name="state"
+                  type="switch"
+                  checked={state}
+                  onClick={() => {
+                    setState(!state);
+                  }}
+                />
+                </div>
+                </FormGroup>
+         
 
             <Button className={style.button}>Guardar</Button>
           </Form>

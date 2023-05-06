@@ -63,6 +63,7 @@ const DriveMap = () => {
 			<div className="AppView">
 				{/* nav customizable */}
 				<NavBar
+					ViPrincipal={true}
 					title={"UNERG-TGS"}
 					left={
 						<div onClick={toggleOffcanvas}>

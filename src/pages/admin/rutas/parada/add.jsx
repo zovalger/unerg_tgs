@@ -7,42 +7,33 @@ import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import { BiLeftArrow, BiPencil } from "react-icons/bi";
+import { IoIosArrowBack } from "react-icons/io";
 import Add_parada from "@/components/forms/Add_parada";
 
 //Estilos
-import styleN from "@/styles/Nav/NavStyle.module.css";
+import styleN from "../../../../styles/Nav/NavStyle.module.css";
 
 //Contextos
 
-import {
-	createWaypoint_Request,
-	updateWaypoint_Request,
-} from "@/api/waypoint.api";
-import WaypointContext from "@/contexts/Waypoint.context";
-import { useRouter } from "next/router";
 import MapContext from "@/contexts/Map.context";
+import UserContext from "@/contexts/User.context";
+import { createWaypoint_Request } from "@/api/waypoint.api";
+import { useRouter } from "next/router";
+import WaypointContext from "@/contexts/Waypoint.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
 });
 
 const MainMap = () => {
-	const router = useRouter();
 	//useContext
 
-	const { getWaypoint, updateWaypoint } = useContext(WaypointContext);
 	const { insertWaypoint } = useContext(MapContext);
-	const { _id } = router.query;
+	const { insert } = useContext(WaypointContext);
 
-	console.log(_id);
+	const router = useRouter();
 	//useState
 
-	const [edit, setEdit] = useState(false);
-
-	const btn_edit = () => {
-		setEdit(!edit);
-	};
 
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
@@ -52,14 +43,12 @@ const MainMap = () => {
 		setIsSubmitin(true);
 
 		try {
-			const res = await updateWaypoint_Request(_id, formData);
+			const res = await createWaypoint_Request(formData);
 			console.log(res);
 
 			const w = res.data;
-
-			const newSet = updateWaypoint(w);
-
-			insertWaypoint(newSet);
+			insertWaypoint(w);
+			insert(w);
 
 			router.back();
 		} catch (error) {
@@ -76,8 +65,8 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"../menu"} className={styleN.btn_return}>
-									<BiLeftArrow />
+								<Link href={"../add"} className={styleN.btn_return}>
+									<IoIosArrowBack />
 								</Link>
 							</div>
 							<div className={styleN.title_nav}>
@@ -97,7 +86,7 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<Add_parada onSubmit={onSubmit} data={getWaypoint(_id)} />
+					<Add_parada onSubmit={onSubmit} />
 				</div>
 
 				<div></div>

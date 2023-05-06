@@ -16,25 +16,13 @@ import styleN from "../../../styles/Nav/NavStyle.module.css"
 
 //Contextos 
 
-import MapContext from "@/contexts/Map.context";
-
-import UserContext from "@/contexts/User.context";
-
-
 
 
 const MainMap = () => {
 	
 
 //useContext
-const { logout, user } = useContext(UserContext);
 
-	const {
-		toogleViewUserCoord,
-		getCoordsUser,
-		viewUserCoord,
-		Rutas,
-	} = useContext(MapContext);
 
 
 

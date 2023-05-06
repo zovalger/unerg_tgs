@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Navbar, NavbarToggler, NavbarBrand, Button } from "reactstrap";
 
-export default function NavBar({ left, title, right }) {
+import styles from '../../styles/Nav/NavStyle.module.css'
+
+export default function NavBar({ left, title, right, ViPrincipal }) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const toggle = () => setIsOpen(!isOpen);
@@ -10,10 +12,12 @@ export default function NavBar({ left, title, right }) {
 		<div>
 			<Navbar>
 				{left}
-				<NavbarBrand
+				<NavbarBrand className={ViPrincipal ? styles.title_NavPrincipal : ""}
+					
 				// href="/"
 				>
-					{title}
+				 {title}
+					
 				</NavbarBrand>
 
 				{/* {children} */}

@@ -7,6 +7,5 @@ import {
 export default async function handler(req, res) {
 	await connectDb();
 
-	if (req.method === "POST") return await createWaypoint_controller(req, res);
 	if (req.method === "GET") return await getAllActiveWaypoints_controller(req, res);
 }

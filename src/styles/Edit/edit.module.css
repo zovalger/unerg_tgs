@@ -8,11 +8,15 @@ font-style: normal;
 font-weight: 400;
 font-size: 20px;
 line-height: 24px;
+margin: auto;
 }
 
 .input {
-    min-width: 300px;
+    width: 90%;
     border-radius: 10px;
+    align-self: center;
+    justify-self: center;
+    margin: auto;
 }
 
 
@@ -28,8 +32,55 @@ line-height: 24px;
   
 }
 
-@media (max-width:320px) {
-    .input {
-        min-width: 220px;
-    }
+.container_hours{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.hours{
+    display: flex;
+    flex-direction: row;
+    
+    width: 100%;
+ 
+}
+
+.hours p{
+    display: flex;
+    flex-direction: row;
+    
+    width: 70%;
+ 
+}
+
+.hours .input{
+   font-size: 0.90rem;
+ 
+}
+
+.container_check{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.container_check .input{
+    margin: 0;
+   margin-left: auto;
+}
+
+.Rutas__addParada{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Rutas__addParada svg{
+    height: 20px;
+    width: 20px;
+    color: black;
 }

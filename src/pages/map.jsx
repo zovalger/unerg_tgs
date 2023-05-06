@@ -1,5 +1,5 @@
 // librerias y hooks
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 
 // componentes de otras librerias
@@ -13,6 +13,7 @@ import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 // contextos
 import MapContext from "@/contexts/Map.context";
+import WaypointContext from "@/contexts/Waypoint.context";
 
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
@@ -45,6 +46,30 @@ const MainMap = () => {
 	const [ro_active, setRo_active] = useState(false);
 
 	const Ro_Btn = () => setRo_active(!ro_active);
+
+
+	const { insert, waypoints, getWaypoint } =
+		useContext(WaypointContext);
+
+
+	const getDataWaypoints = async () => {
+		try {
+			const { data } = await getAllWaypoints_Request();
+
+			console.log(data);
+			insertWaypoint(data);
+
+			insert(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+
+	useEffect(() => {
+		getDataWaypoints();
+	}, []);
+
 
 	//Vista de las rutas
 
@@ -101,6 +126,7 @@ const MainMap = () => {
 								<RxHamburgerMenu />
 							</div>
 						}
+						ViPrincipal={true}
 						title={"Vista de mapa"}
 						right={<></>}
 					/>
@@ -141,7 +167,7 @@ const MainMap = () => {
 
 				{pa_menu && (
 					<div className="container__rutas">
-						<Bus_stop />
+						<Bus_stop data={waypoints}/>
 					</div>
 				)}
 

@@ -19,7 +19,10 @@ import styleN from "../../../styles/Nav/NavStyle.module.css";
 import MapContext from "@/contexts/Map.context";
 
 import UserContext from "@/contexts/User.context";
-import { getAllWaypoints_Request } from "@/api/waypoint.api";
+import {
+	deleteWaypoint_Request,
+	getAllWaypoints_Request,
+} from "@/api/waypoint.api";
 import WaypointContext from "@/contexts/Waypoint.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
@@ -30,8 +33,9 @@ const MainMap = () => {
 	//useContext
 	const { user } = useContext(UserContext);
 
-	const { getCoordsUser, insertWaypoint } = useContext(MapContext);
-	const { setWaypoints, waypoints } = useContext(WaypointContext);
+	const { insertWaypoint, setCenterMap } = useContext(MapContext);
+	const { insert, waypoints, getWaypoint, dropWaypoint } =
+		useContext(WaypointContext);
 
 	//useState
 
@@ -43,7 +47,34 @@ const MainMap = () => {
 			console.log(data);
 			insertWaypoint(data);
 
-			setWaypoints(data);
+			insert(data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const onClick = (_id) => {
+		const w = getWaypoint(_id);
+		setCenterMap(w.coord,15);
+	};
+
+	const onDelete = async (_id) => {
+		try {
+			const msg = `Seguro que quiere eliminar la parada ${
+				getWaypoint(_id).name
+			}`;
+
+			const confirm = window.confirm(msg);
+
+			if (confirm) {
+				console.log("confim");
+				const res = await deleteWaypoint_Request(_id);
+				if (res.data.status == "d") {
+					const newSet = dropWaypoint(_id);
+
+					insertWaypoint(newSet);
+				}
+			}
 		} catch (error) {
 			console.log(error);
 		}
@@ -57,38 +88,32 @@ const MainMap = () => {
 		setEdit(!edit);
 	};
 
+	console.log(user);
 	return (
 		<Layout>
 			<div className="AppView">
 				{/* nav customizable */}
 
-					<NavBar
-						left={
-							<>
-								<div>
-					
-									<Link className={styleN.btn_return} href={"../map"}>
-                                       
-										<IoIosArrowBack />
-                                        
-									</Link>
-							
+				<NavBar
+					left={
+						<>
+							<div>
+								<Link className={styleN.btn_return} href={"../map"}>
+									<IoIosArrowBack />
+								</Link>
+							</div>
+							<div className={styleN.title_nav}>
+								<h2>Todas las paradas</h2>
+							</div>
+							{user && user.role == "admin" && (
+								<div className={styleN.btn_edit} onClick={btn_edit}>
+									<BiPencil />
 								</div>
-								<div className={styleN.title_nav}>
-								    <h2>Todas las paradas</h2>
-								</div>
-								{user
-									? user.role == "admin" && (
-											<div className={styleN.btn_edit} onClick={btn_edit}>
-												<BiPencil />
-											</div>
-									  )
-									: ""}
-							</>
-						}
-						right={<></>}
-					/>
-			
+							)}
+						</>
+					}
+					right={<></>}
+				/>
 
 				{/* Contenedor del mapa */}
 
@@ -99,7 +124,7 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<Bus_stop edit={edit} data={waypoints} />
+					<Bus_stop edit={edit} data={waypoints} onDelete={onDelete} onClick={onClick} />
 				</div>
 
 				<div></div>

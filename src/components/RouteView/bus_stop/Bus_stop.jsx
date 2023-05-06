@@ -17,7 +17,7 @@ import BotonPa_edit from "./BotonPa _edit";
 
 import { IoIosAdd } from "react-icons/io";
 
-export default function Bus_stop({ edit, data }) {
+export default function Bus_stop({ edit, data, onDelete, onClick }) {
 	return (
 		<>
 			<div className={style.container_routes}>
@@ -31,9 +31,9 @@ export default function Bus_stop({ edit, data }) {
 
 				{data.map((w) =>
 					edit ? (
-						<BotonPa_edit data={w} key={w._id} />
+						<BotonPa_edit data={w} key={w._id} onDelete={onDelete} />
 					) : (
-						<BotonPa data={w} key={w._id} />
+						<BotonPa data={w} key={w._id} onClick={onClick} />
 					)
 				)}
 			</div>
