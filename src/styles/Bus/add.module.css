@@ -1,0 +1,35 @@
+.form_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #F2F2F2;
+  }
+
+  .input {
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.2);
+    min-width: 300px;
+  }
+
+  .button {
+    width: 100%;
+    height: 40px;
+    align-items: center;
+    border-radius: 80px;
+    color: #fff;
+    background-color:#00A3FF;
+    border: none;
+    margin-top: 16px;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+  background-color:#098dda;
+}
+
+@media (max-width: 300px) {
+  .input {
+      max-width: 200px;
+  }
+
+}
