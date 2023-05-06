@@ -4,7 +4,7 @@ import {
 	Input,
 	Label,
 	Button,
-	FormFeedback
+	FormFeedback,
 } from "reactstrap";
 
 import style from "../../styles/Routes/routes_view.module.css";
@@ -24,17 +24,17 @@ export default function Add_parada({ onSubmit, data }) {
 		if (data)
 			setTimeout(() => {
 				setCenterMap(data.coord, 15);
+			}, 250);
 
-				interval = setInterval(() => {
-					const c = getCenterMap();
-					if (c)
-						if (
-							formik.values.coord.lat != c.lat ||
-							formik.values.coord.lng != c.lng
-						)
-							formik.setFieldValue("coord", c);
-				}, 200);
-			}, 300);
+		interval = setInterval(() => {
+			const c = getCenterMap();
+			if (c)
+				if (
+					formik.values.coord.lat != c.lat ||
+					formik.values.coord.lng != c.lng
+				)
+					formik.setFieldValue("coord", c);
+		}, 500);
 
 		return () => {
 			clearInterval(interval);

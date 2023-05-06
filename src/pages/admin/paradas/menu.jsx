@@ -33,7 +33,7 @@ const MainMap = () => {
 	//useContext
 	const { user } = useContext(UserContext);
 
-	const { insertWaypoint } = useContext(MapContext);
+	const { insertWaypoint, setCenterMap } = useContext(MapContext);
 	const { insert, waypoints, getWaypoint, dropWaypoint } =
 		useContext(WaypointContext);
 
@@ -51,6 +51,11 @@ const MainMap = () => {
 		} catch (error) {
 			console.log(error);
 		}
+	};
+
+	const onClick = (_id) => {
+		const w = getWaypoint(_id);
+		setCenterMap(w.coord,15);
 	};
 
 	const onDelete = async (_id) => {
@@ -83,7 +88,7 @@ const MainMap = () => {
 		setEdit(!edit);
 	};
 
-	console.log(user)
+	console.log(user);
 	return (
 		<Layout>
 			<div className="AppView">
@@ -101,11 +106,10 @@ const MainMap = () => {
 								<h2>Todas las paradas</h2>
 							</div>
 							{user && user.role == "admin" && (
-										<div className={styleN.btn_edit} onClick={btn_edit}>
-											<BiPencil />
-										</div>
-								  )
-								}
+								<div className={styleN.btn_edit} onClick={btn_edit}>
+									<BiPencil />
+								</div>
+							)}
 						</>
 					}
 					right={<></>}
@@ -120,7 +124,7 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<Bus_stop edit={edit} data={waypoints} onDelete={onDelete} />
+					<Bus_stop edit={edit} data={waypoints} onDelete={onDelete} onClick={onClick} />
 				</div>
 
 				<div></div>

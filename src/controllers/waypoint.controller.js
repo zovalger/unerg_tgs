@@ -60,6 +60,10 @@ export const getWaypoint_By_Id_controller = async (req, res) => {
 	}
 };
 
+// export const getWaypoint_By_Search_controller= async (req, res)=>{
+
+// }
+
 export const updateWaypoint_controller = async (req, res) => {
 	try {
 		const { _id } = req.query;
