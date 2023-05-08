@@ -1,9 +1,10 @@
 .form_container {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     height: 100vh;
     background-color: #F2F2F2;
+    padding-top: 20px;
   }
 
   .input {

@@ -8,9 +8,9 @@ import Link from "next/link";
 import { GoLocation } from "react-icons/go";
 import { TbRoute } from "react-icons/tb";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { BiLeftArrow, BiPencil } from "react-icons/bi";
 import { GiBusStop } from "react-icons/gi";
 import { IoIosLogOut } from "react-icons/io";
+import { FaBusAlt } from "react-icons/fa";
 
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
@@ -194,6 +194,12 @@ const MainMap = () => {
 								<GiBusStop className={styleN.route} />
 								<p>Paradas</p>
 							</Link>
+
+							<Link href={"./autobuses/menu"} className={styleN.btn_nav}>
+								<FaBusAlt className={styleN.route} />
+								<p>Paradas</p>
+							</Link>
+
 
 							<button
 								className={styleN.btn_nav__logout}
