@@ -39,9 +39,7 @@ export const WaypointProvider = ({ children }) => {
 	};
 
 	const dropWaypoint = (_id) => {
-		const newSet = waypoints.filter((item) => {
-			if (item._id != _id) return item;
-		});
+		const newSet = waypoints.filter((item) => item._id != _id);
 
 		setWaypoints(newSet);
 		return newSet;
@@ -55,7 +53,7 @@ export const WaypointProvider = ({ children }) => {
 				insert,
 				getWaypoint,
 				updateWaypoint,
-				dropWaypoint
+				dropWaypoint,
 			}}
 		>
 			{children}

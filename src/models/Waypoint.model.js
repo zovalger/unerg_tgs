@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const WaypointSchema = mongoose.Schema({
 	name: { type: String, required: true },
-	description: String,
+	description: { type: String, default: "" },
 
 	// p: parada, c: control
 	type: { type: String, required: true, default: "p", enum: ["p", "c"] },

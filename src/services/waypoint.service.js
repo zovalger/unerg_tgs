@@ -1,12 +1,17 @@
+import ErrorsMessages from "@/config/errorsMessages";
 import WaypointModel from "@/models/Waypoint.model";
 import { sign } from "jsonwebtoken";
 
+// ********************************************************************
+// 								waypoints: Creacion en la DB
+// ********************************************************************
+
 export const createWaypoint_service = async (data) => {
+	// obtencion de datos necesarios
+	const { name, description, type, coord } = data;
+
 	try {
-		const { name, description, type, coord } = data;
-
-		console.log(name, description, type, coord);
-
+		// creacion de una instancia del modelo
 		const waypoint = new WaypointModel({
 			name,
 			description,
@@ -14,6 +19,7 @@ export const createWaypoint_service = async (data) => {
 			coord,
 		});
 
+		// guardado y devolucion de datos
 		await waypoint.save();
 
 		return waypoint;
@@ -22,40 +28,67 @@ export const createWaypoint_service = async (data) => {
 	}
 };
 
+// ********************************************************************
+// 				waypoints: obtencion de todos los que estan en la DB
+// ********************************************************************
+
 export const getAllActiveWaypoints_service = async () => {
 	try {
+		// obtencion de los waypoint con estatus activo
+		// y ordenado alfabeticamente
 		const waypoints = await WaypointModel.find({ status: { $ne: "d" } }).sort({
 			name: 1,
 		});
 
+		// devolucion de la consulta
 		return waypoints;
 	} catch (error) {
 		console.log(error);
 	}
 };
 
+// ********************************************************************
+// 									waypoints: obtencion por ID
+// ********************************************************************
+
 export const getWaypoint_by_Id_service = async (_id = null) => {
+	// si no se proporciona id no se hace nada
+	if (!_id) return;
+
 	try {
+		// busqueda del waypoint en la DB
 		const waypoint = await WaypointModel.findById(_id);
 
+		// devolucion de la consulta
 		return waypoint;
 	} catch (error) {
 		console.log(error);
 	}
 };
 
+// ********************************************************************
+// 									waypoints: obtencion por ID
+// ********************************************************************
+
+// se utilizara para obtener los waypoint referenciados en una ruta
+
 export const getWaypoints_by_Ids_service = async (_ids = null) => {
 	try {
+		// se itera cada id para ver si es un texto
+		// si no lo es se tira un error
 		_ids.map((id) => {
 			if (typeof id.toString() !== "string")
 				throw new Error(`${id} no es un formato correcto de _id`);
 		});
 
+		// se consulta en la DB por todos los waypoint
+		// y se ordenan segun el array de ids proporcionado
 		const waypoints = await WaypointModel.find(
 			{ _id: { $in: _ids } },
 			(err, docs) => {
-				if (err) console.log(err);
-				else {
+				if (err) {
+					console.log(err);
+				} else {
 					// ordenar los documentos según el orden de los _ids
 					const sortedDocs = ids.map((id) =>
 						docs.find((doc) => doc._id.toString() === id)
@@ -65,6 +98,7 @@ export const getWaypoints_by_Ids_service = async (_ids = null) => {
 			}
 		);
 
+		// se devuelven los waypoints quitando los no obtenidos de la DB
 		return waypoints.filter((w) => w !== undefined);
 	} catch (error) {
 		console.log(error);
@@ -72,6 +106,12 @@ export const getWaypoints_by_Ids_service = async (_ids = null) => {
 };
 
 // export const IsThatsWaypointCreated_service = async(_ids);
+
+// ********************************************************************
+// 								waypoints: obtencion por nombre
+// ********************************************************************
+// se busca el nombre del waypoint en la DB
+// se pueden buscar los que tambien esten marcado como eliminado
 
 export const getWaypoints_by_Name_service = async (
 	name = null,
@@ -83,30 +123,43 @@ export const getWaypoints_by_Name_service = async (
 	}
 };
 
+// ********************************************************************
+// 								waypoints: modificacion de datos
+// ********************************************************************
+
 export const updateWaypoint_service = async (_id, data) => {
+	// obtencion de los datos modificables
+	const { name, description, type, coord } = data;
+	const newData = { name, description, type, coord };
+
 	try {
-		const { name, description, type, state, coord } = data;
+		await WaypointModel.findByIdAndUpdate(_id, newData);
 
-		await WaypointModel.findByIdAndUpdate(_id, {
-			name,
-			description,
-			type,
-			state,
-			coord,
-		});
-
+		// consulta en la DB por el waypoint
 		const waypoint = await WaypointModel.findById(_id);
 
-		console.log(waypoint);
+		// si no se encuentra se devuelve un error de no encontrado
+		if (!waypoint) return { error: true, message: ErrorsMessages.notFound };
 
+		// se actualizan los datos del waypoint
+		// await waypoint.update(newData);
+
+		// devolucion exitosa
 		return waypoint;
 	} catch (error) {
 		console.log(error);
 	}
 };
 
+// ********************************************************************
+// 							waypoints: creacion o actualizacion
+// ********************************************************************
+// se utilizara cuando una ruta envie datos de un waypoint que
+// sea nuevo o que ya este creado, para actualizar sus datos
+
 export const createOrUpdateWapoint_service = async (data) => {
 	try {
+		// si el objeto tiene un id se actualiza, sino se crea
 		const waypoint = data._id
 			? await updateWaypoint_service(data.id, data)
 			: await createWaypoint_service(data);
@@ -117,18 +170,23 @@ export const createOrUpdateWapoint_service = async (data) => {
 	}
 };
 
-export const deleteWaypoint_service = async (_id) => {
+// ********************************************************************
+// 	 waypoints: intercambiar el status entre eliminado o no eliminado
+// ********************************************************************
+
+export const toggleWaypoint_service = async (_id) => {
 	try {
+		// se busca el waypoint con el id
 		const waypoint = await WaypointModel.findById(_id);
 
-		if (waypoint.status === "a") {
-			waypoint.status = "d";
-			await waypoint.save();
-		} else {
-			// borrar definitivamente
-			// await WaypointModel.findByIdAndDelete(_id);
-			// console.log(await waypoint.remove());
-		}
+		// si no se encuentra se devuelve un error de no encontrado
+		if (!waypoint) return { error: true, message: ErrorsMessages.notFound };
+
+		// se intercambia el status
+		waypoint.status = waypoint.status === "a" ? "d" : "a";
+
+		// guadar los cambios
+		await waypoint.save();
 
 		return waypoint;
 	} catch (error) {

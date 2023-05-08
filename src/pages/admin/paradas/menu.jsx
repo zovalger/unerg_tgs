@@ -55,7 +55,7 @@ const MainMap = () => {
 
 	const onClick = (_id) => {
 		const w = getWaypoint(_id);
-		setCenterMap(w.coord,15);
+		setCenterMap(w.coord, 15);
 	};
 
 	const onDelete = async (_id) => {
@@ -67,11 +67,9 @@ const MainMap = () => {
 			const confirm = window.confirm(msg);
 
 			if (confirm) {
-				console.log("confim");
 				const res = await deleteWaypoint_Request(_id);
 				if (res.data.status == "d") {
 					const newSet = dropWaypoint(_id);
-
 					insertWaypoint(newSet);
 				}
 			}
@@ -124,7 +122,12 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<Bus_stop edit={edit} data={waypoints} onDelete={onDelete} onClick={onClick} />
+					<Bus_stop
+						edit={edit}
+						data={waypoints}
+						onDelete={onDelete}
+						onClick={onClick}
+					/>
 				</div>
 
 				<div></div>

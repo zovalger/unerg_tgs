@@ -40,6 +40,8 @@ export const socketInit = (req, res) => {
 					console.log(coord);
 				});
 			}
+
+			// todo: colocar disconect
 		});
 	}
 	res.end();
