@@ -1,0 +1,17 @@
+.search {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+  }
+  
+
+  .btn_add svg{
+   color: rgb(0, 0 , 0);
+  }
+
+  .btn_add svg{
+    height: 40px;
+    width: 40px;
+  }
+  
