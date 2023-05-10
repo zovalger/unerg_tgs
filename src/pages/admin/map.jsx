@@ -11,6 +11,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { GiBusStop } from "react-icons/gi";
 import { IoIosLogOut } from "react-icons/io";
 import { FaBusAlt } from "react-icons/fa";
+import { ImUsers, ImUser } from "react-icons/im"
 
 import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
@@ -20,9 +21,7 @@ import MapContext from "@/contexts/Map.context";
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
 import NavBar from "@/components/common/NavBar";
-import Routes from "@/components/RouteView/Routes";
 import BotonRu from "@/components/RouteView/BotonRu";
-import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
 //Layouts
 
@@ -184,20 +183,33 @@ const MainMap = () => {
 								<GoLocation className={styleN.route} />
 								<p>Mi Ubicación</p>
 							</button>
+							
+							{/************* Botones para navegar entre rutas ************/}
+
 
 							<Link href={"./rutas/menu"} className={styleN.btn_nav}>
-								<TbRoute className={styleN.route} />
-								<p>Rutas</p>
+									<TbRoute className={styleN.route} />
+									<p>Rutas</p>
 							</Link>
 
 							<Link href={"./paradas/menu"} className={styleN.btn_nav}>
-								<GiBusStop className={styleN.route} />
-								<p>Paradas</p>
+									<GiBusStop className={styleN.route} />
+									<p>Paradas</p>
 							</Link>
 
 							<Link href={"./autobuses/menu"} className={styleN.btn_nav}>
-								<FaBusAlt className={styleN.route} />
-								<p>Paradas</p>
+									<FaBusAlt className={styleN.route} />
+									<p>Autobuses</p>
+							</Link>
+
+							<Link href={"./map"} className={styleN.btn_nav}>
+									<ImUsers className={styleN.route} />
+									<p>Conductores</p>
+							</Link>
+
+							<Link href={"./map"} className={styleN.btn_nav}>
+									<ImUser className={styleN.route} />
+									<p>Administradores</p>
 							</Link>
 
 

@@ -65,7 +65,7 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"../add"} className={styleN.btn_return}>
+								<Link href={"./menu_paradas"} className={styleN.btn_return}>
 									<IoIosArrowBack />
 								</Link>
 							</div>

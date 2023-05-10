@@ -37,6 +37,7 @@ const MainMap = () => {
 	const { insert, waypoints, getWaypoint, dropWaypoint } =
 		useContext(WaypointContext);
 
+
 	//useState
 
 	const [edit, setEdit] = useState(false);
@@ -86,7 +87,6 @@ const MainMap = () => {
 		setEdit(!edit);
 	};
 
-	console.log(user);
 	return (
 		<Layout>
 			<div className="AppView">
@@ -130,7 +130,6 @@ const MainMap = () => {
 					/>
 				</div>
 
-				<div></div>
 			</div>
 		</Layout>
 	);
