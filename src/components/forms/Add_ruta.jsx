@@ -1,5 +1,5 @@
 // React/Next
-import { useState } from "react";
+import { useContext,  useState, useEffect } from "react";
 import Link from "next/link";
 
 
@@ -12,13 +12,12 @@ import { BiPencil  } from "react-icons/bi";
 import style from "../../styles/Edit/edit.module.css";
 
 
-
-
 //Retocar
 export default function Add_ruta() {
 
-  const [state, setState] = useState(true);
 
+  //useState
+  const [state, setState] = useState(true);
 
 
   return (
@@ -87,7 +86,7 @@ export default function Add_ruta() {
               </div>
 
                 {/*Modificar*/}
-                <Label className={style.label} for="parada">
+                {/* <Label className={style.label} for="parada">
                   Paradas
                 </Label>
                 <Input
@@ -95,12 +94,19 @@ export default function Add_ruta() {
                   id="parada"
                   name="parada"
                   type="select"
-                />
+                  >
+
+                  <option>1</option>
+                  <option>1</option>
+                  <option>1</option>
+
+                  </Input> */}
+              
                 </FormGroup>
 
                 <div className={style.Rutas__addParada}>
                   <p>Editar Paradas</p>
-                  <Link href={"./parada/add"} className={`${style.add} ${style.add__rutas}`}>
+                  <Link href={"./parada/menu_add"} className={`${style.add} ${style.add__rutas}`}>
                              <BiPencil />
                   </Link>
                 </div>

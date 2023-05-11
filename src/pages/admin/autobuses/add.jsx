@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
+
 import { IoIosArrowBack } from "react-icons/io";
 
 //Estilos
