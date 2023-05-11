@@ -2,6 +2,7 @@
 
 import { SECRET_WORD } from "@/config";
 import BusModel from "@/models/Bus.model";
+import { getAllActiveWaypoints_service } from "@/services/waypoint.service";
 import { parse } from "cookie";
 import { verify } from "jsonwebtoken";
 import { Server } from "socket.io";
@@ -31,7 +32,9 @@ export const socketInit = (req, res) => {
 			}
 
 			if (user) {
-				socket.on("/bus/update/coord", (coord) => {
+				socket.on("/bus/update/coord", async (coord) => {
+					console.log(await getAllActiveWaypoints_service());
+
 					socket.broadcast.emit("/bus/update/coord", {
 						_id: "1",
 						coord,
