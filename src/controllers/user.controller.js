@@ -59,7 +59,7 @@ export async function loginUser_controller(req, res) {
 		const serialized = serialize("authCookie", token, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			sameSite: false,
+			sameSite: true,
 			maxAge: 1000 * 60 * 60 * 24 * 30,
 			path: "/",
 		});
@@ -87,7 +87,7 @@ export async function logoutUser_controller(req, res) {
 		const serialized = serialize("authCookie", null, {
 			httpOnly: true,
 			secure: process.env.NODE_ENV === "production",
-			sameSite: false,
+			sameSite: true,
 			maxAge: 0,
 			path: "/",
 		});

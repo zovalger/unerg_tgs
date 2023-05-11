@@ -44,7 +44,7 @@ export const createRuta_service = async (data) => {
 
 export const getAllRutas_service = async () => {
 	try {
-		const rutas = await RutaModel.find({ state: { $ne: "d" } });
+		const rutas = await RutaModel.find({ state: { $ne: "d" } }).populate("waypoints");
 
 		return rutas;
 	} catch (error) {
@@ -98,7 +98,11 @@ export const updateRuta_service = async (_id, data) => {
 			})
 		);
 
-		await ruta.update({ name, description, waypoints: waypointIds });
+		ruta.name = name;
+		ruta.description = description;
+		ruta.waypoints = waypointIds;
+
+		await ruta.save();
 
 		console.log(ruta);
 
@@ -108,22 +112,46 @@ export const updateRuta_service = async (_id, data) => {
 	}
 };
 
-export const deleteRuta_service = async (_id) => {
+// export const deleteRuta_service = async (_id) => {
+// 	try {
+// 		const ruta = await getRuta_by_Id_service(_id);
+
+// 		console.log(ruta);
+
+// 		if (!ruta) return;
+
+// 		if (ruta.status === "a") {
+// 			ruta.status = "d";
+// 			await ruta.save();
+// 		} else {
+// 			// borrar definitivamente
+// 			// await RutaModel.findByIdAndDelete(_id);
+// 			// console.log(await ruta.remove());
+// 		}
+
+// 		return ruta;
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
+
+// ********************************************************************
+// 	 ruta: intercambiar el status entre eliminado o no eliminado
+// ********************************************************************
+
+export const toggleRuta_service = async (_id) => {
 	try {
+		// se busca el waypoint con el id
 		const ruta = await getRuta_by_Id_service(_id);
 
-		console.log(ruta);
+		// si no se encuentra se devuelve un error de no encontrado
+		if (!ruta) return { error: true, message: ErrorsMessages.notFound };
 
-		if (!ruta) return;
+		// se intercambia el status
+		ruta.status = ruta.status === "a" ? "d" : "a";
 
-		if (ruta.status === "a") {
-			ruta.status = "d";
-			await ruta.save();
-		} else {
-			// borrar definitivamente
-			// await RutaModel.findByIdAndDelete(_id);
-			// console.log(await ruta.remove());
-		}
+		// guadar los cambios
+		await ruta.save();
 
 		return ruta;
 	} catch (error) {

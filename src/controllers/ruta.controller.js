@@ -3,6 +3,7 @@ import {
 	deleteRuta_service,
 	getAllRutas_service,
 	getRuta_by_Id_service,
+	toggleRuta_service,
 	updateRuta_service,
 } from "@/services/ruta.service";
 
@@ -90,5 +91,34 @@ export const deleteRuta_controller = async (req, res) => {
 		res.status(200).json(result);
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+
+
+export const toggleStatusRuta_controller = async (req, res) => {
+	// se obtinen los datos de la request
+	const { _id } = req.query;
+
+	try {
+		// intercambio del estatus
+		const ruta = await toggleRuta_service(_id);
+
+		// si no devuelve nada hubo un error en el servidor
+		if (!ruta)
+			return res
+				.status(500)
+				.json({ error: true, message: ErrorsMessages.inServer });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (ruta.error) return res.status(500).json(ruta);
+
+		// se devuelve el waypoint exitosamente
+		return res.status(200).json(ruta);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
 	}
 };
