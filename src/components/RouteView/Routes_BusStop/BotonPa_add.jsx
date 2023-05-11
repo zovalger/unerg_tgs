@@ -4,12 +4,12 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { deleteWaypoint_Request } from "@/api/waypoint.api";
 
-export default function BotonPa_add({name}) {
-
+export default function BotonPa_add({ data }) {
+	const { name } = data;
 
 	return (
 		<div className={style.botonRuta}>
-			<div className={style.delete} >
+			<div className={style.delete}>
 				<BsFillTrashFill />
 			</div>
 
@@ -17,9 +17,7 @@ export default function BotonPa_add({name}) {
 				<h2>{name}</h2>
 			</div>
 
-			<div
-				className={style.edit}
-			>
+			<div className={style.edit}>
 				<BiPencil />
 			</div>
 		</div>

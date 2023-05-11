@@ -20,6 +20,7 @@ import UserContext from "@/contexts/User.context";
 import { createWaypoint_Request } from "@/api/waypoint.api";
 import { useRouter } from "next/router";
 import WaypointContext from "@/contexts/Waypoint.context";
+import RutaContext from "@/contexts/Ruta.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -28,29 +29,27 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 const MainMap = () => {
 	//useContext
 
-	const { insertWaypoint } = useContext(MapContext);
-	const { insert } = useContext(WaypointContext);
+	const { editingRoute, setEditingRoute } = useContext(RutaContext);
 
 	const router = useRouter();
 	//useState
 
-
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
 	const onSubmit = async (formData) => {
-		console.log(formData);
 		if (isSubmiting) return;
 		setIsSubmitin(true);
+		console.log(formData);
 
 		try {
-			const res = await createWaypoint_Request(formData);
-			console.log(res);
+			const newWaypoints = editingRoute?.waypoints
+				? [...editingRoute.waypoints, formData]
+				: [formData];
 
-			const w = res.data;
-			insertWaypoint(w);
-			insert(w);
+			console.log("anadido");
+			setEditingRoute({ ...editingRoute, waypoints: newWaypoints });
 
-			router.back();
+			router.push("../add");
 		} catch (error) {
 			console.log(error);
 			setIsSubmitin(false);

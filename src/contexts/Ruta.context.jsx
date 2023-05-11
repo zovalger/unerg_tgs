@@ -1,4 +1,6 @@
-const { createContext, useState } = require("react");
+import { getAllRutas_Request } from "@/api/ruta.api";
+
+const { createContext, useState, useEffect } = require("react");
 
 const RutaContext = createContext();
 
@@ -8,6 +10,13 @@ const RutaContext = createContext();
 
 export const RutaProvider = ({ children }) => {
 	const [rutas, setRuta] = useState([]);
+	const [editingRoute, setEditingRoute] = useState(null);
+
+	useEffect(() => {
+		getAllRutas_Request()
+			.then((res) => insertRuta(res.data))
+			.catch((error) => console.log(error));
+	}, []);
 
 	const insertRuta = (r) => {
 		// si no hay datos no hacer nada
@@ -16,10 +25,6 @@ export const RutaProvider = ({ children }) => {
 		// ver si es un array para reemplazar el array
 		if (r instanceof Array) return setRuta(r);
 
-		// si no es un array se inserta junto con los demas datos
-		// if (!r.coord?.lat || !r.coord?.lat) return;
-
-		console.log(r.coord);
 		setRuta([...rutas, r]);
 	};
 
@@ -48,13 +53,16 @@ export const RutaProvider = ({ children }) => {
 	return (
 		<RutaContext.Provider
 			value={{
-				// map
-				 rutas,
+				rutas,
 				setRuta,
 				insertRuta,
 				getRuta,
 				updateRuta,
 				dropRuta,
+
+				// ruta que se esta editando
+				editingRoute,
+				setEditingRoute,
 			}}
 		>
 			{children}

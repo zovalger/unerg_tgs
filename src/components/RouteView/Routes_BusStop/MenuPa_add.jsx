@@ -8,7 +8,6 @@ import style from "../../../styles/Routes/routes_view.module.css";
 
 // contextos
 
-
 // Componentes
 
 import BotonPa_add from "./BotonPa_add";
@@ -16,22 +15,26 @@ import BotonPa_add from "./BotonPa_add";
 // import { Button } from "bootstrap";
 
 import { IoIosAdd } from "react-icons/io";
+import RutaContext from "@/contexts/Ruta.context";
 
 export default function MenuPa_add() {
+	const { editingRoute } = useContext(RutaContext);
+
 	return (
 		<>
 			<div className={style.container_routes}>
 				<h2>Paradas</h2>
 
-	
-					<Link href={"./menu_paradas"} className={`${style.add} ${style.add__rutas}`}>
-						<IoIosAdd />
-					</Link>
-	
-					{/* <BotonPa_add 
-					name={"Terminal"}
-					/> */}
+				{editingRoute?.waypoints?.map((w) => (
+					<BotonPa_add data={w} key={w._id || w.name} />
+				))}
 
+				<Link
+					href={"./menu_paradas"}
+					className={`${style.add} ${style.add__rutas}`}
+				>
+					<IoIosAdd />
+				</Link>
 			</div>
 		</>
 	);

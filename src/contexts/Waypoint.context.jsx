@@ -1,4 +1,6 @@
-const { createContext, useState } = require("react");
+import { getAllWaypoints_Request } from "@/api/waypoint.api";
+
+const { createContext, useState, useEffect } = require("react");
 
 const WaypointContext = createContext();
 
@@ -8,6 +10,12 @@ const WaypointContext = createContext();
 
 export const WaypointProvider = ({ children }) => {
 	const [waypoints, setWaypoints] = useState([]);
+
+	useEffect(() => {
+		getAllWaypoints_Request()
+			.then((res) => insert(res.data))
+			.catch((error) => console.log(error));
+	}, []);
 
 	const insert = (w) => {
 		// si no hay datos no hacer nada

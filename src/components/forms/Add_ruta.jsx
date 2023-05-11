@@ -3,17 +3,26 @@ import { useContext, useState, useEffect } from "react";
 import Link from "next/link";
 
 //Componentes
-import { Form, FormGroup, Input, Label, Button } from "reactstrap";
+import {
+	Form,
+	FormGroup,
+	Input,
+	Label,
+	Button,
+	FormFeedback,
+} from "reactstrap";
 import { BiPencil } from "react-icons/bi";
 
 //Estilos
 import style from "../../styles/Edit/edit.module.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import RutaContext from "@/contexts/Ruta.context";
 
 //Retocar
 export default function Add_ruta({ data, onSubmit }) {
 	const [state, setState] = useState(true);
+	const { editingRoute, setEditingRoute } = useContext(RutaContext);
 
 	const formik = useFormik({
 		initialValues: data || {
@@ -29,44 +38,51 @@ export default function Add_ruta({ data, onSubmit }) {
 		onSubmit,
 	});
 
+	const onChange = ({ target: { name, value } }) => {
+		formik.setFieldValue(name, value);
+		setEditingRoute({ ...formik.values, [name]: value });
+	};
+
 	return (
 		<>
 			<div className={style.container_AddRuta}>
 				<div className={style.container__form}>
 					<Form className="container-xl">
 						<FormGroup>
-							<Label className={style.label} for="new_ruta">
+							<Label className={style.label} for="name">
 								Nombre de la Ruta
 							</Label>
 							<Input
-								className={style.input}
-								id="new_ruta"
-								name="new_ruta"
+								// className={style.input}
+								id="name"
+								name="name"
 								placeholder="Nombre de la Ruta"
-								type="text"
+								onChange={onChange}
+								value={formik.values.name}
+								invalid={!!formik.errors.name}
 							/>
+							<FormFeedback>{formik.errors.name}</FormFeedback>
+						</FormGroup>
 
+						<FormGroup>
 							<Label className={style.label} for="description">
 								Descripción
 							</Label>
 							<Input
-								className={style.input}
 								id="description"
 								name="description"
 								placeholder="Descripción"
-								type="text"
+								onChange={onChange}
+								value={formik.values.description}
+								invalid={!!formik.errors.description}
 							/>
+							<FormFeedback>{formik.errors.description}</FormFeedback>
 
 							{/*Modificar*/}
 							<Label className={style.label} for="bus">
 								Autobuses asignados
 							</Label>
-							<Input
-								className={style.input}
-								id="bus"
-								name="bus"
-								type="select"
-							/>
+							<Input id="bus" name="bus" type="select" />
 
 							<Label className={style.label} for="active_hours">
 								Horario
@@ -92,7 +108,6 @@ export default function Add_ruta({ data, onSubmit }) {
 									/>
 								</div>
 							</div>
-
 							{/*Modificar*/}
 							<Label className={style.label} for="parada">
 								Paradas
@@ -114,6 +129,12 @@ export default function Add_ruta({ data, onSubmit }) {
 								<BiPencil />
 							</Link>
 						</div>
+
+						{editingRoute?.waypoints?.map((w) => (
+							<>
+								<div key={w._id || w.name}>{w.name}</div>
+							</>
+						))}
 
 						<FormGroup switch style={{ padding: 0 }}>
 							<Label className={style.label} for="state">
@@ -137,7 +158,13 @@ export default function Add_ruta({ data, onSubmit }) {
 							</div>
 						</FormGroup>
 
-						<Button className={style.button}>Guardar</Button>
+						<Button
+							className={style.button}
+							type="button"
+							onClick={() => formik.submitForm()}
+						>
+							Guardar
+						</Button>
 					</Form>
 				</div>
 			</div>
