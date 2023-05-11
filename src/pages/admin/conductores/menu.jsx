@@ -27,7 +27,7 @@ import styleN from "../../../styles/Nav/NavStyle.module.css"
 
 import UserContext from "@/contexts/User.context";
 
-const MenuBus = () => {
+const MenuConductor = () => {
 
 //useContext
 
@@ -55,7 +55,7 @@ const { logout, user } = useContext(UserContext);
     <div className={style.container}>
 
     <NavBar
-						title={"Autobuses"}
+						title={"Conductores"}
 						ViPrincipal={true}
 						left={
 							<div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
@@ -129,6 +129,9 @@ const { logout, user } = useContext(UserContext);
 							</div>
 						</OffcanvasHeader>
 						<OffcanvasBody style={{ padding: 0 }}>
+
+                            {/*********  Botones del panel lateral desplegable   *********/}
+
 							{/* <button
 								className={styleN.btn_nav}
 								onClick={() => {
@@ -156,7 +159,8 @@ const { logout, user } = useContext(UserContext);
 								<p>Paradas</p>
 							</Link>
 
-							<Link href={"../map"} className={styleN.btn_nav}>
+
+                            <Link href={"../map"} className={styleN.btn_nav}>
 								<GrReturn className={styleN.route} />
 								<p>Regresar</p>
 							</Link>
@@ -170,6 +174,7 @@ const { logout, user } = useContext(UserContext);
 								<IoIosLogOut className={styleN.route} />
 								<p>Salir</p>
 							</button>
+
 						</OffcanvasBody>
 					</Offcanvas>
 				</div>
@@ -177,4 +182,4 @@ const { logout, user } = useContext(UserContext);
   );
 };
 
-export default MenuBus;
+export default MenuConductor;

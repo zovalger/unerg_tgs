@@ -202,7 +202,7 @@ const MainMap = () => {
 									<p>Autobuses</p>
 							</Link>
 
-							<Link href={"./map"} className={styleN.btn_nav}>
+							<Link href={"./conductores/menu"} className={styleN.btn_nav}>
 									<ImUsers className={styleN.route} />
 									<p>Conductores</p>
 							</Link>
