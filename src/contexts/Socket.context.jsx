@@ -21,6 +21,7 @@ export const SocketProvider = ({ children }) => {
 	const socketInitializer = async () => {
 		await fetch("/api/socket");
 
+		// let socket = io("http://localhost:4000");
 		let socket = io();
 
 		setSocket(socket);
