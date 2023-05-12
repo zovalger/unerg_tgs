@@ -8,54 +8,46 @@ import Link from "next/link";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import { IoIosArrowBack } from "react-icons/io";
-import WaypointForm from "@/components/WaypointView/WaypointForm";
+import RutaForm from "@/components/RouteView/RutaForm";
 
 //Estilos
 import styleN from "../../../styles/Nav/NavStyle.module.css";
+import RutaContext from "@/contexts/Ruta.context";
+import { createRuta_Request } from "@/api/ruta.api";
+import { useRouter } from "next/router";
 
 //Contextos
 
-import MapContext from "@/contexts/Map.context";
-import UserContext from "@/contexts/User.context";
-import { createWaypoint_Request } from "@/api/waypoint.api";
-import { useRouter } from "next/router";
-import WaypointContext from "@/contexts/Waypoint.context";
-
-const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
-	ssr: false,
-});
-
 const MainMap = () => {
+
+	const router=
+	useRouter()
 	//useContext
+	const { editingRoute, insertRuta } = useContext(RutaContext);
 
-	const { insertWaypoint } = useContext(MapContext);
-	const { insert } = useContext(WaypointContext);
-
-	const router = useRouter();
 	//useState
-
-
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
 	const onSubmit = async (formData) => {
-		console.log(formData);
 		if (isSubmiting) return;
 		setIsSubmitin(true);
+		console.log(formData);
 
 		try {
-			const res = await createWaypoint_Request(formData);
-			console.log(res);
+			formData.waypoints = formData.waypoints.map((w) => (w._id ? w._id : w));
+			const res = await createRuta_Request(formData);
 
-			const w = res.data;
-			insertWaypoint(w);
-			insert(w);
+			insertRuta(res.data);
 
-			router.back();
+			router.push("./menu")
+
 		} catch (error) {
-			console.log(error);
 			setIsSubmitin(false);
+
+			console.log(error);
 		}
 	};
+
 	return (
 		<Layout>
 			<div className="AppView">
@@ -77,19 +69,9 @@ const MainMap = () => {
 					right={<></>}
 				/>
 
-				{/* Contenedor del mapa */}
-
-				<div className={`${"MapView__Container"} ${"MapView__ContainerRu"}`}>
-					<MapView />
+				<div>
+					<RutaForm data={editingRoute} onSubmit={onSubmit} />
 				</div>
-
-				{/*Abrir vista de paradas*/}
-
-				<div className="container__rutas">
-					<WaypointForm onSubmit={onSubmit} />
-				</div>
-
-				<div></div>
 			</div>
 		</Layout>
 	);

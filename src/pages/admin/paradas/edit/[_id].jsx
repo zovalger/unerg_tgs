@@ -8,7 +8,7 @@ import Link from "next/link";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import { BiLeftArrow, BiPencil } from "react-icons/bi";
-import Add_parada from "@/components/forms/Add_parada";
+import WaypointForm from "@/components/WaypointView/WaypointForm";
 
 //Estilos
 import styleN from "@/styles/Nav/NavStyle.module.css";
@@ -97,7 +97,7 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<Add_parada onSubmit={onSubmit} data={getWaypoint(_id)} />
+					<WaypointForm onSubmit={onSubmit} data={getWaypoint(_id)} />
 				</div>
 
 				<div></div>

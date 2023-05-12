@@ -15,7 +15,7 @@ import * as Yup from "yup";
 import MapContext from "@/contexts/Map.context";
 
 //Retocar
-export default function Add_parada({ onSubmit, data }) {
+export default function WaypointForm({ onSubmit, data }) {
 	const { getCenterMap, setCenterMap } = useContext(MapContext);
 
 	useEffect(() => {

@@ -8,7 +8,7 @@ import UserMarker from "./User_Marker";
 import CenterOfMap from "./CenterOfMap";
 
 //CSS
-import style from "../../styles/Map/map.module.css";
+import style from "@/styles/Map/map.module.css";
 
 const MapView = () => {
 	const { map } = useContext(MapContext);

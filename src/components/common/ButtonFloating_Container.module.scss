@@ -6,9 +6,10 @@ $size: 4rem;
 	position: absolute;
 	bottom: 1rem;
 	right: 1rem;
-	
+
 	// z-index: 10;
-	button {
+	button,
+	a {
 		margin: 0.25rem;
 		border-radius: 50%;
 		width: $size;

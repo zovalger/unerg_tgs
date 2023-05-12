@@ -4,7 +4,7 @@ import { useContext } from "react";
 
 //Estilos
 
-import style from "../../../styles/Routes/routes_view.module.css";
+import style from "@/styles/Routes/routes_view.module.css";
 
 // contextos
 
@@ -30,7 +30,7 @@ export default function MenuPa_add() {
 				))}
 
 				<Link
-					href={"./menu_paradas"}
+					href={"./waypoints/select"}
 					className={`${style.add} ${style.add__rutas}`}
 				>
 					<IoIosAdd />
