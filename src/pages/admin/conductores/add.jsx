@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
+import Modal_add from "@/components/Modal/Modal_add";
 
 import { IoIosArrowBack } from "react-icons/io";
 import { MdPhotoCamera } from "react-icons/md";
@@ -20,6 +21,12 @@ import styleN from "../../../styles/Nav/NavStyle.module.css";
 //Contextos
 
 const Add = () => {
+
+
+
+  //UseState
+
+    //Comprobación formato
   const [fileError, setFileError] = useState("");
 
   function handleFileUpload(event) {
@@ -33,6 +40,17 @@ const Add = () => {
       setFileError("");
     }
   }
+
+
+    //Modal
+
+    const [Mo_turno, setModal_Turno] = useState(false);
+
+    //Valor del input "Turno"
+
+  const [turno, setTurno] = useState("")
+
+
 
   return (
     <Layout>
@@ -208,10 +226,16 @@ const Add = () => {
             <Input
               id="turno"
               name="turno"
-              type="select"
+              type="text"
+              placeholder="Seleccione Opción"
               className={styles.input}
+              readOnly
+              value={turno}
             />
+
+            <Modal_add />
           </FormGroup>
+
 
           <FormGroup className={styles.container_input}>
             <Label for="autobus" className={styles.label}>
@@ -243,3 +267,7 @@ const Add = () => {
 };
 
 export default Add;
+
+
+
+
