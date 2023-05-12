@@ -11,15 +11,11 @@ import { IoIosArrowBack } from "react-icons/io";
 import WaypointForm from "@/components/WaypointView/WaypointForm";
 
 //Estilos
-import styleN from "../../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
-import MapContext from "@/contexts/Map.context";
-import UserContext from "@/contexts/User.context";
-import { createWaypoint_Request } from "@/api/waypoint.api";
 import { useRouter } from "next/router";
-import WaypointContext from "@/contexts/Waypoint.context";
 import RutaContext from "@/contexts/Ruta.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
@@ -32,6 +28,8 @@ const MainMap = () => {
 	const { editingRoute, setEditingRoute } = useContext(RutaContext);
 
 	const router = useRouter();
+	const { indexWaypoint } = router.query;
+
 	//useState
 
 	const [isSubmiting, setIsSubmitin] = useState(false);
@@ -42,14 +40,18 @@ const MainMap = () => {
 		console.log(formData);
 
 		try {
-			const newWaypoints = editingRoute?.waypoints
-				? [...editingRoute.waypoints, formData]
-				: [formData];
+			let newWaypoints = editingRoute?.waypoints ? editingRoute.waypoints : [];
+
+			if (formData._id)
+				newWaypoints = newWaypoints.map((w) =>
+					w._id == formData._id ? formData : w
+				);
+			else newWaypoints[indexWaypoint] = formData;
 
 			console.log("anadido");
 			setEditingRoute({ ...editingRoute, waypoints: newWaypoints });
 
-			router.push("../add");
+			router.push("./");
 		} catch (error) {
 			console.log(error);
 			setIsSubmitin(false);
@@ -64,7 +66,7 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu_paradas"} className={styleN.btn_return}>
+								<Link href={"./"} className={styleN.btn_return}>
 									<IoIosArrowBack />
 								</Link>
 							</div>
@@ -85,7 +87,10 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					<WaypointForm onSubmit={onSubmit} />
+					<WaypointForm
+						onSubmit={onSubmit}
+						data={editingRoute?.waypoints[indexWaypoint]}
+					/>
 				</div>
 
 				<div></div>

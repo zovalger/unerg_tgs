@@ -18,9 +18,10 @@ import style from "../../styles/Edit/edit.module.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import RutaContext from "@/contexts/Ruta.context";
+import { v4 as uuid } from "uuid";
 
 //Retocar
-export default function Add_ruta({ data, onSubmit }) {
+export default function RutaForm({ data, onSubmit }) {
 	const [state, setState] = useState(true);
 	const { editingRoute, setEditingRoute } = useContext(RutaContext);
 
@@ -123,7 +124,7 @@ export default function Add_ruta({ data, onSubmit }) {
 						<div className={style.Rutas__addParada}>
 							<p>Editar Paradas</p>
 							<Link
-								href={"./parada/menu_add"}
+								href={"./waypoints/"}
 								className={`${style.add} ${style.add__rutas}`}
 							>
 								<BiPencil />
@@ -131,9 +132,7 @@ export default function Add_ruta({ data, onSubmit }) {
 						</div>
 
 						{editingRoute?.waypoints?.map((w) => (
-							<>
-								<div key={w._id || w.name}>{w.name}</div>
-							</>
+							<div key={uuid()}>{w.name}</div>
 						))}
 
 						<FormGroup switch style={{ padding: 0 }}>
@@ -151,7 +150,8 @@ export default function Add_ruta({ data, onSubmit }) {
 									name="state"
 									type="switch"
 									checked={state}
-									onClick={() => {
+									defaultChecked
+									onChange={() => {
 										setState(!state);
 									}}
 								/>

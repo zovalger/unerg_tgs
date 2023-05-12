@@ -43,13 +43,8 @@ const MainMap = () => {
 
 	const { logout, user } = useContext(UserContext);
 
-	const {
-		toogleViewUserCoord,
-		getCoordsUser,
-		viewUserCoord,
-
-		Rutas,
-	} = useContext(MapContext);
+	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
+		useContext(MapContext);
 
 	//useState
 

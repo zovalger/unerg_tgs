@@ -11,7 +11,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import WaypointForm from "@/components/WaypointView/WaypointForm";
 
 //Estilos
-import styleN from "../../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
@@ -49,7 +49,7 @@ const MainMap = () => {
 			console.log("anadido");
 			setEditingRoute({ ...editingRoute, waypoints: newWaypoints });
 
-			router.push("../add");
+			router.push("./");
 		} catch (error) {
 			console.log(error);
 			setIsSubmitin(false);
@@ -64,8 +64,9 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu_paradas"} className={styleN.btn_return}>
+								<Link href={"./select"} className={styleN.btn_return}>
 									<IoIosArrowBack />
+									
 								</Link>
 							</div>
 							<div className={styleN.title_nav}>

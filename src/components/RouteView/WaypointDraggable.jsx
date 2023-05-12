@@ -1,4 +1,4 @@
-import style from "../../../styles/Routes/routes_view.module.css";
+import style from "@/styles/Routes/routes_view.module.css";
 import { BiPencil } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useRouter } from "next/router";

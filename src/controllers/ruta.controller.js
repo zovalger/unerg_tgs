@@ -19,9 +19,9 @@ export const createRuta_controller = async (req, res) => {
 		});
 
 		if (!ruta)
-			res.status(500).json({ error: { message: "Error en el servidor" } });
+		return	res.status(500).json({ error: { message: "Error en el servidor" } });
 
-		res.status(200).json(ruta);
+		return	res.status(200).json(ruta);
 	} catch (error) {
 		console.log(error);
 	}
@@ -31,11 +31,15 @@ export const getAllRutas_controller = async (req, res) => {
 	try {
 		const rutas = await getAllRutas_service();
 
+		console.log(rutas);
+
 		if (!rutas)
-			res.status(500).json({ error: { message: "Error en el servidor" } });
+			return res
+				.status(500)
+				.json({ error: { message: "Error en el servidor" } });
 
 		if (rutas.length <= 0)
-			res.status(404).json({ error: { message: "No hay paradas" } });
+			return res.status(404).json({ error: { message: "No hay paradas" } });
 
 		return res.status(200).json(rutas);
 	} catch (error) {
@@ -50,7 +54,7 @@ export const getRuta_By_Id_controller = async (req, res) => {
 		const ruta = await getRuta_by_Id_service(_id);
 
 		if (!ruta)
-			res.status(404).json({ error: { message: "Parada no encontrada" } });
+		return	res.status(404).json({ error: { message: "Parada no encontrada" } });
 
 		return res.status(200).json(ruta);
 	} catch (error) {
@@ -70,9 +74,9 @@ export const updateRuta_controller = async (req, res) => {
 		});
 
 		if (!ruta)
-			res.status(500).json({ error: { message: "Error en el servidor" } });
+		return	res.status(500).json({ error: { message: "Error en el servidor" } });
 
-		res.status(200).json(ruta);
+			return	res.status(200).json(ruta);
 	} catch (error) {
 		console.log(error);
 	}
@@ -86,15 +90,13 @@ export const deleteRuta_controller = async (req, res) => {
 		console.log(result);
 
 		if (!result)
-			res.status(500).json({ error: { message: "Error en el servidor" } });
+		return	res.status(500).json({ error: { message: "Error en el servidor" } });
 
-		res.status(200).json(result);
+	return	res.status(200).json(result);
 	} catch (error) {
 		console.log(error);
 	}
 };
-
-
 
 export const toggleStatusRuta_controller = async (req, res) => {
 	// se obtinen los datos de la request

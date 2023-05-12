@@ -1,6 +1,5 @@
 //React-Next
-import dynamic from "next/dynamic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 
 //Componentes
@@ -8,35 +7,40 @@ import Link from "next/link";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import { IoIosArrowBack } from "react-icons/io";
-import Add_ruta from "@/components/forms/Add_ruta";
+import RutaForm from "@/components/RouteView/RutaForm";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "../../../../styles/Nav/NavStyle.module.css";
 import RutaContext from "@/contexts/Ruta.context";
-import { createRuta_Request } from "@/api/ruta.api";
+import { createRuta_Request, updateRuta_Request } from "@/api/ruta.api";
+import { useRouter } from "next/router";
 
 //Contextos
 
 const MainMap = () => {
+	const router = useRouter();
+	const { _id } = router.query;
 	//useContext
 	const { editingRoute, insertRuta } = useContext(RutaContext);
 
 	//useState
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
-	const onSubmit = async (formData) => {
+	const onSubmit = async () => {
 		if (isSubmiting) return;
 		setIsSubmitin(true);
+		const formData = editingRoute;
+
 		console.log(formData);
 
 		try {
 			formData.waypoints = formData.waypoints.map((w) => (w._id ? w._id : w));
-			const res = await createRuta_Request(formData);
+			const res = await updateRuta_Request(_id, formData);
 
 			insertRuta(res.data);
+			router.push("./menu");
 		} catch (error) {
 			setIsSubmitin(false);
-
 			console.log(error);
 		}
 	};
@@ -63,7 +67,7 @@ const MainMap = () => {
 				/>
 
 				<div>
-					<Add_ruta data={editingRoute} onSubmit={onSubmit} />
+					<RutaForm data={editingRoute} onSubmit={onSubmit} />
 				</div>
 			</div>
 		</Layout>
@@ -71,3 +75,7 @@ const MainMap = () => {
 };
 
 export default MainMap;
+
+
+
+// https://www.figma.com/proto/v8Jrdn88Q9UOcHnbaBpIco/unerg-tgs?type=design&node-id=244-492&scaling=scale-down&page-id=106%3A261&starting-point-node-id=127%3A273&show-proto-sidebar=1

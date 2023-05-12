@@ -44,7 +44,11 @@ export const createRuta_service = async (data) => {
 
 export const getAllRutas_service = async () => {
 	try {
-		const rutas = await RutaModel.find({ state: { $ne: "d" } }).populate("waypoints");
+		const rutas = await RutaModel.find({ state: { $ne: "d" } }).populate(
+			"waypoints"
+		);
+
+		console.log(rutas);
 
 		return rutas;
 	} catch (error) {
