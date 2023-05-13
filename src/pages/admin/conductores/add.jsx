@@ -15,42 +15,59 @@ import { MdPhotoCamera } from "react-icons/md";
 
 //Estilos
 
-import styles from "../../../styles/Conductores/add.module.css";
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styles from "@/styles/Conductores/add.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
 const Add = () => {
-
-
-
   //UseState
 
-    //Comprobación formato
+  //Comprobación de la imagen
   const [fileError, setFileError] = useState("");
+  const [img, setImg] = useState("/Camera_Icon.png");
 
   function handleFileUpload(event) {
     const file = event.target.files[0];
     const allowedTypes = ["image/jpeg", "image/png", "image/gif"];
 
-    if (!allowedTypes.includes(file.type)) {
-      setFileError("Solo se permiten archivos de imagen");
+    if (!file) {
       event.target.value = "";
+      setImg("/Camera_Icon.png");
     } else {
-      setFileError("");
+      if (!allowedTypes.includes(file.type)) {
+        setFileError("Solo se permiten archivos de imagen");
+        event.target.value = "";
+        setImg("/Camera_Icon.png");
+      } else {
+        setFileError("");
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+          setImg(event.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
     }
   }
 
+  //Modal del input Turno
 
-    //Modal
+  const [Mo_turno, setModal_Turno] = useState(false);
 
-    const [Mo_turno, setModal_Turno] = useState(false);
+  const active_MoTurno = () => setModal_Turno(!Mo_turno);
 
-    //Valor del input "Turno"
+  //Valor del input "Turno"
 
-  const [turno, setTurno] = useState("")
+  const [turno, setTurno] = useState("");
 
 
+
+  //Modal del input autobus
+
+  const [Mo_bus, setModal_Bus] = useState(false);
+
+  const active_MoBus = () => setModal_Bus(!Mo_bus);
 
   return (
     <Layout>
@@ -70,34 +87,53 @@ const Add = () => {
         right={<></>}
       />
 
+      {/********************************  Input para Imagen de Perfil *********************************/}
+
       <div className={styles.container}>
         <Form>
           <FormGroup>
+            <Label htmlFor="img_perfil" className={styles.input_img}>
+              <Image
+                src={img}
+                height={600}
+                width={600}
+                alt="Imagen de perfil"
+                style={
+                  img === "/Camera_Icon.png"
+                    ? { padding: "80px", borderRadius: "0" }
+                    : null
+                }
+              />
+            </Label>
+
             <Input
               id="img_perfil"
               name="img_perfil"
               type="file"
-              className={styles.input_img}
+              className={styles.hidden_input}
               onChange={handleFileUpload}
             />
 
-            {/* <MdPhotoCamera /> */}
-
             {fileError && <p>{fileError}</p>}
+
+            {/********************************  Input para los Nombres *********************************/}
           </FormGroup>
 
           <FormGroup className={styles.container_input}>
-            <Label for="nombre" className={styles.label}>
-              Nombre
+            <Label for="nombres" className={styles.label}>
+              Nombres
             </Label>
 
             <Input
-              id="nombre"
+              id="nombres"
               name="nombre"
               type="text"
               className={styles.input}
+              placeholder="Escriba aqui"
             />
           </FormGroup>
+
+          {/********************************  Input para los Apellidos *********************************/}
 
           <FormGroup className={styles.container_input}>
             <Label for="apellidos" className={styles.label}>
@@ -109,12 +145,15 @@ const Add = () => {
               name="apellidos"
               type="text"
               className={styles.input}
+              placeholder="Escriba aqui"
             />
           </FormGroup>
 
+          {/********************************  Input para la Cédula *********************************/}
+
           <FormGroup className={styles.container_input}>
             <Label for="cedula" className={styles.label}>
-              Cedula
+              Cédula
             </Label>
 
             <Input
@@ -122,10 +161,15 @@ const Add = () => {
               name="cedula"
               type="text"
               className={styles.input}
+              placeholder="Escriba aqui"
             />
           </FormGroup>
 
+          {/********************************  Container de varios inputs *********************************/}
+
           <FormGroup className={styles.container_input__multi}>
+            {/********************************  input para la Edad *********************************/}
+
             <div className={styles.inputs_multi}>
               <Label for="edad" className={styles.label}>
                 Edad
@@ -136,8 +180,11 @@ const Add = () => {
                 name="edad"
                 type="text"
                 className={styles.input}
+                placeholder="Escriba aqui"
               />
             </div>
+
+            {/********************************  input para el Tipo de Sangre *********************************/}
 
             <div className={styles.inputs_multi}>
               <Label for="tipo_sangre" className={styles.label}>
@@ -149,8 +196,11 @@ const Add = () => {
                 name="tipo_sangre"
                 type="text"
                 className={styles.input}
+                placeholder="Escriba aqui"
               />
             </div>
+
+            {/********************************  input para el Teléfono *********************************/}
 
             <div className={styles.inputs_multi}>
               <Label for="telefono" className={styles.label}>
@@ -162,8 +212,11 @@ const Add = () => {
                 name="telefono"
                 type="text"
                 className={styles.input}
+                placeholder="Escriba aqui"
               />
             </div>
+
+            {/********************************  input para Teléfono "De Emergencia" *********************************/}
 
             <div className={styles.inputs_multi}>
               <Label for="de_emergencia" className={styles.label}>
@@ -175,9 +228,12 @@ const Add = () => {
                 name="de_emergencia"
                 type="text"
                 className={styles.input}
+                placeholder="Escriba aqui"
               />
             </div>
           </FormGroup>
+
+          {/********************************  input para la Dirección *********************************/}
 
           <FormGroup className={styles.container_input}>
             <Label for="direccion" className={styles.label}>
@@ -189,8 +245,11 @@ const Add = () => {
               name="direccion"
               type="text"
               className={styles.input}
+              placeholder="Escriba aqui"
             />
           </FormGroup>
+
+          {/********************************  input para el usuario *********************************/}
 
           <FormGroup className={styles.container_input}>
             <Label for="usuario" className={styles.label}>
@@ -202,8 +261,11 @@ const Add = () => {
               name="usuario"
               type="text"
               className={styles.input}
+              placeholder="Escriba aqui"
             />
           </FormGroup>
+
+          {/********************************  input para el Corre Electrónico *********************************/}
 
           <FormGroup className={styles.container_input}>
             <Label for="correo" className={styles.label}>
@@ -215,8 +277,11 @@ const Add = () => {
               name="correo"
               type="text"
               className={styles.input}
+              placeholder="Escriba aqui"
             />
           </FormGroup>
+
+          {/********************************  input para el Turno *********************************/}
 
           <FormGroup className={styles.container_input}>
             <Label for="turno" className={styles.label}>
@@ -228,14 +293,16 @@ const Add = () => {
               name="turno"
               type="text"
               placeholder="Seleccione Opción"
-              className={styles.input}
+              className={`${styles.input} ${styles.cursor}`}
               readOnly
               value={turno}
+              onClick={active_MoTurno}
             />
 
-            <Modal_add />
+            {Mo_turno && <Modal_add active={active_MoTurno} setTurno={setTurno} state={true}/>}
           </FormGroup>
 
+          {/********************************  input para el Autobús *********************************/}
 
           <FormGroup className={styles.container_input}>
             <Label for="autobus" className={styles.label}>
@@ -245,21 +312,22 @@ const Add = () => {
             <Input
               id="autobus"
               name="autobus"
-              type="select"
-              className={styles.input}
+              type="text"
+              placeholder="Seleccione Opción"
+              className={`${styles.input} ${styles.cursor}`}
+              readOnly
+              onClick={active_MoBus}
             />
+
+            {Mo_bus && <Modal_add active={active_MoBus} state={false}/>}
           </FormGroup>
-
-
 
           <FormGroup className={styles.container_input}>
-           
-          <Button className={styles.button} type="submit">
-            Guardar
-          </Button>
-
+            <Button className={styles.button} type="submit">
+              Guardar
+            </Button>
           </FormGroup>
-         
+          
         </Form>
       </div>
     </Layout>
@@ -267,7 +335,3 @@ const Add = () => {
 };
 
 export default Add;
-
-
-
-

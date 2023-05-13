@@ -18,12 +18,39 @@
 
 .input_img {
   display: flex;
-  height: 200px;
-  width: 200px;
+  height: 250px;
+  width: 250px;
   border-radius: 50%;
   align-self: center;
   margin: auto;
+  background-color: #FFFFFF;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+align-items: center;
+justify-content: center;
+position: relative;
+cursor: pointer;
 }
+
+.input_img:hover{
+
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.422);
+
+}
+
+
+.input_img img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: fill;
+  position: absolute;
+  z-index: 0;
+}
+
+.hidden_input {
+  display: none;
+}
+
 
 /*********************  Estilos de los inputs  ***********************/
 
@@ -52,6 +79,8 @@
 .input {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 5px;
+  font-size: 1rem;
+  padding: 10px 17px;
 }
 
 .button {
@@ -61,4 +90,8 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   height: 47px;
+}
+
+.cursor{
+  cursor: pointer;
 }
