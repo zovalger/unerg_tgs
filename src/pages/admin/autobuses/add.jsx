@@ -21,7 +21,7 @@ const AddBuss = () => {
 
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
-	const { updateBus } = useContext(BusContext);
+	const { insert } = useContext(BusContext);
 
 	const onSubmit = async (formData) => {
 		console.log(formData);
@@ -33,7 +33,7 @@ const AddBuss = () => {
 			console.log(res);
 
 			const b = res.data;
-			updateBus(b);
+			insert(b);
 
 			router.back();
 		} catch (error) {
