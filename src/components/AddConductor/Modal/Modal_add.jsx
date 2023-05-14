@@ -3,7 +3,7 @@
 
 import styles from "@/styles/Conductores/modal.module.css"
 
-const Modal_add = ( {active, setTurno, state}) =>{
+const Modal_add = ( {active, setTurno, setBus, state}) =>{
 
     return(
       <>
@@ -40,7 +40,13 @@ const Modal_add = ( {active, setTurno, state}) =>{
             <h2>Autobuses</h2>
 
             <div className={styles.container__btn}>
-              
+
+            {/****** Agg .map ******/}
+            <div className={styles.btn} onClick={() => setBus("valor recibido de la base de datos")}>
+                  <p>Heredar</p>
+              </div>
+
+
             </div>
 
         </div>

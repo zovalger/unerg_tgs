@@ -8,7 +8,7 @@ import Image from "next/image";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import Modal_add from "@/components/Modal/Modal_add";
+import Modal_add from "@/components/AddConductor/Modal/Modal_add";
 
 import { IoIosArrowBack } from "react-icons/io";
 import { MdPhotoCamera } from "react-icons/md";
@@ -68,6 +68,11 @@ const Add = () => {
   const [Mo_bus, setModal_Bus] = useState(false);
 
   const active_MoBus = () => setModal_Bus(!Mo_bus);
+
+
+  //Valor del input "autobus"
+
+  const [bus, setBus] = useState("");
 
   return (
     <Layout>
@@ -316,10 +321,11 @@ const Add = () => {
               placeholder="Seleccione Opción"
               className={`${styles.input} ${styles.cursor}`}
               readOnly
+              value={bus}
               onClick={active_MoBus}
             />
 
-            {Mo_bus && <Modal_add active={active_MoBus} state={false}/>}
+            {Mo_bus && <Modal_add active={active_MoBus} setBus={setBus} state={false}/>}
           </FormGroup>
 
           <FormGroup className={styles.container_input}>
