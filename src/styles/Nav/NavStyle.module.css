@@ -213,25 +213,38 @@ font-size: 1.2rem;
 
   }
 
+  .header_nav{
+ 
+    padding: 15px 5px
+}
+
   .container__img{
  
-    height: 50px; 
-    width: 50px;
+    height: 60px; 
+    width: 60px;
     
 
 
   }
 
   .user__info p{
-    font-size: 0.70rem;
+    font-size: 0.80rem;
     height: 10px;
     text-align: start;
   }
 
   /***************Botones****************/
 
+  .btn_nav{
+
+    font-size: 1.2rem;
+    padding: 15px 5px;
+ 
+  }
+
   .btn_nav p{
-    font-size: 1.02rem;
+    font-size: 1.10rem;
+    font-weight: 400;
   
   }
 

@@ -9,7 +9,7 @@ export default function BusItemList({ data, onClick }) {
 			<div className={style.title}> {placa}</div>
 			<div className={style.details}>
 				<div>Numero: {num}</div>
-
+				
 				{ruta ? (
 					<>
 						<div>Ruta: {ruta.name}</div>

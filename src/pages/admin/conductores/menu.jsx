@@ -45,9 +45,12 @@ const MenuConductor = () => {
 
   //useState
 
+    //Menu desplegable del nav
   const [offcanvasActive, setOffcanvasActive] = useState(false);
   const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 
+
+    //Buscador
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleInputChange = (e) => {
@@ -79,7 +82,7 @@ const MenuConductor = () => {
           }
         />
 
-        <div className={style.search}>
+        <div className="container mt-3">
           <Form inline onSubmit={handleSubmit}>
             <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
               <div className="input-group">
@@ -99,11 +102,13 @@ const MenuConductor = () => {
               </div>
             </FormGroup>
           </Form>
-        </div>
-
-		<div>
+          <div>
 			<Btn_conductor />
 		</div>
+
+        </div>
+
+
 
       </div>
 
