@@ -36,7 +36,7 @@ export const createRuta_service = async (data) => {
 		// devolverla al front
 		await ruta.save();
 
-		return ruta;
+		return await RutaModel.findById(ruta._id).populate("waypoints");
 	} catch (error) {
 		console.log(error);
 	}
@@ -102,15 +102,18 @@ export const updateRuta_service = async (_id, data) => {
 			})
 		);
 
-		ruta.name = name;
-		ruta.description = description;
-		ruta.waypoints = waypointIds;
-
-		await ruta.save();
+		await RutaModel.updateOne(
+			{ _id },
+			{ name, description, waypoints: waypointIds }
+		);
+		// ruta.name = name;
+		// ruta.description = description;
+		// ruta.waypoints = waypointIds;
+		// await ruta.save();
 
 		console.log(ruta);
 
-		return ruta;
+		return await RutaModel.findById(_id).populate("waypoints");
 	} catch (error) {
 		console.log(error);
 	}

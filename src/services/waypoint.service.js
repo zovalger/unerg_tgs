@@ -1,4 +1,5 @@
 import ErrorsMessages from "@/config/errorsMessages";
+import RutaModel from "@/models/Ruta.model";
 import WaypointModel from "@/models/Waypoint.model";
 import { sign } from "jsonwebtoken";
 
@@ -181,6 +182,17 @@ export const toggleWaypoint_service = async (_id) => {
 
 		// si no se encuentra se devuelve un error de no encontrado
 		if (!waypoint) return { error: true, message: ErrorsMessages.notFound };
+
+		const ruta = await RutaModel.findOne({
+			waypoints: { $in: [waypoint._id] },
+		});
+
+		// si ese waypoint esta en una ruta no se elimina
+		if (ruta && waypoint.status === "a")
+			return {
+				error: true,
+				message: "La parada forma parte de almenos una ruta",
+			};
 
 		// se intercambia el status
 		waypoint.status = waypoint.status === "a" ? "d" : "a";

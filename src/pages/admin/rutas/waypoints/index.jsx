@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { v4 as uuid } from "uuid";
 import { useRouter } from "next/router";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 //Contextos
 
@@ -68,6 +69,34 @@ const MainMap = () => {
 	};
 
 	//useState
+
+	const reorder = (list, startIndex, endIndex) => {
+		const result = [...list];
+		const [removed] = result.splice(startIndex, 1);
+		result.splice(endIndex, 0, removed);
+
+		return result;
+	};
+
+	const onDragEnd = (result) => {
+		const { source, destination } = result;
+
+		if (!destination) return;
+
+		if (
+			source.index == destination.index &&
+			source.droppableId == destination.droppableId
+		)
+			return;
+
+		const w = reorder(editingRoute.waypoints, source.index, destination.index);
+
+		console.log(w);
+		setEditingRoute((r) => ({
+			...editingRoute,
+			waypoints: w,
+		}));
+	};
 
 	return (
 		<Layout>

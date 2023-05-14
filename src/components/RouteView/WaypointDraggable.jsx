@@ -3,8 +3,16 @@ import { BiPencil } from "react-icons/bi";
 import { BsFillTrashFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { deleteWaypoint_Request } from "@/api/waypoint.api";
+import { RxDragHandleDots1 } from "react-icons/rx";
 
-export default function BotonPa_add({ data, index, onEdit, onDelete, onDrag }) {
+export default function WaypointDraggable({
+	data,
+	index,
+	onEdit,
+	onDelete,
+
+	draggableId,
+}) {
 	const { _id, name } = data;
 
 	return (
@@ -19,6 +27,9 @@ export default function BotonPa_add({ data, index, onEdit, onDelete, onDrag }) {
 
 			<div className={style.edit} onClick={() => onEdit(index)}>
 				<BiPencil />
+			</div>
+			<div className={style.edit}>
+				<RxDragHandleDots1 />
 			</div>
 		</div>
 	);

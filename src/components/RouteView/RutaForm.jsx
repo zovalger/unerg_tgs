@@ -57,7 +57,7 @@ export default function RutaForm({ data, onSubmit }) {
 								// className={style.input}
 								id="name"
 								name="name"
-								placeholder="Nombre de la Ruta"
+								placeholder="Centro - Ceiba - UNERG"
 								onChange={onChange}
 								value={formik.values.name}
 								invalid={!!formik.errors.name}
