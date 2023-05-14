@@ -34,7 +34,6 @@ const MainMap = () => {
 	const router = useRouter();
 	//useState
 
-
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
 	const onSubmit = async (formData) => {

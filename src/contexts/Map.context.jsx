@@ -128,20 +128,7 @@ export const MapProvider = ({ children }) => {
 	//  							Funcionabilidades de las rutas
 	// ***************************************************************
 
-	const [Rutas, setRutas] = useState([
-		{
-			_id: "24",
-			name: "unerg centro",
-			description: "pequena descripsion de la ruta",
-			color: "#15f7f7",
-			state: "a",
-			waypoints: [
-				{ coord: { lat: 9.904, lng: -67.379 } },
-				{ coord: { lat: 9.9030296, lng: -67.3761181 } },
-			],
-			idTimetable: "objectId(Ruta_Timetable)",
-		},
-	]);
+	const [Rutas, setRutas] = useState([]);
 
 	const insertRuta = (r) => {
 		if (!r) return;

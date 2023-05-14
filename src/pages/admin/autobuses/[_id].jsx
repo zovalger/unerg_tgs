@@ -12,16 +12,25 @@ import styleN from "../../../styles/Nav/NavStyle.module.css";
 import BusForm from "@/components/BusView/BusForm";
 import { useRouter } from "next/router";
 import { useContext, useState } from "react";
-import { createBus_Request } from "@/api/bus.api";
+import { createBus_Request, updateBus_Request } from "@/api/bus.api";
 import BusContext from "@/contexts/Bus.context";
 
 const AddBuss = () => {
 	const router = useRouter();
-	//useState
+	const { _id } = router.query;
 
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
-	const { insert } = useContext(BusContext);
+	const { updateBus, getBus } = useContext(BusContext);
+
+	const formateToFormBus = (bus) => {
+		if (!bus) return;
+		if (!bus.ruta) return bus;
+		const b = { ...bus, ruta: bus.ruta._id };
+		return b;
+	};
+
+	//useState
 
 	const onSubmit = async (formData) => {
 		console.log(formData);
@@ -29,11 +38,11 @@ const AddBuss = () => {
 		setIsSubmitin(true);
 
 		try {
-			const res = await createBus_Request(formData);
+			const res = await updateBus_Request(_id, formData);
 			console.log(res);
 
 			const b = res.data;
-			insert(b);
+			updateBus(b);
 
 			router.back();
 		} catch (error) {
@@ -60,7 +69,7 @@ const AddBuss = () => {
 				right={<></>}
 			/>
 
-			<BusForm onSubmit={onSubmit} />
+			<BusForm onSubmit={onSubmit} data={formateToFormBus(getBus(_id))} />
 		</Layout>
 	);
 };
