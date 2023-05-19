@@ -1,7 +1,7 @@
 
 //Estilos 
 
-import styles from "@/styles/Conductores/modal.module.css"
+import styles from "@/styles/Users/admin/Conductores/modal.module.css"
 
 const Modal_add = ( {active, setTurno, setBus, state}) =>{
 

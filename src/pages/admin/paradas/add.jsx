@@ -88,7 +88,6 @@ const MainMap = () => {
 					<WaypointForm onSubmit={onSubmit} />
 				</div>
 
-				<div></div>
 			</div>
 		</Layout>
 	);

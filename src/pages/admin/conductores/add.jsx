@@ -15,7 +15,7 @@ import { MdPhotoCamera } from "react-icons/md";
 
 //Estilos
 
-import styles from "@/styles/Conductores/add.module.css";
+import styles from "@/styles/Users/admin/Conductores/add.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos

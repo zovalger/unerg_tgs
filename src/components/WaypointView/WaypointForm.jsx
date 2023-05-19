@@ -7,8 +7,8 @@ import {
 	FormFeedback,
 } from "reactstrap";
 
-import style from "../../styles/Routes/routes_view.module.css";
-import styleForm from "../../styles/Edit/edit.module.css";
+import style from "@/styles/Routes/routes_view.module.css";
+import styleForm from "@/styles/Edit/edit.module.css";
 import { useFormik } from "formik";
 import { useContext, useEffect, useState } from "react";
 import * as Yup from "yup";
@@ -103,13 +103,16 @@ export default function WaypointForm({ onSubmit, data }) {
 							<FormFeedback>{formik.errors.description}</FormFeedback>
 						</FormGroup>
 
-						<h4>coordenadas</h4>
+						<FormGroup>
+						<h4 className={styleForm.label}>Coordenadas</h4>
 
 						<div>latitud: {formik.values.coord.lat.toFixed(4)}</div>
 						<div>longitud: {formik.values.coord.lng.toFixed(4)}</div>
+						</FormGroup>
 
-						<h4>Tipo</h4>
+						<h4 className={styleForm.label}>Tipo</h4>
 						<FormGroup check>
+					
 							<Input
 								name="type"
 								type="radio"

@@ -35,13 +35,6 @@ const MainMap = () => {
 	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
 		useContext(MapContext);
 
-	//useState
-
-	const [edit, setEdit] = useState(false);
-
-	const btn_edit = () => {
-		setEdit(!edit);
-	};
 
 	const { rutas, insertRuta, setEditingRoute, getRuta } =
 		useContext(RutaContext);
@@ -89,7 +82,7 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-					{/* <Routes edit={true} /> */}
+
 					<div className={style.container_routes}>
 						<h2>Rutas disponibles</h2>
 
@@ -108,7 +101,6 @@ const MainMap = () => {
 					</div>
 				</div>
 
-				<div></div>
 			</div>
 		</Layout>
 	);

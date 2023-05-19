@@ -62,7 +62,7 @@ const MainMap = () => {
 								</Link>
 							</div>
 							<div className={styleN.title_nav}>
-								<h2>Agregar parada</h2>
+								<h2>Agregar Ruta</h2>
 							</div>
 						</>
 					}

@@ -1,20 +1,34 @@
 //React/Next
+
+import { useRouter } from "next/router";
+import { useContext, useState } from "react";
 import Link from "next/link";
+
+
 //Componentes
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
+import { createBus_Request } from "@/api/bus.api";
+import BusForm from "@/components/BusView/BusForm";
 
 import { IoIosArrowBack } from "react-icons/io";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
-import BusForm from "@/components/BusView/BusForm";
-import { useRouter } from "next/router";
-import { useContext, useState } from "react";
-import { createBus_Request } from "@/api/bus.api";
+
+import styleN from "@/styles/Nav/NavStyle.module.css";
+
+
+
+
+//Contextos
+
+
 import BusContext from "@/contexts/Bus.context";
 
+
+
+//*********************************  Codigo  **************************//
 const AddBuss = () => {
 	const router = useRouter();
 	//useState

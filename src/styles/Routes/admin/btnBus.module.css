@@ -1,0 +1,187 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    height: 90px;
+    background: #FFFFFF;
+    width: 100%;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-bottom: 14px;
+}
+
+.container__info{
+    flex-grow: 2;
+    padding: 15px;
+}
+
+.container__icon{
+    flex-grow: 0.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/***************** Iconos ******************/
+
+.icon_bus{
+    height: 60px;
+    width: 60px;
+
+}
+
+.icon_next{
+    height: 40px;
+    width: 40px;
+    cursor: pointer;
+}
+
+.icon_next:hover polygon{
+   stroke: rgba(0, 0, 0, 0.786); 
+
+}
+
+
+.icon_user{
+    height: 25px;
+    width: 25px;
+}
+
+/*********************   Menu de la información******************************/
+
+
+   /************************ Parte superior*********************/
+.top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.top h2{
+   margin: 0;
+   font-weight: 500;
+font-size: 1.5rem;
+}
+
+.top p{
+    margin: 0;
+    font-weight: 500;
+    font-size: 1.2rem;
+ }
+
+   /************************ Parte inferior*********************/
+
+.bottom{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container_porcentaje{
+    width: 90%;
+    height: 10px;
+    background: #767676;
+border-radius: 20px;
+overflow: hidden;
+}
+
+.porcentaje{
+    background-color: #034AFF;
+    border-radius: 20px;
+    height: 10px;
+}
+
+.text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+}
+
+.text p{
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+
+
+
+
+
+/***********************************         Responsive          *******************************/
+
+@media (max-width:320px) {
+
+    .container__info{
+        padding: 10px;
+    }
+
+
+    /***************** Iconos ******************/
+    .icon_bus{
+        height: 35px;
+        width: 35px;
+        margin-left: 5px;
+    
+    }
+    
+    .icon_next{
+        height: 20px;
+        width: 20px;
+
+        margin-right: 5px;
+    }
+    
+  
+    
+    
+    .icon_user{
+        height: 20px;
+        width: 20px;
+    }
+
+
+
+     /************************ Parte superior*********************/
+
+
+.top h2{
+ 
+font-size: 1.2rem;
+}
+
+.top p{
+  
+    font-size: 0.95rem;
+ }
+
+  /************************ Parte inferior*********************/
+
+.bottom{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.container_porcentaje{
+    width: 90%;
+    height: 10px;
+    background: #767676;
+border-radius: 20px;
+overflow: hidden;
+}
+
+.porcentaje{
+    background-color: #034AFF;
+    border-radius: 20px;
+    height: 10px;
+}
+
+.container__icon p{
+    margin-bottom: 0;
+    font-size: 1rem;
+}
+}

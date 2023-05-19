@@ -7,11 +7,14 @@ import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import { BiPencil } from "react-icons/bi";
-import { IoIosArrowBack } from "react-icons/io";
 import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
+
+import { BiPencil } from "react-icons/bi";
+import { IoIosArrowBack } from "react-icons/io";
+
 //Estilos
+
 import styleN from "../../../styles/Nav/NavStyle.module.css";
 
 //Contextos
