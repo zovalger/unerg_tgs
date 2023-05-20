@@ -1,4 +1,4 @@
-import style from "./BusItemList.module.scss";
+import style from "./BusItemList.module.css";
 
 export default function BusItemList({ data, onClick }) {
 	const { _id, num, placa, ruta } = data;
