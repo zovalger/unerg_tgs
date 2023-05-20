@@ -1,6 +1,6 @@
 import {
 	createRuta_service,
-	deleteRuta_service,
+	// deleteRuta_service,
 	getAllRutas_service,
 	getRuta_by_Id_service,
 	toggleRuta_service,
@@ -82,21 +82,21 @@ export const updateRuta_controller = async (req, res) => {
 	}
 };
 
-export const deleteRuta_controller = async (req, res) => {
-	try {
-		const { _id } = req.query;
+// export const deleteRuta_controller = async (req, res) => {
+// 	try {
+// 		const { _id } = req.query;
 
-		const result = await deleteRuta_service(_id);
-		console.log(result);
+// 		const result = await deleteRuta_service(_id);
+// 		console.log(result);
 
-		if (!result)
-		return	res.status(500).json({ error: { message: "Error en el servidor" } });
+// 		if (!result)
+// 		return	res.status(500).json({ error: { message: "Error en el servidor" } });
 
-	return	res.status(200).json(result);
-	} catch (error) {
-		console.log(error);
-	}
-};
+// 	return	res.status(200).json(result);
+// 	} catch (error) {
+// 		console.log(error);
+// 	}
+// };
 
 export const toggleStatusRuta_controller = async (req, res) => {
 	// se obtinen los datos de la request
