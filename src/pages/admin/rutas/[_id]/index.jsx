@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { v4 as uuid } from "uuid";
+import { useRouter } from "next/router";
+
 //Componentes
 
 import Layout from "@/layouts/Layout";
@@ -18,13 +20,15 @@ import { BiPencil } from "react-icons/bi";
 
 import styleN from "@/styles/Nav/NavStyle.module.css";
 import style from "@/styles/Routes/routes_view.module.css";
-import { useRouter } from "next/router";
+
+
+
+//Contextos
+
+import MapContext from "@/contexts/Map.context";
 import RutaContext from "@/contexts/Ruta.context";
 import BotonPa from "@/components/RouteView/bus_stop/BotonPa";
 import { getRuta_By_Id_Request } from "@/api/ruta.api";
-import MapContext from "@/contexts/Map.context";
-
-//Contextos
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,

@@ -1,6 +1,7 @@
 //React-Next
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 //Componentes
 
@@ -13,7 +14,7 @@ import RutaForm from "@/components/RouteView/RutaForm";
 import styleN from "../../../../styles/Nav/NavStyle.module.css";
 import RutaContext from "@/contexts/Ruta.context";
 import { createRuta_Request, updateRuta_Request } from "@/api/ruta.api";
-import { useRouter } from "next/router";
+
 
 //Contextos
 
