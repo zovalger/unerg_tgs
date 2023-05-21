@@ -11,19 +11,19 @@ import { IoIosArrowBack } from "react-icons/io";
 import RutaForm from "@/components/RouteView/RutaForm";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 import RutaContext from "@/contexts/Ruta.context";
 import { createRuta_Request } from "@/api/ruta.api";
 import { useRouter } from "next/router";
+import MapContext from "@/contexts/Map.context";
 
 //Contextos
 
 const MainMap = () => {
-
-	const router=
-	useRouter()
+	const router = useRouter();
 	//useContext
-	const { editingRoute, insertRuta } = useContext(RutaContext);
+	const { editingRoute, setEditingRoute, insertRuta } = useContext(RutaContext);
+	const { clearWaypoint, clearRutas } = useContext(MapContext);
 
 	//useState
 	const [isSubmiting, setIsSubmitin] = useState(false);
@@ -37,15 +37,22 @@ const MainMap = () => {
 			formData.waypoints = formData.waypoints.map((w) => (w._id ? w._id : w));
 			const res = await createRuta_Request(formData);
 
+			console.log(res.data);
 			insertRuta(res.data);
+			restore();
 
-			router.push("./menu")
-
+			router.push("./menu");
 		} catch (error) {
 			setIsSubmitin(false);
 
 			console.log(error);
 		}
+	};
+
+	const restore = () => {
+		setEditingRoute(null);
+		clearWaypoint();
+		clearRutas();
 	};
 
 	return (
@@ -57,7 +64,11 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu"} className={styleN.btn_return}>
+								<Link
+									href={"./menu"}
+									onClick={restore}
+									className={styleN.btn_return}
+								>
 									<IoIosArrowBack />
 								</Link>
 							</div>
@@ -70,7 +81,7 @@ const MainMap = () => {
 				/>
 
 				<div>
-					<RutaForm data={editingRoute} onSubmit={onSubmit} />
+					<RutaForm data={editingRoute} onSubmit={onSubmit} path={"./create"} />
 				</div>
 			</div>
 		</Layout>

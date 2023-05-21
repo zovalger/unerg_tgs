@@ -1,6 +1,6 @@
 //React-Next
 import dynamic from "next/dynamic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 
 //Componentes
@@ -11,7 +11,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import WaypointForm from "@/components/WaypointView/WaypointForm";
 
 //Estilos
-import styleN from "../../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
@@ -32,6 +32,14 @@ const MainMap = () => {
 	const { editingRoute, setEditingRoute } = useContext(RutaContext);
 
 	const router = useRouter();
+	const { _id } = router.query;
+
+	
+	useEffect(() => {
+		if (!editingRoute) router.push("/admin/rutas/menu");
+	}, []);
+
+
 	//useState
 
 	const [isSubmiting, setIsSubmitin] = useState(false);
@@ -49,7 +57,7 @@ const MainMap = () => {
 			console.log("anadido");
 			setEditingRoute({ ...editingRoute, waypoints: newWaypoints });
 
-			router.push("../add");
+			router.push(`../../${_id}/waypoints/`);
 		} catch (error) {
 			console.log(error);
 			setIsSubmitin(false);
@@ -64,7 +72,10 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu_paradas"} className={styleN.btn_return}>
+								<Link
+									href={`../../${_id}/waypoints/select`}
+									className={styleN.btn_return}
+								>
 									<IoIosArrowBack />
 								</Link>
 							</div>
@@ -88,7 +99,7 @@ const MainMap = () => {
 					<WaypointForm onSubmit={onSubmit} />
 				</div>
 
-
+				<div></div>
 			</div>
 		</Layout>
 	);

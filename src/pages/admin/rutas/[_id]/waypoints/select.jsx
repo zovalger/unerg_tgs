@@ -1,7 +1,7 @@
 //React-Next
 
 import dynamic from "next/dynamic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -23,9 +23,9 @@ import { IoIosArrowBack, IoIosAdd } from "react-icons/io";
 
 //Estilos
 
-import style from "../../../../styles/Bus/menu.module.css";
-import styleB from "../../../../styles/Routes/routes_view.module.css";
-import styleN from "../../../../styles/Nav/NavStyle.module.css";
+import style from "@/styles/Bus/menu.module.css";
+import styleB from "@/styles/Routes/routes_view.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 import BotonPa from "@/components/RouteView/bus_stop/BotonPa";
 import WaypointContext from "@/contexts/Waypoint.context";
 import RutaContext from "@/contexts/Ruta.context";
@@ -35,10 +35,17 @@ import { useRouter } from "next/router";
 
 const Menu_Paradas = () => {
 	const router = useRouter();
-	//useContext
+	const { _id } = router.query;
 
-	const { waypoints, getWaypoint } = useContext(WaypointContext);
-	const { editingRoute, setEditingRoute } = useContext(RutaContext);
+	//useContext
+	
+		const { waypoints, getWaypoint } = useContext(WaypointContext);
+		const { editingRoute, setEditingRoute } = useContext(RutaContext);
+
+	useEffect(() => {
+		if (!editingRoute) router.push("/admin/rutas/menu");
+	}, []);
+
 
 	const onClick = (_id) => {
 		const newWaypoints = editingRoute?.waypoints
@@ -48,7 +55,7 @@ const Menu_Paradas = () => {
 		console.log("			anadido			");
 		setEditingRoute({ ...editingRoute, waypoints: newWaypoints });
 
-		router.back();
+		router.push(`../../${_id}/waypoints`);
 	};
 
 	//useState
@@ -71,7 +78,10 @@ const Menu_Paradas = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu_add"} className={styleN.btn_return}>
+								<Link
+									href={`../../${_id}/waypoints/`}
+									className={styleN.btn_return}
+								>
 									<IoIosArrowBack />
 								</Link>
 							</div>
@@ -84,7 +94,7 @@ const Menu_Paradas = () => {
 				/>
 
 				<Link
-					href={"./add_parada"}
+					href={`../../${_id}/waypoints/create`}
 					className={`${styleB.add} ${styleB.add__rutas}`}
 				>
 					<IoIosAdd />

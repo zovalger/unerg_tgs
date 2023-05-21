@@ -107,12 +107,7 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link
-									href={
-										editingRoute?._id ? `./${editingRoute._id}` : "./create"
-									}
-									className={styleN.btn_return}
-								>
+								<Link href={"./"} className={styleN.btn_return}>
 									<IoIosArrowBack />
 								</Link>
 							</div>
