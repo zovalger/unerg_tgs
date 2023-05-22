@@ -8,24 +8,19 @@ import Image from "next/image";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
-import Modal_add from "@/components/AddConductor/Modal/Modal_add";
 
 import { IoIosArrowBack } from "react-icons/io";
 
-
 //Estilos
 
-import styles from "@/styles/Users/admin/Conductores/add.module.css";
+import styles from "@/styles/Users/admin/Admins/add.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
-
-
 //******************************* Codigo*****************************//
 const Add = () => {
   //UseState
-
   //Comprobación de la imagen
   const [fileError, setFileError] = useState("");
   const [img, setImg] = useState("/Camera_Icon.png");
@@ -54,29 +49,6 @@ const Add = () => {
     }
   }
 
-  //Modal del input Turno
-
-  const [Mo_turno, setModal_Turno] = useState(false);
-
-  const active_MoTurno = () => setModal_Turno(!Mo_turno);
-
-  //Valor del input "Turno"
-
-  const [turno, setTurno] = useState("");
-
-
-
-  //Modal del input autobus
-
-  const [Mo_bus, setModal_Bus] = useState(false);
-
-  const active_MoBus = () => setModal_Bus(!Mo_bus);
-
-
-  //Valor del input "autobus"
-
-  const [bus, setBus] = useState("");
-
   return (
     <Layout>
       <NavBar
@@ -88,17 +60,15 @@ const Add = () => {
               </Link>
             </div>
             <div className={styleN.title_nav}>
-              <h2>Conductores</h2>
+              <h2>Administradores</h2>
             </div>
           </>
         }
         right={<></>}
       />
-
-      {/********************************  Input para Imagen de Perfil *********************************/}
-
       <div className={styles.container}>
         <Form>
+          {/******************************** Input para Imagen de Perfil *********************************/}
           <FormGroup>
             <Label htmlFor="img_perfil" className={styles.input_img}>
               <Image
@@ -123,12 +93,9 @@ const Add = () => {
             />
 
             {fileError && <p>{fileError}</p>}
+          </FormGroup>
 
-
-            </FormGroup>
-            {/********************************  Input para los Nombres *********************************/}
-    
-
+          {/******************************** Input para los nombres *********************************/}
           <FormGroup className={styles.container_input}>
             <Label for="nombres" className={styles.label}>
               Nombres
@@ -136,15 +103,14 @@ const Add = () => {
 
             <Input
               id="nombres"
-              name="nombre"
+              name="nombres"
               type="text"
               className={styles.input}
               placeholder="Escriba aqui"
             />
           </FormGroup>
 
-          {/********************************  Input para los Apellidos *********************************/}
-
+          {/******************************** Input para los Apellidos *********************************/}
           <FormGroup className={styles.container_input}>
             <Label for="apellidos" className={styles.label}>
               Apellidos
@@ -160,7 +126,6 @@ const Add = () => {
           </FormGroup>
 
           {/********************************  Input para la Cédula *********************************/}
-
           <FormGroup className={styles.container_input}>
             <Label for="cedula" className={styles.label}>
               Cédula
@@ -175,76 +140,22 @@ const Add = () => {
             />
           </FormGroup>
 
-          {/********************************  Container de varios inputs *********************************/}
+          {/********************************  Input para el Teléfono *********************************/}
+          <FormGroup className={styles.container_input}>
+            <Label for="telefono" className={styles.label}>
+              Teléfono
+            </Label>
 
-          <FormGroup className={styles.container_input__multi}>
-            {/********************************  input para la Edad *********************************/}
-
-            <div className={styles.inputs_multi}>
-              <Label for="edad" className={styles.label}>
-                Edad
-              </Label>
-
-              <Input
-                id="edad"
-                name="edad"
-                type="text"
-                className={styles.input}
-                placeholder="Escriba aqui"
-              />
-            </div>
-
-            {/********************************  input para el Tipo de Sangre *********************************/}
-
-            <div className={styles.inputs_multi}>
-              <Label for="tipo_sangre" className={styles.label}>
-                Tipo de sangre
-              </Label>
-
-              <Input
-                id="tipo_sangre"
-                name="tipo_sangre"
-                type="text"
-                className={styles.input}
-                placeholder="Escriba aqui"
-              />
-            </div>
-
-            {/********************************  input para el Teléfono *********************************/}
-
-            <div className={styles.inputs_multi}>
-              <Label for="telefono" className={styles.label}>
-                Teléfono
-              </Label>
-
-              <Input
-                id="telefono"
-                name="telefono"
-                type="text"
-                className={styles.input}
-                placeholder="Escriba aqui"
-              />
-            </div>
-
-            {/********************************  input para Teléfono "De Emergencia" *********************************/}
-
-            <div className={styles.inputs_multi}>
-              <Label for="de_emergencia" className={styles.label}>
-                De emergencia
-              </Label>
-
-              <Input
-                id="de_emergencia"
-                name="de_emergencia"
-                type="text"
-                className={styles.input}
-                placeholder="Escriba aqui"
-              />
-            </div>
+            <Input
+              id="telefono"
+              name="telefono"
+              type="text"
+              className={styles.input}
+              placeholder="Escriba aqui"
+            />
           </FormGroup>
 
-          {/********************************  input para la Dirección *********************************/}
-
+          {/********************************  Input para la Dirección *********************************/}
           <FormGroup className={styles.container_input}>
             <Label for="direccion" className={styles.label}>
               Dirección
@@ -259,8 +170,7 @@ const Add = () => {
             />
           </FormGroup>
 
-          {/********************************  input para el usuario *********************************/}
-
+          {/********************************  Input para el usuario *********************************/}
           <FormGroup className={styles.container_input}>
             <Label for="usuario" className={styles.label}>
               Nombre de Usuario
@@ -275,8 +185,7 @@ const Add = () => {
             />
           </FormGroup>
 
-          {/********************************  input para el Correo Electrónico *********************************/}
-
+          {/********************************  Input para el  Correo Electrónico *********************************/}
           <FormGroup className={styles.container_input}>
             <Label for="correo" className={styles.label}>
               Correo Electrónico
@@ -291,54 +200,67 @@ const Add = () => {
             />
           </FormGroup>
 
-          {/********************************  input para el Turno *********************************/}
-
+          {/********************************  Input para los permisos*********************************/}
           <FormGroup className={styles.container_input}>
-            <Label for="turno" className={styles.label}>
-              Turno
-            </Label>
+          <Label className={styles.label}>Permisos</Label>
+          <div className={styles.container__check}>
+          <FormGroup check>
+					
+                    <Input
+                        name="type"
+                        type="switch"
+                        id="Ver_usuarios"
+                        defaultChecked
+         
+                    />
+                    <Label check for="Ver_usuarios">
+                        Ver usuarios
+                    </Label>
+                </FormGroup>
+                <FormGroup check >
+                    <Input
+                        name="type"
+                        type="switch"
+                        id="Ver_usuariosAdmin"
+                     
+                    />
+                    <Label check for="Ver_usuariosAdmin">
+                        Ver usuarios administradores
+                    </Label>
+                </FormGroup>
+                <FormGroup check >
+                    <Input
+                        name="type"
+                        type="switch"
+                        id="Editar_usuarios"
+                     
+                    />
+                    <Label check for="Editar_usuarios">
+                        Editar usuarios
+                    </Label>
 
-            <Input
-              id="turno"
-              name="turno"
-              type="text"
-              placeholder="Seleccione Opción"
-              className={`${styles.input} ${styles.cursor}`}
-              readOnly
-              value={turno}
-              onClick={active_MoTurno}
-            />
-
-            {Mo_turno && <Modal_add active={active_MoTurno} setTurno={setTurno} state={true}/>}
-          </FormGroup>
-
-          {/********************************  input para el Autobús *********************************/}
-
-          <FormGroup className={styles.container_input}>
-            <Label for="autobus" className={styles.label}>
-              Autobús
-            </Label>
-
-            <Input
-              id="autobus"
-              name="autobus"
-              type="text"
-              placeholder="Seleccione Opción"
-              className={`${styles.input} ${styles.cursor}`}
-              readOnly
-              value={bus}
-              onClick={active_MoBus}
-            />
-
-            {Mo_bus && <Modal_add active={active_MoBus} setBus={setBus} state={false}/>}
-          </FormGroup>
-
+                </FormGroup>
+                <FormGroup check >
+                    <Input
+                        name="type"
+                        type="switch"
+                        id="Editar_rutas"
+                     
+                    />
+                    <Label check for="Editar_rutas">
+                        Editar rutas
+                    </Label>
+                </FormGroup>
+              
+               
+                </div>
+                </FormGroup>
           <FormGroup className={styles.container_input}>
             <Button className={styles.button} type="submit">
               Guardar
             </Button>
           </FormGroup>
-          
+     
         </Form>
       </div>
     </Layout>

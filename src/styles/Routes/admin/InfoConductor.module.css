@@ -8,9 +8,9 @@
   margin-top: 15px;
 
   width: 90%;
-  height: 110px;
+  height: auto;
 
-  background: #efefef;
+  background: #EFEFEF;
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
 }
@@ -26,6 +26,8 @@
 .imagen {
   width: 100px;
   height: 100px;
+  border-radius: 50%;
+  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.25));
 }
 
 .imagen img {
@@ -33,7 +35,7 @@
   height: 100%;
   border-radius: 50%;
   object-fit: fill;
-  filter: drop-shadow(0px 2px 6px rgba(0, 0, 0, 0.25));
+
 }
 
 /*************************************** Texto de información *****************************************/

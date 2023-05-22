@@ -1,0 +1,103 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  min-width: 100%;
+  min-height: 100vh;
+  background-color: #f2f2f2;
+
+  position: relative;
+}
+
+.container form {
+  margin-top: 10px;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.input_img {
+  display: flex;
+  height: 250px;
+  width: 250px;
+  border-radius: 50%;
+  align-self: center;
+  margin: auto;
+  background-color: #FFFFFF;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.25);
+align-items: center;
+justify-content: center;
+position: relative;
+cursor: pointer;
+}
+
+.input_img:hover{
+
+  box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.422);
+
+}
+
+
+.input_img img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  object-fit: fill;
+  position: absolute;
+  z-index: 0;
+}
+
+.hidden_input {
+  display: none;
+}
+
+
+/*********************  Estilos de los inputs  ***********************/
+
+.container_input {
+  max-width: 92%;
+  margin: auto;
+}
+
+.container_input__multi {
+  max-width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.inputs_multi {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 10px;
+}
+
+.input {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 10px 17px;
+}
+
+.button {
+  width: 100%;
+  background: #00a3ff;
+  border: 1px solid #00c2ff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  height: 47px;
+}
+
+.cursor{
+  cursor: pointer;
+}
+
+/*********************  Estilos de los check ***********************/
+
+.container__check{
+  margin-left: 10px;
+}
