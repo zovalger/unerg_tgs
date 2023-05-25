@@ -6,13 +6,24 @@ import DriverModel from "@/models/Driver.model";
 import userProcess from "@/config/userProcess";
 import ErrorsMessages from "@/config/errorsMessages";
 
-export const getUser = async (_id, email) => {
-	if (!email && !_id) return;
+export const getUser_By_Id = async (_id) => {
+	if (!_id) return;
 
-	const search = { $or: [{ email }, { _id }] };
+	let user = await DriverModel.findById(_id);
+	if (!user) user = await AdminModel.findById(_id);
 
-	let user = await DriverModel.findOne(search);
-	if (!user) user = await AdminModel.findOne(search);
+	console.log(user);
+
+	return user ? user : null;
+};
+
+export const getUser_By_Email = async (email) => {
+	if (!email) return;
+
+	let user = await DriverModel.findOne({ email });
+	if (!user) user = await AdminModel.findOne({ email });
+
+	console.log(user);
 
 	return user ? user : null;
 };
@@ -21,7 +32,7 @@ export const loginUser_service = async ({ email, password }) => {
 	if (!email || !password) return;
 
 	try {
-		const user = await getUser(null, email);
+		const user = await getUser_By_Email(email);
 		if (!user) return;
 
 		const result = await bcrypt.compare(password, user.password);
@@ -70,7 +81,7 @@ export const authorizeSendUrlToChangePassword_service = async (email) => {
 	if (!email) return { error: true, message: "Correo no proporcinado" };
 
 	try {
-		const user = await getUser(null, email);
+		const user = await getUser_By_Email(email);
 		if (!user) return { error: true, message: ErrorsMessages.userNotFound };
 
 		await sendUrlToChangePasswordUser_service(user);
@@ -103,8 +114,9 @@ export const setPasswordUser_service = async (
 
 	// cambiar contraseña
 	try {
-		const user = await getUser(_id);
+		const user = await getUser_By_Id(_id);
 		if (!user) return { error: true, message: ErrorsMessages.userNotFound };
+		console.log(user);
 
 		const salt = await bcrypt.genSalt(10);
 		const hash = await bcrypt.hash(password, salt);

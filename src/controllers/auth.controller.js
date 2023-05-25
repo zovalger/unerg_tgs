@@ -138,6 +138,8 @@ export const setPasswordUser_controller = async (req, res) => {
 
 		// todo: verificar que el token tenga el process de asignar contraseña
 
+		console.log(objToken);
+
 		const result = await setPasswordUser_service(
 			objToken.user._id,
 			password,
