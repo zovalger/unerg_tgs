@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 
 import AdminModel from "@/models/Admin.model";
 import DriverModel from "@/models/Driver.model";
-import { sendUrlToChangePasswordUser_service } from "./auth.service";
+import { getUser, sendUrlToChangePasswordUser_service } from "./auth.service";
 
 export const createUserDriver_service = async ({
 	name,
@@ -19,8 +19,10 @@ export const createUserDriver_service = async ({
 }) => {
 	try {
 		// buscar si ya hay uno registrado
-		let oldUser = await DriverModel.findOne({ email });
-		if (!oldUser) oldUser = await AdminModel.findOne({ email });
+
+		// let oldUser = await DriverModel.findOne({ email });
+		// if (!oldUser) oldUser = await AdminModel.findOne({ email });
+		const oldUser = await getUser(null, email);
 		if (oldUser) return { error: true, message: "Correo ya esta registrado" };
 
 		const data = {

@@ -99,7 +99,7 @@ export const profileUser_controller = (req, res) => {
 		console.log(error);
 		return res
 			.status(500)
-			.json({ error: error, message: ErrorsMessages.tokenInvalidOrDefeated });
+			.json({ error, message: ErrorsMessages.tokenInvalidOrDefeated });
 	}
 };
 
@@ -146,7 +146,9 @@ export const setPasswordUser_controller = async (req, res) => {
 
 		if (result.error) return res.status(400).json(result);
 
-		return res.status(200).json({ error: false, message: "Revise su correo" });
+		return res
+			.status(200)
+			.json({ error: false, message: "Contraseña cambiada correctamente" });
 	} catch (error) {
 		console.log(error);
 

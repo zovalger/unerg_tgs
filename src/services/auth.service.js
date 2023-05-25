@@ -6,7 +6,7 @@ import DriverModel from "@/models/Driver.model";
 import userProcess from "@/config/userProcess";
 import ErrorsMessages from "@/config/errorsMessages";
 
-const getUser = async (_id, email) => {
+export const getUser = async (_id, email) => {
 	if (!email && !_id) return;
 
 	const search = { $or: [{ email }, { _id }] };
@@ -21,10 +21,11 @@ export const loginUser_service = async ({ email, password }) => {
 	if (!email || !password) return;
 
 	try {
-		let user = await getUser(null, email);
+		const user = await getUser(null, email);
 		if (!user) return;
 
 		const result = await bcrypt.compare(password, user.password);
+		console.log(user);
 		console.log(result);
 
 		return result ? { ...user, password: undefined } : null;
@@ -37,9 +38,11 @@ export const loginUser_service = async ({ email, password }) => {
 export const sendUrlToChangePasswordUser_service = async (user) => {
 	// const { email } = user;
 
+	const userJson = JSON.parse(JSON.stringify(user));
+
 	const token = sign(
 		{
-			user: { ...user, password: undefined },
+			user: { ...userJson, password: undefined },
 			userProcess: userProcess.setFirstPassword,
 		},
 		SECRET_WORD,
@@ -54,6 +57,13 @@ export const sendUrlToChangePasswordUser_service = async (user) => {
 	console.log(url);
 
 	// todo: enviar correo electronico
+
+	try {
+		return {};
+	} catch (error) {
+		console.log(error);
+		return { error, message: ErrorsMessages.inServer };
+	}
 };
 
 export const authorizeSendUrlToChangePassword_service = async (email) => {
@@ -64,6 +74,8 @@ export const authorizeSendUrlToChangePassword_service = async (email) => {
 		if (!user) return { error: true, message: ErrorsMessages.userNotFound };
 
 		await sendUrlToChangePasswordUser_service(user);
+
+		return { message: "verifique correo" };
 	} catch (error) {
 		return { error, message: "Error al enviar el correo" };
 	}
