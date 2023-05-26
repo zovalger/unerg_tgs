@@ -18,9 +18,9 @@ import WaypointContext from "@/contexts/Waypoint.context";
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
 import NavBar from "@/components/common/NavBar";
-import Routes from "@/components/RouteView/Routes";
-import BotonRu from "@/components/RouteView/BotonRu";
-import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
+import RoutesClient from "@/components/RouteView/clientView/RoutesClient";
+import BotonRuClient from "@/components/RouteView/clientView/BotonRuClient";
+import Bus_stopClient from "@/components/RouteView/clientView/Bus_stopClient";
 
 //Layouts
 
@@ -32,9 +32,13 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 
 import { set } from "mongoose";
 
+
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
 });
+
+
+//**************************************** Codigo ************************************/
 
 const MainMap = () => {
 	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
@@ -150,16 +154,18 @@ const MainMap = () => {
 						<div className={style.Route_view}>
 							<h2>Rutas</h2>
 							{Rutas.map((datos, id_1) => {
-								return <BotonRu key={id_1} datos={datos} />;
+								return <BotonRuClient key={id_1} datos={datos} />;
 							})}
 						</div>
 					) : undefined}
 				</div>
 				
+
+				
 				{/*Abrir vista de rutas*/}
 				{ro_menu && (
 					<div className="container__rutas">
-						<Routes />
+						<RoutesClient />
 					</div>
 				)}
 
@@ -167,7 +173,7 @@ const MainMap = () => {
 
 				{pa_menu && (
 					<div className="container__rutas">
-						<Bus_stop data={waypoints}/>
+						<Bus_stopClient data={waypoints}/>
 					</div>
 				)}
 

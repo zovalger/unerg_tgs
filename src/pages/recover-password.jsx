@@ -2,7 +2,7 @@ import {Form, FormGroup, Input, Label, Button} from "reactstrap";
 import style from "../styles/Login/login.module.css"
 import Layout from "@/layouts/Layout";
 
-const Forgot_password = () => { 
+const Recover_password = ( ) => { 
     return ( 
           <Layout>
             <div className={style.bg}>
@@ -18,7 +18,7 @@ const Forgot_password = () => {
                         <div className={style.text}>
                         <p>
                             <strong> 
-                                Olvide mi contraseña
+                            Cambiar mi contraseña
                             </strong>
                             </p>
                         </div>
@@ -30,13 +30,41 @@ const Forgot_password = () => {
                     id="exampleUser"
                     name="user"
                     placeholder="user"
-                    type="user"
+                    type="text"
                   />
                   <Label className={style.label} for="exampleUser">
                     Usuario
                   </Label>
                 </FormGroup>
-                {' '}
+
+                <FormGroup floating>
+                  <Input
+                  className={style.input}
+                    id="NewPassword"
+                    name="NewPassword"
+                    placeholder="*"
+                    type="password"
+                  />
+                  <Label className={style.label} for="NewPassword">
+                    Nueva contraseña
+                  </Label>
+                </FormGroup>
+
+
+                <FormGroup floating>
+                  <Input
+                  className={style.input}
+                    id="RepeatPassword"
+                    name="RepeatPassword"
+                    placeholder="*"
+                    type="password"
+                  />
+                  <Label className={style.label} for="RepeatPassword">
+                    Repita la contraseña
+                  </Label>
+                </FormGroup>
+    
+    
                 <Button className={style.button}>
                   Cambiar Contraseña
                 </Button>
@@ -47,4 +75,4 @@ const Forgot_password = () => {
     );
   }
 
-  export default Forgot_password
+  export default Recover_password

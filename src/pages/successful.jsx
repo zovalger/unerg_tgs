@@ -1,8 +1,9 @@
 import {Form, FormGroup, Input, Label, Button} from "reactstrap";
 import style from "../styles/Login/login.module.css"
 import Layout from "@/layouts/Layout";
+import Link from "next/link";
 
-const Forgot_password = () => { 
+ const Succesful = () => { 
     return ( 
           <Layout>
             <div className={style.bg}>
@@ -18,33 +19,20 @@ const Forgot_password = () => {
                         <div className={style.text}>
                         <p>
                             <strong> 
-                                Olvide mi contraseña
+                                Cambio de contraseña exitoso
                             </strong>
                             </p>
                         </div>
                 </div>
-              <Form>
-                <FormGroup floating>
-                  <Input
-                  className={style.input}
-                    id="exampleUser"
-                    name="user"
-                    placeholder="user"
-                    type="user"
-                  />
-                  <Label className={style.label} for="exampleUser">
-                    Usuario
-                  </Label>
-                </FormGroup>
-                {' '}
-                <Button className={style.button}>
-                  Cambiar Contraseña
-                </Button>
-              </Form>
+
+                <Link className={style.successful} href={"./login"}>
+                  Iniciar sesión
+                </Link>
+
               </div>
               </div>
             </Layout>
     );
   }
 
-  export default Forgot_password
+  export default Succesful
