@@ -5,14 +5,13 @@ import AdminModel from "@/models/Admin.model";
 import DriverModel from "@/models/Driver.model";
 import userProcess from "@/config/userProcess";
 import ErrorsMessages from "@/config/errorsMessages";
+import { sendEmail } from "@/lib/emailSender";
 
 export const getUser_By_Id = async (_id) => {
 	if (!_id) return;
 
 	let user = await DriverModel.findById(_id);
 	if (!user) user = await AdminModel.findById(_id);
-
-	console.log(user);
 
 	return user ? user : null;
 };
@@ -22,8 +21,6 @@ export const getUser_By_Email = async (email) => {
 
 	let user = await DriverModel.findOne({ email });
 	if (!user) user = await AdminModel.findOne({ email });
-
-	console.log(user);
 
 	return user ? user : null;
 };
@@ -39,38 +36,46 @@ export const loginUser_service = async ({ email, password }) => {
 		console.log(user);
 		console.log(result);
 
-		return result ? { ...user, password: undefined } : null;
+		return result ? user : null;
 	} catch (error) {
 		console.log(error);
 	}
 };
 
 // enviara el link al correo del usuario para cambiar la contrasena
-export const sendUrlToChangePasswordUser_service = async (user) => {
+export const sendUrlToChangePasswordUser_service = async (
+	user,
+	userProcess
+) => {
 	// const { email } = user;
 
 	const userJson = JSON.parse(JSON.stringify(user));
 
 	const token = sign(
-		{
-			user: { ...userJson, password: undefined },
-			userProcess: userProcess.setFirstPassword,
-		},
+		{ user: { ...userJson, password: "" }, userProcess },
 		SECRET_WORD,
 		{
-			expiresIn: 30 * 60 * 1000,
+			expiresIn: "1h",
 		}
 	);
 
 	// ruta del front para el formulario de cambiar contraseña
-	const url = `${SERVER_URL}/credentials/${token}/changePassword`;
+	const url = `${SERVER_URL}/credentials/${token}/change-password`;
+
+	await sendEmail(
+		userJson.email,
+		userProcess,
+		`<p>
+				accede al siguiente link para cambiar tu contraseña, <a href="${url}"> click aqui </a>
+			</p>`
+	);
 
 	console.log(url);
 
 	// todo: enviar correo electronico
 
 	try {
-		return {};
+		return { error: false, message: "revise su correo" };
 	} catch (error) {
 		console.log(error);
 		return { error, message: ErrorsMessages.inServer };
@@ -84,7 +89,7 @@ export const authorizeSendUrlToChangePassword_service = async (email) => {
 		const user = await getUser_By_Email(email);
 		if (!user) return { error: true, message: ErrorsMessages.userNotFound };
 
-		await sendUrlToChangePasswordUser_service(user);
+		await sendUrlToChangePasswordUser_service(user, userProcess.changePassword);
 
 		return { message: "verifique correo" };
 	} catch (error) {
@@ -116,7 +121,7 @@ export const setPasswordUser_service = async (
 	try {
 		const user = await getUser_By_Id(_id);
 		if (!user) return { error: true, message: ErrorsMessages.userNotFound };
-		console.log(user);
+		// console.log(user);
 
 		const salt = await bcrypt.genSalt(10);
 		const hash = await bcrypt.hash(password, salt);

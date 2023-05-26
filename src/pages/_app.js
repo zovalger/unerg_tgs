@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-datepicker/dist/react-datepicker.css";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 
@@ -11,24 +12,27 @@ import { SocketProvider } from "@/contexts/Socket.context";
 import { WaypointProvider } from "@/contexts/Waypoint.context";
 import { RutaProvider } from "@/contexts/Ruta.context";
 import { BusProvider } from "@/contexts/Bus.context";
+import { ToastProvider } from "@/contexts/Toast.context";
 
 export default function App({ Component, pageProps }) {
 	return (
-		<MapProvider>
-			<SocketProvider>
-				<UserProvider>
-					<DriverProvider>
-						<WaypointProvider>
-							<RutaProvider>
-								<BusProvider>
-									<Toaster />
-									<Component {...pageProps} />
-								</BusProvider>
-							</RutaProvider>
-						</WaypointProvider>
-					</DriverProvider>
-				</UserProvider>
-			</SocketProvider>
-		</MapProvider>
+		<ToastProvider>
+			<MapProvider>
+				<SocketProvider>
+					<UserProvider>
+						<DriverProvider>
+							<WaypointProvider>
+								<RutaProvider>
+									<BusProvider>
+									
+										<Component {...pageProps} />
+									</BusProvider>
+								</RutaProvider>
+							</WaypointProvider>
+						</DriverProvider>
+					</UserProvider>
+				</SocketProvider>
+			</MapProvider>
+		</ToastProvider>
 	);
 }

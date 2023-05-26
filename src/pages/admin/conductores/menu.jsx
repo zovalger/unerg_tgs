@@ -6,18 +6,17 @@ import Image from "next/image";
 
 //Componentes
 import {
-  Form,
-  FormGroup,
-  Input,
-  Button,
-  Offcanvas,
-  OffcanvasBody,
-  OffcanvasHeader,
+	Form,
+	FormGroup,
+	Input,
+	Button,
+	Offcanvas,
+	OffcanvasBody,
+	OffcanvasHeader,
 } from "reactstrap";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import Btn_conductor from "@/components/AddConductor/Btn_conductor";
-
 
 import { FaSearch, FaBusAlt } from "react-icons/fa";
 import { GoLocation } from "react-icons/go";
@@ -34,123 +33,120 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 //Contextos
 
 import UserContext from "@/contexts/User.context";
-
+import dbConnect from "@/lib/db";
+import { getAllUserDriver_service } from "@/services/userDriver.service";
 
 //*************************** Codigo  ************************/
 
-const MenuConductor = () => {
-  //useContext
+const MenuConductor = ({ drivers }) => {
+	//useContext
 
-  const { logout, user } = useContext(UserContext);
+	const { logout, user } = useContext(UserContext);
 
-  //useState
+	//useState
 
-    //Menu desplegable del nav
-  const [offcanvasActive, setOffcanvasActive] = useState(false);
-  const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
+	//Menu desplegable del nav
+	const [offcanvasActive, setOffcanvasActive] = useState(false);
+	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 
+	//Buscador
+	const [searchTerm, setSearchTerm] = useState("");
 
-    //Buscador
-  const [searchTerm, setSearchTerm] = useState("");
+	const handleInputChange = (e) => {
+		setSearchTerm(e.target.value);
+	};
 
-  const handleInputChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log("Término de búsqueda:", searchTerm);
+	};
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Término de búsqueda:", searchTerm);
-  };
+	return (
+		<Layout>
+			<div className={style.container}>
+				<NavBar
+					title={"Conductores"}
+					ViPrincipal={true}
+					left={
+						<div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
+							<RxHamburgerMenu />
+						</div>
+					}
+					right={
+						<>
+							<Link className={style.btn_add} href={"./add"}>
+								<IoIosAdd />
+							</Link>
+						</>
+					}
+				/>
 
-  return (
-    <Layout>
-      <div className={style.container}>
-        <NavBar
-          title={"Conductores"}
-          ViPrincipal={true}
-          left={
-            <div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
-              <RxHamburgerMenu />
-            </div>
-          }
-          right={
-            <>
-              <Link className={style.btn_add} href={"./add"}>
-                <IoIosAdd />
-              </Link>
-            </>
-          }
-        />
+				<div className="container mt-3">
+					<Form inline onSubmit={handleSubmit}>
+						<FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+							<div className="input-group">
+								<Input
+									type="text"
+									name="searchTerm"
+									id="searchTerm"
+									placeholder="Buscar..."
+									value={searchTerm}
+									onChange={handleInputChange}
+								/>
+								<div className="input-group-append">
+									<Button type="submit" color="primary">
+										<FaSearch />
+									</Button>
+								</div>
+							</div>
+						</FormGroup>
+					</Form>
+					<div>
+						{drivers &&
+							drivers.map((d) => <Btn_conductor key={d._id} data={d} />)}
+					</div>
+				</div>
+			</div>
 
-        <div className="container mt-3">
-          <Form inline onSubmit={handleSubmit}>
-            <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-              <div className="input-group">
-                <Input
-                  type="text"
-                  name="searchTerm"
-                  id="searchTerm"
-                  placeholder="Buscar..."
-                  value={searchTerm}
-                  onChange={handleInputChange}
-                />
-                <div className="input-group-append">
-                  <Button type="submit" color="primary">
-                    <FaSearch />
-                  </Button>
-                </div>
-              </div>
-            </FormGroup>
-          </Form>
-          <div>
-			<Btn_conductor />
-		</div>
+			{/* panel lateral desplegable */}
 
-        </div>
+			<div>
+				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
+					<OffcanvasHeader
+						toggle={toggleOffcanvas}
+						className={styleN.header_nav}
+					>
+						<div className={styleN.user_container}>
+							<div className={styleN.user__img}>
+								<div className={styleN.container__img}>
+									<Image
+										src={"/User_icon.png"}
+										height={400}
+										width={400}
+										alt="Perfil"
+									/>
+								</div>
+							</div>
 
+							<div className={styleN.user__info}>
+								{user ? (
+									<>
+										<p>
+											{user.name} {user.lastname}
+										</p>
+										<p>V-29.852.475</p>
+										<p>{user.role}</p>
+									</>
+								) : (
+									""
+								)}
+							</div>
+						</div>
+					</OffcanvasHeader>
+					<OffcanvasBody style={{ padding: 0 }}>
+						{/*********  Botones del panel lateral desplegable   *********/}
 
-
-      </div>
-
-      {/* panel lateral desplegable */}
-
-      <div>
-        <Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
-          <OffcanvasHeader
-            toggle={toggleOffcanvas}
-            className={styleN.header_nav}
-          >
-            <div className={styleN.user_container}>
-              <div className={styleN.user__img}>
-                <div className={styleN.container__img}>
-                  <Image
-                    src={"/User_icon.png"}
-                    height={400}
-                    width={400}
-                    alt="Perfil"
-                  />
-                </div>
-              </div>
-
-              <div className={styleN.user__info}>
-                {user ? (
-                  <>
-                    <p>
-                      {user.name} {user.lastname}
-                    </p>
-                    <p>V-29.852.475</p>
-                    <p>{user.role}</p>
-                  </>
-                ) : (
-                  ""
-                )}
-              </div>
-            </div>
-          </OffcanvasHeader>
-          <OffcanvasBody style={{ padding: 0 }}>
-            {/*********  Botones del panel lateral desplegable   *********/}
-
-            {/* <button
+						{/* <button
 								className={styleN.btn_nav}
 								onClick={() => {
 									// si esta en true se va a desactivar
@@ -167,40 +163,52 @@ const MenuConductor = () => {
 								<p>Mi Ubicación</p>
 							</button> */}
 
-            <Link href={"../rutas/menu"} className={styleN.btn_nav}>
-              <TbRoute className={styleN.route} />
-              <p>Rutas</p>
-            </Link>
+						<Link href={"../rutas/menu"} className={styleN.btn_nav}>
+							<TbRoute className={styleN.route} />
+							<p>Rutas</p>
+						</Link>
 
-            <Link href={"../paradas/menu"} className={styleN.btn_nav}>
-              <GiBusStop className={styleN.route} />
-              <p>Paradas</p>
-            </Link>
+						<Link href={"../paradas/menu"} className={styleN.btn_nav}>
+							<GiBusStop className={styleN.route} />
+							<p>Paradas</p>
+						</Link>
 
-            <Link href={"../autobuses/menu"} className={styleN.btn_nav}>
-              <FaBusAlt className={styleN.route} />
-              <p>Autobuses</p>
-            </Link>
+						<Link href={"../autobuses/menu"} className={styleN.btn_nav}>
+							<FaBusAlt className={styleN.route} />
+							<p>Autobuses</p>
+						</Link>
 
-            <Link href={"../map"} className={styleN.btn_nav}>
-              <GrReturn className={styleN.route} />
-              <p>Regresar</p>
-            </Link>
+						<Link href={"../map"} className={styleN.btn_nav}>
+							<GrReturn className={styleN.route} />
+							<p>Regresar</p>
+						</Link>
 
-            <button
-              className={styleN.btn_nav__logout}
-              onClick={async () => {
-                await logout();
-              }}
-            >
-              <IoIosLogOut className={styleN.route} />
-              <p>Salir</p>
-            </button>
-          </OffcanvasBody>
-        </Offcanvas>
-      </div>
-    </Layout>
-  );
+						<button
+							className={styleN.btn_nav__logout}
+							onClick={async () => {
+								await logout();
+							}}
+						>
+							<IoIosLogOut className={styleN.route} />
+							<p>Salir</p>
+						</button>
+					</OffcanvasBody>
+				</Offcanvas>
+			</div>
+		</Layout>
+	);
 };
 
 export default MenuConductor;
+
+export const getServerSideProps = async (context) => {
+	await dbConnect();
+
+	const drivers = JSON.parse(JSON.stringify(await getAllUserDriver_service()));
+
+  console.log(drivers);
+
+	return {
+		props: { drivers },
+	};
+};
