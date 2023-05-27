@@ -1,0 +1,175 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 90vh;
+}
+
+.container h2{
+
+    color: #282727;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.container__services{
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: row;
+    width: 100%;
+}
+
+.service{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: auto;
+    width: 200px;
+}
+
+
+.image {
+ 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+    height: 100px;
+}
+
+.image img{
+    display: flex;
+    width: 90px;
+    height: 90px;
+}
+
+.text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: auto;
+}
+
+.text h3{
+margin: 10px 0px;
+   text-align: center;
+   font-weight: 700;
+   font-size: 1.5rem;
+}
+
+.text p{
+
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.25rem;
+    
+ }
+
+
+ @media (max-width:720px) {
+
+    .container h2{
+
+        color: #282727;
+        font-weight: 700;
+        font-size: 2.2rem;
+        margin-bottom: 50px;
+    }
+    
+
+   
+    
+    .image img{
+
+        width: 80px;
+        height: 80px;
+    }
+    
+    .text h3{
+
+
+       font-size: 1.2rem;
+    }
+    
+    .text p{
+    
+       
+        font-size: 1rem;
+        
+     }
+ }
+
+ @media (max-width:620px) {
+
+
+    .container{
+        margin-top: 50px;
+        height: auto;
+    }
+
+    .container__services{
+        
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .service{
+    
+        width: 80%;
+        margin-bottom: 15px;
+    }
+    
+    
+    .image {
+    
+        height: auto;
+
+    }
+    
+    .image img{
+        display: flex;
+        width: 90px;
+        height: 90px;
+    }
+    
+    
+    .text h3{
+   
+       font-size: 1.5rem;
+    }
+    
+    .text p{
+    
+        font-size: 1.25rem;
+        
+     }
+ }
+
+ @media (max-width:320px) {
+    .container h2{
+
+     
+        font-size: 1.8rem;
+    
+    }
+
+
+    .text h3{
+   
+        font-size: 1.2rem;
+     }
+     
+     .text p{
+     
+         font-size: 1rem;
+         
+      }
+ }

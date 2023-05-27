@@ -1,11 +1,15 @@
 import style from "@/styles/Routes/routes_view.module.css";
 
-export default function BotonRuClient({ datos}) {
+export default function BotonRuClient({ datos, onClick }) {
 	const { _id, name, description } = datos;
 	return (
 		<>
 			<div
-				className={style.botonRutaCliente} >
+				className={style.botonRuta} 
+				onClick={() => {
+					onClick(_id);
+				}}
+				>
 				<div className={style.textContainer__Ru}>
 					<h2>{name}</h2>
 					<p>{description}</p>

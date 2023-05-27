@@ -73,6 +73,7 @@ const MainMap = () => {
 		clearRutas();
 	};
 
+
 	return (
 		<Layout>
 			<div className="AppView">
@@ -84,7 +85,7 @@ const MainMap = () => {
 							<div>
 								<Link
 									className={styleN.btn_return}
-									href={"./menu"}
+									href={"../map"}
 									onClick={() => {
 										restore();
 									}}

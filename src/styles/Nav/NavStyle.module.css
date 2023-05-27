@@ -28,6 +28,49 @@
 }
 
 
+/******************  Landing  *********************/
+
+.title_nav h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.links_nav{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.links_nav a{
+
+  margin: 0px 10px;
+  color: #FFFF;
+  font-weight: 400;
+  font-size: 1.15rem;
+  text-decoration: none;
+}
+
+.oculto{
+  display: none;
+}
+
+@media (max-width: 450px) {
+  .links_nav{
+    display: none;
+  }
+
+  .oculto{
+    display: flex;
+  }
+  
+  .title_nav h1 {
+    font-size: 1.4rem;
+    margin: 0;
+  }
+  
+}
+
 /****** Nav de las otras vistas ******/
 .title_nav {
   display: flex;
@@ -216,6 +259,10 @@ font-size: 1.2rem;
   .header_nav{
  
     padding: 15px 5px
+}
+.header_nav h2{
+  font-size: 1.5rem;
+
 }
 
   .container__img{

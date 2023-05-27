@@ -26,7 +26,7 @@ import Bus_stopClient from "@/components/RouteView/clientView/Bus_stopClient";
 
 import Layout from "@/layouts/Layout";
 
-//Styles
+//Estilos
 import style from "@/styles/Routes/routes_view.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 

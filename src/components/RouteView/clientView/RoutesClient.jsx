@@ -1,6 +1,7 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 
 //Estilos
 
@@ -16,7 +17,7 @@ import RutaContext from "@/contexts/Ruta.context";
 
 import BotonRuClient from "./BotonRuClient";
 import { getAllRutas_Request } from "@/api/ruta.api";
-import { useRouter } from "next/router";
+
 
 
 export default function RoutesClient(props) {
@@ -31,7 +32,10 @@ export default function RoutesClient(props) {
 			.catch((error) => console.log(error));
 	}, []);
 
-
+	const onClick = (_id) => {
+		setEditingRoute(getRuta(_id));
+		router.push(`./info/${_id}`);
+	};
 
 	return (
 		<>
@@ -41,7 +45,7 @@ export default function RoutesClient(props) {
 			
 
 				{rutas.map((datos, id_1) => {
-					return <BotonRuClient key={id_1} datos={datos} />;
+					return <BotonRuClient key={id_1} datos={datos} onClick={onClick}/>;
 				})}
 			</div>
 		</>
