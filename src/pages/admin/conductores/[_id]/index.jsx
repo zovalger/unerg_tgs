@@ -18,20 +18,20 @@ import { getAllActiveBuses_service } from "@/services/bus.service";
 import dbConnect from "@/lib/db";
 import ToastContext from "@/contexts/Toast.context";
 import { useRouter } from "next/router";
-import { createDriverUser_Request } from "@/api/userDriver.api";
+import { updateDriver_Request } from "@/api/userDriver.api";
 import { getAllTimetables_service } from "@/services/timetable.service";
+import { getUserDriver_service } from "@/services/userDriver.service";
 
 //Contextos
 
 //******************************* Codigo*****************************//
-const Add = ({ buses, timetables }) => {
+const Add = ({ data, buses, timetables }) => {
 	const router = useRouter();
-
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
 	const onSubmit = async (formdata) => {
 		withLoadingSuccessAndErrorFuntionsToast(
-			createDriverUser_Request(formdata),
+			updateDriver_Request(data._id, formdata),
 			(res) => {
 				console.log(res.data);
 				router.replace("./menu");
@@ -65,7 +65,12 @@ const Add = ({ buses, timetables }) => {
 			{/********************************  Input para Imagen de Perfil *********************************/}
 
 			<div className={styles.container}>
-				<DriverForm onSubmit={onSubmit} buses={buses} timetables={timetables} />
+				<DriverForm
+					data={data}
+					onSubmit={onSubmit}
+					buses={buses}
+					timetables={timetables}
+				/>
 			</div>
 		</Layout>
 	);
@@ -73,15 +78,22 @@ const Add = ({ buses, timetables }) => {
 
 export default Add;
 
-export const getServerSideProps = async (context) => {
+export const getServerSideProps = async ({ params }) => {
 	await dbConnect();
+	// BusModel
+	// TimetableModel
+
+	const { _id } = params;
+
+	const data = JSON.parse(JSON.stringify(await getUserDriver_service(_id)));
 
 	const buses = JSON.parse(JSON.stringify(await getAllActiveBuses_service()));
+
 	const timetables = JSON.parse(
 		JSON.stringify(await getAllTimetables_service())
 	);
 
 	return {
-		props: { buses, timetables },
+		props: { data, buses, timetables },
 	};
 };

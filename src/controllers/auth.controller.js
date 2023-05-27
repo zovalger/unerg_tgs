@@ -26,13 +26,12 @@ export const loginUser_controller = async (req, res) => {
 				message: ErrorsMessages.invalidCredentials,
 			});
 
-		// expire in 30 days
-		const optionToken = {
-			...JSON.parse(JSON.stringify(user)),
-			exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
-		};
+		const userJSON = JSON.parse(JSON.stringify(user));
+		userJSON.password = undefined;
 
-		const token = sign(optionToken, SECRET_WORD);
+		console.log(userJSON);
+
+		const token = sign(userJSON, SECRET_WORD, { expiresIn: 60 * 60 * 24 });
 
 		const serialized = serialize("authCookie", token, {
 			httpOnly: true,
@@ -128,8 +127,9 @@ export const setPasswordUser_controller = async (req, res) => {
 		let objToken = null;
 		try {
 			objToken = verify(token, SECRET_WORD);
+			console.log("token valido");
 		} catch (error) {
-			console.log(error);
+			console.log("el token es invalido o ya expiro");
 			return res.status(400).json({
 				error,
 				message: ErrorsMessages.tokenInvalidOrDefeated,
@@ -137,8 +137,6 @@ export const setPasswordUser_controller = async (req, res) => {
 		}
 
 		// todo: verificar que el token tenga el process de asignar contraseña
-
-		console.log(objToken);
 
 		const result = await setPasswordUser_service(
 			objToken.user._id,

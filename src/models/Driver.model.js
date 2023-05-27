@@ -16,11 +16,14 @@ const DriverSchema = mongoose.Schema({
 
 	// username: { type: String, required: true, trim: true, unique: true },
 	email: { type: String, required: true, trim: true, unique: true },
-	password: { type: String, required: true, default: "" },
+	password: { type: String, required: true, default: "password" },
 	perfilImg: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "ImgFile",
-		default: null,
+		url: { type: String, default: null },
+		imgfileId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "ImgFile",
+			default: null,
+		},
 	},
 
 	// ***************	logicos	***************
@@ -33,7 +36,11 @@ const DriverSchema = mongoose.Schema({
 		ref: "Bus",
 		default: null,
 	},
-	// timetableId: objectId(Timetable),
+	timetableId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Timetable",
+		default: null,
+	},
 });
 
 export default mongoose.models.Driver || mongoose.model("Driver", DriverSchema);

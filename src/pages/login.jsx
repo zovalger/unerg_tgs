@@ -119,7 +119,7 @@ export function Login() {
 						</FormGroup>
 						<Button className={style.button}>Iniciar sesión</Button>
 					</Form>
-					<Link href="/forgot-password" className={style.link}>
+					<Link href="/credentials/forgot-password" className={style.link}>
 						Olvide mi Contraseña
 					</Link>
 				</div>

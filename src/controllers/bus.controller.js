@@ -2,7 +2,7 @@ import ErrorsMessages from "@/config/errorsMessages";
 import {
 	createBus_service,
 	toggleBus_service,
-	getAllActiveBuses_service,
+	getAllActiveBusesWithRuta_service,
 	getBus_by_Id_service,
 	updateBus_service,
 	getAllPlacas_service,
@@ -61,7 +61,7 @@ export const createBus_controller = async (req, res) => {
 export const getAllActiveBuses_controller = async (req, res) => {
 	try {
 		// obtencion de todos los bus con status "a" en la DB
-		const buses = await getAllActiveBuses_service();
+		const buses = await getAllActiveBusesWithRuta_service();
 
 		// si la funcion no devuelve nada se devuelve un error al cliente
 		if (!buses)

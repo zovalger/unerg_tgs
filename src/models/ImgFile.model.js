@@ -1,12 +1,8 @@
 const mongoose = require("mongoose");
 
 const ImgFileSchema = mongoose.Schema({
-	img_local_url: { type: String, default: "" },
-	img_local_url_original: { type: String, default: "" },
-	img_public_id: { type: String, default: "" },
-	img_cloudinary_url: { type: String, default: "" },
-	width: { type: Number, default: 512 },
-	// a: activo t:papelera d:eliminado
+	public_id: { type: String, default: "" },
+	url: { type: String, default: "" },
 	status: { type: String, default: "a" },
 });
 
