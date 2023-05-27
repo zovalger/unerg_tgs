@@ -35,10 +35,13 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import UserContext from "@/contexts/User.context";
 import dbConnect from "@/lib/db";
 import { getAllUserDriver_service } from "@/services/userDriver.service";
+import { useRouter } from "next/router";
 
 //*************************** Codigo  ************************/
 
 const MenuConductor = ({ drivers }) => {
+	const router = useRouter();
+
 	//useContext
 
 	const { logout, user } = useContext(UserContext);
@@ -59,6 +62,10 @@ const MenuConductor = ({ drivers }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		console.log("Término de búsqueda:", searchTerm);
+	};
+
+	const onClick = (_id) => {
+		router.push(`./${_id}`);
 	};
 
 	return (
@@ -103,7 +110,9 @@ const MenuConductor = ({ drivers }) => {
 					</Form>
 					<div>
 						{drivers &&
-							drivers.map((d) => <Btn_conductor key={d._id} data={d} />)}
+							drivers.map((d) => (
+								<Btn_conductor key={d._id} data={d} onClick={onClick} />
+							))}
 					</div>
 				</div>
 			</div>
@@ -134,7 +143,7 @@ const MenuConductor = ({ drivers }) => {
 										<p>
 											{user.name} {user.lastname}
 										</p>
-										<p>V-29.852.475</p>
+										<p>{user.CI}</p>
 										<p>{user.role}</p>
 									</>
 								) : (
@@ -204,9 +213,11 @@ export default MenuConductor;
 export const getServerSideProps = async (context) => {
 	await dbConnect();
 
-	const drivers = JSON.parse(JSON.stringify(await getAllUserDriver_service()));
+	const data = await getAllUserDriver_service();
 
-  console.log(drivers);
+	console.log(data);
+
+	const drivers = JSON.parse(JSON.stringify(data));
 
 	return {
 		props: { drivers },

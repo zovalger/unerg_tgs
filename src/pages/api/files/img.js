@@ -1,26 +1,9 @@
-import multer from "multer";
+import { uploadImageBase64_controller } from "@/controllers/files.controller";
+import connectDb from "@/lib/db";
 
-const upload = multer({
-	storage: multer.diskStorage({
-		destination: "./public/uploads",
-		filename: (req, file, cb) => {
-			cb(
-				null,
-				`${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-			);
-		},
-	}),
-});
+export default async function handler(req, res) {
+	await connectDb();
 
-export default function handler(req, res) {
-	console.log(req.body);
-	upload.single("image")(req, res, (err) => {
-		if (err) {
-			console.error(err);
-			res.status(500).end("Error al cargar la imagen");
-		} else {
-			console.log(req.file);
-			res.end("Imagen subida correctamente");
-		}
-	});
+	if (req.method === "POST")
+		return await uploadImageBase64_controller(req, res);
 }

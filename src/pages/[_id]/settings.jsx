@@ -11,7 +11,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import RutaForm from "@/components/RouteView/RutaForm";
 
 //Estilos
-import styleN from "../../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 import RutaContext from "@/contexts/Ruta.context";
 import { createRuta_Request, updateRuta_Request } from "@/api/ruta.api";
 

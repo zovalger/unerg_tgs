@@ -12,7 +12,7 @@ export const ToastProvider = ({ children }) => {
 	// Función para mostrar un toast de error
 	function showErrorToast(message) {
 		return toast.error(message, {
-			duration: 2500,
+			duration: 4000,
 		});
 	}
 
@@ -33,7 +33,12 @@ export const ToastProvider = ({ children }) => {
 	}
 
 	// Función que envuelve una promesa y muestra un toast de carga mientras se está ejecutando
-	function withLoadingSuccessAndErrorFuntionsToast(promise, success, error) {
+	function withLoadingSuccessAndErrorFuntionsToast(
+		promise,
+		success,
+		error,
+		loadingMessage
+	) {
 		// showLoadingToast();
 		// return promise.finally(hideAllToasts);
 
@@ -41,7 +46,7 @@ export const ToastProvider = ({ children }) => {
 			promise,
 			{
 				id: "LoandingData",
-				loading: "Espere un momento...",
+				loading: loadingMessage || "Espere un momento...",
 				success,
 				error,
 			},
@@ -50,7 +55,7 @@ export const ToastProvider = ({ children }) => {
 					duration: 2000,
 				},
 				error: {
-					duration:2000,
+					duration: 2000,
 				},
 			}
 		);

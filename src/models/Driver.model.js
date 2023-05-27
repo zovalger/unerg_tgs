@@ -18,9 +18,12 @@ const DriverSchema = mongoose.Schema({
 	email: { type: String, required: true, trim: true, unique: true },
 	password: { type: String, required: true, default: "password" },
 	perfilImg: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: "ImgFile",
-		default: null,
+		url: { type: String, default: null },
+		imgfileId: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "ImgFile",
+			default: null,
+		},
 	},
 
 	// ***************	logicos	***************

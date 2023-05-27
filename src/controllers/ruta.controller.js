@@ -31,7 +31,6 @@ export const getAllRutas_controller = async (req, res) => {
 	try {
 		const rutas = await getAllRutas_service();
 
-		console.log(rutas);
 
 		if (!rutas)
 			return res
@@ -87,7 +86,6 @@ export const deleteRuta_controller = async (req, res) => {
 		const { _id } = req.query;
 
 		const result = await deleteRuta_service(_id);
-		console.log(result);
 
 		if (!result)
 		return	res.status(500).json({ error: { message: "Error en el servidor" } });

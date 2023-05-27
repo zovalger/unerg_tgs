@@ -5,5 +5,5 @@ import connectDb from "@/lib/db";
 export default async function handler(req, res) {
 	await connectDb();
 
-	if (req.method === "POST") return await updateUserDriver_controller(req, res);
+	if (req.method === "PUT") return await updateUserDriver_controller(req, res);
 }

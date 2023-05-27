@@ -23,4 +23,4 @@ const BusSchema = mongoose.Schema({
 	capacity: { type: Number, default: 0 },
 });
 
-export default mongoose.models.Bus || mongoose.model("Bus", BusSchema);
+export default mongoose.models?.Bus || mongoose.model("Bus", BusSchema);

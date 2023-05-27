@@ -19,6 +19,7 @@ import dbConnect from "@/lib/db";
 import ToastContext from "@/contexts/Toast.context";
 import { useRouter } from "next/router";
 import { createDriverUser_Request } from "@/api/userDriver.api";
+import { getAllTimetables_service } from "@/services/timetable.service";
 
 //Contextos
 
@@ -76,10 +77,11 @@ export const getServerSideProps = async (context) => {
 	await dbConnect();
 
 	const buses = JSON.parse(JSON.stringify(await getAllActiveBuses_service()));
-	// const timetables
-	console.log(buses);
+	const timetables = JSON.parse(
+		JSON.stringify(await getAllTimetables_service())
+	);
 
 	return {
-		props: { buses, timetables: null },
+		props: { buses, timetables },
 	};
 };

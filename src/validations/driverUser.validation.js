@@ -30,6 +30,10 @@ export const driverUserValidatorSchema = Yup.object({
 	email: Yup.string()
 		.required("El correo electronico es obligatorio")
 		.email("No es un formato de correo valido"),
-	// busId,
-	// timetableId,
+	// busId: Yup.string().transform((value, originalValue) =>
+	// 	originalValue === "" ? null : originalValue
+	// ),
+	// timetableId: Yup.string().transform((value, originalValue) =>
+	// 	originalValue === "" ? null : originalValue
+	// ),
 });

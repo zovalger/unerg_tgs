@@ -20,6 +20,7 @@ export async function registerUserDriver_controller(req, res) {
 		phone,
 		emergencyPhone,
 		email,
+		perfilImg,
 		busId,
 		timetableId,
 	} = req.body;
@@ -33,6 +34,7 @@ export async function registerUserDriver_controller(req, res) {
 		phone,
 		emergencyPhone,
 		email,
+		perfilImg,
 		busId,
 		timetableId,
 	};
@@ -88,6 +90,7 @@ export async function updateUserDriver_controller(req, res) {
 		emergencyPhone,
 		email,
 		busId,
+		perfilImg,
 		timetableId,
 	} = req.body;
 
@@ -102,6 +105,7 @@ export async function updateUserDriver_controller(req, res) {
 		emergencyPhone,
 		email,
 		busId,
+		perfilImg,
 		timetableId,
 	};
 

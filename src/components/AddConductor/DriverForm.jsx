@@ -1,5 +1,5 @@
 //React/Next
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import DatePicker from "react-datepicker";
@@ -26,40 +26,82 @@ import styles from "@/styles/Users/admin/Conductores/add.module.css";
 import { driverUserValidatorSchema } from "@/validations/driverUser.validation";
 import calculateAge from "@/utils/calculateAge";
 
+import moment from "moment";
+import { sendImg_Request } from "@/api/file.api";
+import ToastContext from "@/contexts/Toast.context";
 //Contextos
 
 //******************************* Codigo*****************************//
+const placeholderImage = "/Camera_Icon.png";
 
 const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 	//UseState
 
 	//Comprobación de la imagen
 	const [fileError, setFileError] = useState("");
-	const [img, setImg] = useState("/Camera_Icon.png");
+	const [img, setImg] = useState(
+		data
+			? data.perfilImg.url
+				? data.perfilImg.url
+				: placeholderImage
+			: placeholderImage
+	);
+	const [perfilImg, setPerfilImg] = useState(
+		data ? data.perfilImg : { url: null, imgfileId: null }
+	);
+	const [submitImage, setSubmitImage] = useState(false);
 
-	function handleFileUpload(event) {
-		const file = event.target.files[0];
-		const allowedTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"];
+	const { withLoadingSuccessAndErrorFuntionsToast, showErrorToast } =
+		useContext(ToastContext);
+
+	const handleFileUpload = async (event) => {
+		const input = event.target;
+
+		const file = input.files[0];
+		const allowedTypes = ["image/jpeg", "image/png", "image/jpg"];
 
 		if (!file) {
-			event.target.value = "";
-			setImg("/Camera_Icon.png");
+			input.value = "";
+			setImg(placeholderImage);
 		} else {
 			if (!allowedTypes.includes(file.type)) {
 				setFileError("Solo se permiten archivos de imagen");
-				event.target.value = "";
-				setImg("/Camera_Icon.png");
+				input.value = "";
+				setImg(placeholderImage);
 			} else {
 				setFileError("");
 				const reader = new FileReader();
 
-				reader.onload = function (event) {
-					setImg(event.target.result);
+				reader.onload = async (event) => {
+					const dataBase64 = event.target.result;
+
+					setSubmitImage(true);
+
+					withLoadingSuccessAndErrorFuntionsToast(
+						sendImg_Request({ data: dataBase64 }),
+						(res) => {
+							const { _id, url } = res.data;
+
+							setPerfilImg({ url, imgfileId: _id });
+
+							setImg(dataBase64);
+							setSubmitImage(false);
+
+							return "Imagen cargada";
+						},
+						(error) => {
+							setImg(placeholderImage);
+							setSubmitImage(false);
+							input.value = "";
+							return error.message;
+						},
+						"Subiendo imagen"
+					);
 				};
 				reader.readAsDataURL(file);
 			}
 		}
-	}
+	};
 
 	//Modal del input Turno
 	const [Mo_turno, setModal_Turno] = useState(false);
@@ -76,20 +118,30 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 	const [bus, setBus] = useState("");
 
 	const formik = useFormik({
-		initialValues: data || {
-			name: "",
-			CI: "",
-			birthdate: new Date(Date.now()),
-			address: "",
-			bloodType: "Indefinido",
-			phone: "",
-			emergencyPhone: "",
-			email: "",
-			busId: "",
-			timetableId: null,
-		},
+		initialValues: data
+			? { ...data, birthdate: new Date(data.birthdate) }
+			: {
+					name: "",
+					CI: "",
+					birthdate: new Date(Date.now()),
+					address: "",
+					bloodType: "Indefinido",
+					phone: "",
+					emergencyPhone: "",
+					email: "",
+
+					perfilImg: {
+						url: null,
+						imgfileId: null,
+					},
+					busId: "",
+					timetableId: null,
+			  },
 		validationSchema: driverUserValidatorSchema,
-		onSubmit,
+		onSubmit: (formData) => {
+			formData.perfilImg = perfilImg;
+			onSubmit(formData);
+		},
 	});
 
 	const onChangeDate = (date, { from, to }) => {
@@ -104,24 +156,35 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 		<Form>
 			<FormGroup>
 				<Label htmlFor="img_perfil" className={styles.input_img}>
-					<Image
+					<img
+						src={img}
+						alt="Imagen de perfil"
+						style={
+							img === placeholderImage
+								? { padding: "80px", borderRadius: "0" }
+								: null
+						}
+					/>
+
+					{/* <Image
 						src={img}
 						height={600}
 						width={600}
 						alt="Imagen de perfil"
 						style={
-							img === "/Camera_Icon.png"
+							img === placeholderImage
 								? { padding: "80px", borderRadius: "0" }
 								: null
 						}
-					/>
+					/> */}
 				</Label>
 
 				<Input
 					id="img_perfil"
 					name="img_perfil"
 					type="file"
-					className={styles.hidden_input}
+					// className={styles.hidden_input}
+					hidden
 					onChange={handleFileUpload}
 					accept="image/*"
 				/>
@@ -147,23 +210,7 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 				/>
 				<FormFeedback>{formik.errors.name}</FormFeedback>
 			</FormGroup>
-			{/********************************  Input para los Apellidos *********************************/}
-			{/* <FormGroup className={styles.container_input}>
-				<Label for="apellidos" className={styles.label}>
-					Apellidos
-				</Label>
-				<Input
-					id="apellidos"
-					name="apellidos"
-					type="text"
-					className={styles.input}
-					placeholder="Escriba aqui"
-					value={formik.values.placa}
-					onChange={formik.handleChange}
-					invalid={!!formik.errors.placa}
-				/>
-				<FormFeedback>{formik.errors.placa}</FormFeedback>{" "}
-			</FormGroup> */}
+
 			{/********************************  Input para la Cédula *********************************/}
 			<FormGroup className={styles.container_input}>
 				<Label for="CI" className={styles.label}>
@@ -185,7 +232,7 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 			</FormGroup>
 			{/********************************  Container de varios inputs *********************************/}
 			<FormGroup className={styles.container_input__multi}>
-				{/********************************  input para la Edad *********************************/}
+				{/********************************  input para la fecha de nacimiento *********************************/}
 
 				<div className={styles.inputs_multi}>
 					<Label>Fecha de nacimiento</Label>
@@ -306,24 +353,7 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 				/>
 				<FormFeedback>{formik.errors.address}</FormFeedback>
 			</FormGroup>
-			{/********************************  input para el usuario *********************************/}
-			{/* 
-			<FormGroup className={styles.container_input}>
-				<Label for="usuario" className={styles.label}>
-					Nombre de Usuario
-				</Label>
-				<Input
-					id="usuario"
-					name="usuario"
-					type="text"
-					className={styles.input}
-					placeholder="Escriba aqui"
-					value={formik.values.placa}
-					onChange={formik.handleChange}
-					invalid={!!formik.errors.placa}
-				/>
-				<FormFeedback>{formik.errors.placa}</FormFeedback>{" "}
-			</FormGroup> */}
+
 			{/********************************  input para el Correo Electrónico *********************************/}
 
 			<FormGroup className={styles.container_input}>
@@ -360,12 +390,14 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 					onChange={formik.handleChange}
 					invalid={!!formik.errors.timetableId}
 				>
-					<option value={null}>Seleccione turno</option>
+					<option value={""}>Seleccione turno</option>
 
 					{timetables &&
 						timetables.map((t) => (
 							<option value={t._id} key={t._id}>
-								{`${t.name}: ${t.startTime} - ${t.endTime}`}
+								{`${t.name}: ${moment(t.startTime).format("h:mm a")} - ${moment(
+									t.endTime
+								).format("h:mm a")}`}
 							</option>
 						))}
 				</Input>
@@ -412,7 +444,7 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 					onChange={formik.handleChange}
 					invalid={!!formik.errors.busId}
 				>
-					<option value={null}>Seleccione Autobus</option>
+					<option value={""}>Seleccione Autobus</option>
 
 					{buses &&
 						buses.map((b) => (
@@ -449,7 +481,12 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 				<Button
 					className={styles.button}
 					type="button"
-					onClick={() => formik.submitForm()}
+					onClick={() => {
+						if (submitImage) return showErrorToast("Espere a que se suba la image")
+						
+						
+						formik.submitForm();
+					}}
 				>
 					Guardar
 				</Button>

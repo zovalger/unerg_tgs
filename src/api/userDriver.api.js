@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const url = "/api/user/driver/register";
+const url = "/api/user/driver";
 
 // creacion
 export const createDriverUser_Request = async (data) =>
-	await axios.post(`${url}/`, data);
+	await axios.post(`${url}/register`, data);
 
 // obtencion
 export const getAllDrivers_Request = async () => await axios.get(`${url}`);
