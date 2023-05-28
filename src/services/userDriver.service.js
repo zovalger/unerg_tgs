@@ -1,14 +1,9 @@
-import bcrypt from "bcrypt";
-
 import DriverModel from "@/models/Driver.model";
 import {
 	getUser_By_Email,
-	getUser_By_Id,
 	sendUrlToChangePasswordUser_service,
 } from "./auth.service";
 import userProcess from "@/config/userProcess";
-import TimetableModel from "@/models/Timetable.model";
-import BusModel from "@/models/Bus.model";
 
 export const createUserDriver_service = async ({
 	name,
@@ -45,13 +40,13 @@ export const createUserDriver_service = async ({
 
 		const driver = new DriverModel(data);
 
-		await driver.save();
-
 		// todo: enviar verificacion al correo
 		await sendUrlToChangePasswordUser_service(
 			driver,
 			userProcess.setFirstPassword
 		);
+
+		await driver.save();
 
 		return driver;
 	} catch (error) {
@@ -97,7 +92,6 @@ export const updateUserDriver_service = async (
 			perfilImg,
 			busId,
 			timetableId,
-			password: "password",
 		};
 
 		const result = await DriverModel.updateOne({ _id }, data);
@@ -113,7 +107,7 @@ export const updateUserDriver_service = async (
 export const getAllUserDriver_service = async () => {
 	try {
 		const drivers = await DriverModel.find()
-			.sort({ name: -1 })
+			.sort({ name: 1 })
 			.populate(["busId", "timetableId"]);
 
 		return drivers;

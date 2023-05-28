@@ -21,8 +21,6 @@ import { useRouter } from "next/router";
 import { createDriverUser_Request } from "@/api/userDriver.api";
 import { getAllTimetables_service } from "@/services/timetable.service";
 
-//Contextos
-
 //******************************* Codigo*****************************//
 const Add = ({ buses, timetables }) => {
 	const router = useRouter();

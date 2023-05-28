@@ -6,13 +6,15 @@ const ToastContext = createContext();
 export const ToastProvider = ({ children }) => {
 	// Función para mostrar un toast de éxito
 	function showSuccessToast(message) {
-		return toast.success(message);
+		return toast.success(message, {
+			duration: 3000,
+		});
 	}
 
 	// Función para mostrar un toast de error
 	function showErrorToast(message) {
 		return toast.error(message, {
-			duration: 4000,
+			duration: 3000,
 		});
 	}
 

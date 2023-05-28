@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
 import { MONGODB_URI } from "@/config";
 
-
-
 if (!MONGODB_URI) {
 	throw new Error(
 		"Please define the MONGODB_URI environment variable inside .env.local"
@@ -21,6 +19,8 @@ if (!cached) {
 }
 
 async function dbConnect() {
+	console.log("intentando conectar con MongoDB");
+
 	if (cached.conn) {
 		return cached.conn;
 	}

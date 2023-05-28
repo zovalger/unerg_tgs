@@ -23,8 +23,9 @@ export const createImgFile = async (dataBase64) => {
 		return imgfile;
 	} catch (error) {
 		console.log("Error al subir la imagen");
-
 		console.log(error);
+
+		return { error, message: "No se pudo guardar la imagen" };
 	}
 };
 
