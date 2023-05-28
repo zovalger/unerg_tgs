@@ -19,9 +19,11 @@ export const createRuta_controller = async (req, res) => {
 		});
 
 		if (!ruta)
-		return	res.status(500).json({ error: { message: "Error en el servidor" } });
+			return res
+				.status(500)
+				.json({ error: { message: "Error en el servidor" } });
 
-		return	res.status(200).json(ruta);
+		return res.status(200).json(ruta);
 	} catch (error) {
 		console.log(error);
 	}
@@ -30,7 +32,6 @@ export const createRuta_controller = async (req, res) => {
 export const getAllRutas_controller = async (req, res) => {
 	try {
 		const rutas = await getAllRutas_service();
-
 
 		if (!rutas)
 			return res
@@ -53,7 +54,9 @@ export const getRuta_By_Id_controller = async (req, res) => {
 		const ruta = await getRuta_by_Id_service(_id);
 
 		if (!ruta)
-		return	res.status(404).json({ error: { message: "Parada no encontrada" } });
+			return res
+				.status(404)
+				.json({ error: { message: "Parada no encontrada" } });
 
 		return res.status(200).json(ruta);
 	} catch (error) {
@@ -73,9 +76,11 @@ export const updateRuta_controller = async (req, res) => {
 		});
 
 		if (!ruta)
-		return	res.status(500).json({ error: { message: "Error en el servidor" } });
+			return res
+				.status(500)
+				.json({ error: { message: "Error en el servidor" } });
 
-			return	res.status(200).json(ruta);
+		return res.status(200).json(ruta);
 	} catch (error) {
 		console.log(error);
 	}
@@ -85,7 +90,7 @@ export const updateRuta_controller = async (req, res) => {
 // 	try {
 // 		const { _id } = req.query;
 
-		const result = await deleteRuta_service(_id);
+// const result = await deleteRuta_service(_id);
 
 // 		if (!result)
 // 		return	res.status(500).json({ error: { message: "Error en el servidor" } });
