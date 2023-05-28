@@ -49,7 +49,7 @@ export const createBus_service = async (data) => {
 // 				buses: obtencion de todos los que estan en la DB
 // ********************************************************************
 
-export const getAllActiveBuses_service = async () => {
+export const getAllActiveBusesWithRuta_service = async () => {
 	try {
 		// obtencion de los bus con estatus activo
 		// y ordenado alfabeticamente
@@ -58,6 +58,21 @@ export const getAllActiveBuses_service = async () => {
 				num: 1,
 			})
 			.populate("ruta");
+
+		// devolucion de la consulta
+		return buses;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const getAllActiveBuses_service = async () => {
+	try {
+		// obtencion de los bus con estatus activo
+		// y ordenado alfabeticamente
+		const buses = await BusModel.find({ status: { $ne: "d" } }).sort({
+			num: 1,
+		});
 
 		// devolucion de la consulta
 		return buses;

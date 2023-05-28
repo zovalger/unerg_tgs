@@ -1,0 +1,60 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+
+    margin: auto;
+    margin-top: 15px;
+
+    width: 90%;
+    height: auto;
+
+    background: #EFEFEF;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+
+}
+
+.container__icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0.45;
+}
+
+.container__icon svg{
+   height: 60px;
+   width: 60px;
+}
+
+.container__text{
+
+    display: flex;
+
+    align-items: baseline;
+    flex-direction: column;
+
+    flex-grow: 2;
+    margin-left: 10px;
+}
+
+.container__text p{
+    margin: 0;
+    margin-bottom: 5px;
+
+
+font-weight: 500;
+font-size: 1.1rem;
+
+}
+
+
+@media (max-width:320px) {
+
+    .container__text p{
+      
+    font-size: 0.95rem;
+    
+    }
+}

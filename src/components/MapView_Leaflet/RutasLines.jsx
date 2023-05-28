@@ -10,8 +10,16 @@ const RutasLines = () => {
 	return Rutas.map((r) => {
 		if (!r) return;
 		if (!r.waypoints) return;
+
+		console.log(r);
+
 		const error = r.waypoints?.findIndex((w) => {
+			if (typeof w === "string") return true;
+
+			if (!w.coord) return true;
+
 			const { lat, lng } = w.coord;
+
 			if (typeof lat != "number" || typeof lng != "number") return true;
 		});
 

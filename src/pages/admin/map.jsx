@@ -138,16 +138,12 @@ const MainMap = () => {
 								</div>
 
 								<div className={styleN.user__info}>
-									{user ? (
+									{user && (
 										<>
-											<p>
-												{user.name} {user.lastname}
-											</p>
-											<p>V-29.852.475</p>
+											<p>{user.name}</p>
+											<p>{user.CI}</p>
 											<p>{user.role}</p>
 										</>
-									) : (
-										""
 									)}
 								</div>
 							</div>
@@ -192,7 +188,7 @@ const MainMap = () => {
 								<p>Conductores</p>
 							</Link>
 
-							<Link href={"./map"} className={styleN.btn_nav}>
+							<Link href={"./admins/menu"} className={styleN.btn_nav}>
 								<ImUser className={styleN.route} />
 								<p>Administradores</p>
 							</Link>

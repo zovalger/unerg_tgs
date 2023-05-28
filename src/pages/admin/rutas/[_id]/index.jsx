@@ -1,48 +1,76 @@
 //React-Next
+
+import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
+import { v4 as uuid } from "uuid";
+import { useRouter } from "next/router";
 
 //Componentes
 
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
+import BtnBus from "@/components/RouteView/infoBus/BtnBus";
+import HourBus from "@/components/RouteView/infoBus/HourBus";
+
 import { IoIosArrowBack } from "react-icons/io";
-import RutaForm from "@/components/RouteView/RutaForm";
+import { BiPencil } from "react-icons/bi";
 
 //Estilos
-import styleN from "../../../../styles/Nav/NavStyle.module.css";
-import RutaContext from "@/contexts/Ruta.context";
-import { createRuta_Request, updateRuta_Request } from "@/api/ruta.api";
-import { useRouter } from "next/router";
+
+import styleN from "@/styles/Nav/NavStyle.module.css";
+import style from "@/styles/Routes/routes_view.module.css";
+
+
 
 //Contextos
+
+import MapContext from "@/contexts/Map.context";
+import RutaContext from "@/contexts/Ruta.context";
+import BotonPa from "@/components/RouteView/bus_stop/BotonPa";
+import { getRuta_By_Id_Request } from "@/api/ruta.api";
+
+const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
+	ssr: false,
+});
+
+//**********************************  Codigo  ************************//
 
 const MainMap = () => {
 	const router = useRouter();
 	const { _id } = router.query;
-	//useContext
-	const { editingRoute, insertRuta } = useContext(RutaContext);
 
-	//useState
-	const [isSubmiting, setIsSubmitin] = useState(false);
+	const { getRuta, insertRuta, setEditingRoute } = useContext(RutaContext);
+	const {
+		insertRuta: insertRutaMap,
+		insertWaypoint: insertWaypointMap,
+		clearWaypoint,
+		clearRutas,
+	} = useContext(MapContext);
+	const data = getRuta(_id);
 
-	const onSubmit = async () => {
-		if (isSubmiting) return;
-		setIsSubmitin(true);
-		const formData = editingRoute;
-
-		console.log(formData);
-
-		try {
-			formData.waypoints = formData.waypoints.map((w) => (w._id ? w._id : w));
-			const res = await updateRuta_Request(_id, formData);
-
-			insertRuta(res.data);
-			router.push("./menu");
-		} catch (error) {
-			setIsSubmitin(false);
-			console.log(error);
+	useEffect(() => {
+		if (!data)
+			getRuta_By_Id_Request(_id)
+				.then(({ data }) => {
+					insertRuta([data]);
+					insertRutaMap([data]);
+					insertWaypointMap(data.waypoints);
+				})
+				.catch((error) => console.log(error));
+		else {
+			insertRutaMap([data]);
+			insertWaypointMap(data.waypoints);
 		}
+	}, []);
+
+	const onClick = (_id) => {
+		console.log(_id);
+	};
+
+	const restore = () => {
+		clearWaypoint();
+		clearRutas();
 	};
 
 	return (
@@ -54,20 +82,55 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link href={"./menu"} className={styleN.btn_return}>
+								<Link
+									className={styleN.btn_return}
+									href={"./menu"}
+									onClick={() => {
+										restore();
+									}}
+								>
 									<IoIosArrowBack />
 								</Link>
 							</div>
 							<div className={styleN.title_nav}>
-								<h2>Agregar parada</h2>
+								<h2>{data && data.name}</h2>
 							</div>
 						</>
 					}
-					right={<></>}
+					right={
+						<>
+							<div
+								className={styleN.btn_edit}
+								onClick={() => {
+									setEditingRoute(data);
+									router.push(`./${_id}/settings`);
+								}}
+							>
+								<BiPencil />
+							</div>
+						</>
+					}
 				/>
 
-				<div>
-					<RutaForm data={editingRoute} onSubmit={onSubmit} />
+				{/* Contenedor del mapa */}
+
+				<div className={`${"MapView__Container"} ${"MapView__ContainerRu"}`}>
+					<MapView />
+				</div>
+
+				<div className="container__rutas">
+					<div className={style.container_routes}>
+						<BtnBus />
+						<BtnBus />
+						<HourBus />
+						<h2 style={{ textAlign: "center", marginTop: "15px" }}>
+							Paradas de autobus
+						</h2>
+						{data &&
+							data.waypoints.map((w) => (
+								<BotonPa data={w} key={uuid()} onClick={onClick} />
+							))}
+					</div>
 				</div>
 			</div>
 		</Layout>
@@ -75,7 +138,3 @@ const MainMap = () => {
 };
 
 export default MainMap;
-
-
-
-// https://www.figma.com/proto/v8Jrdn88Q9UOcHnbaBpIco/unerg-tgs?type=design&node-id=244-492&scaling=scale-down&page-id=106%3A261&starting-point-node-id=127%3A273&show-proto-sidebar=1

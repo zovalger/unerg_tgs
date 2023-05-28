@@ -24,11 +24,26 @@
   margin: auto;
   margin-bottom: 10px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .botonRuta:hover {
   background: #c8c8c8;
 }
+
+.botonRutaCliente {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 95px;
+  width: 95%;
+  background: #ededed;
+  border-radius: 25px;
+  margin: auto;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
 
 .textContainer__Ru {
   display: flex;
@@ -189,6 +204,10 @@
 .add__rutas svg {
   color: rgb(255, 255, 255);
 }
+
+
+
+
 
 /*Responsive*/
 

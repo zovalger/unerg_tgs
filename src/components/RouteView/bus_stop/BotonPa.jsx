@@ -1,4 +1,4 @@
-import style from "../../../styles/Routes/routes_view.module.css";
+import style from "@/styles/Routes/routes_view.module.css";
 
 export default function BotonPa({ data, onClick }) {
 	const { _id, name, description } = data;

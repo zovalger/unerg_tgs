@@ -31,7 +31,6 @@ export const createRuta_service = async (data) => {
 			waypoints: waypointIds,
 		});
 
-		console.log(ruta);
 
 		// devolverla al front
 		await ruta.save();
@@ -47,8 +46,6 @@ export const getAllRutas_service = async () => {
 		const rutas = await RutaModel.find({ state: { $ne: "d" } }).populate(
 			"waypoints"
 		);
-
-		console.log(rutas);
 
 		return rutas;
 	} catch (error) {
@@ -93,7 +90,6 @@ export const updateRuta_service = async (_id, data) => {
 
 		const waypointIds = await Promise.all(
 			await waypoints.map(async (w) => {
-				console.log(w);
 				if (typeof w === "string") return w;
 
 				const waypoint = await createOrUpdateWapoint_service(w);

@@ -14,7 +14,6 @@ import WaypointForm from "@/components/WaypointView/WaypointForm";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
-
 import {
 	createWaypoint_Request,
 	updateWaypoint_Request,

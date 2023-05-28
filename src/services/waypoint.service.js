@@ -94,7 +94,6 @@ export const getWaypoints_by_Ids_service = async (_ids = null) => {
 					const sortedDocs = ids.map((id) =>
 						docs.find((doc) => doc._id.toString() === id)
 					);
-					console.log(sortedDocs);
 				}
 			}
 		);
