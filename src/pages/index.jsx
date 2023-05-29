@@ -13,9 +13,12 @@ import SectionOne from "@/components/Landing/SectionOne";
 import SectionTwo from "@/components/Landing/SectionTwo";
 import SectionThree from "@/components/Landing/SectionThree";
 
+import FooterLanding from "@/components/Landing/FooterLanding";
+
 //Estilos
 
 import styleN from "@/styles/Nav/NavStyle.module.css";
+
 
 
 const Home = () => {
@@ -56,7 +59,9 @@ const Home = () => {
       <section>
         <SectionThree />
       </section>
-      <footer></footer>
+      <footer>
+        <FooterLanding />
+      </footer>
 
       <div>
         <Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
