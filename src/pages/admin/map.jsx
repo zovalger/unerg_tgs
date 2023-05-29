@@ -138,16 +138,12 @@ const MainMap = () => {
 								</div>
 
 								<div className={styleN.user__info}>
-									{user ? (
+									{user && (
 										<>
-											<p>
-												{user.name} {user.lastname}
-											</p>
-											<p>V-29.852.475</p>
+											<p>{user.name}</p>
+											<p>{user.CI}</p>
 											<p>{user.role}</p>
 										</>
-									) : (
-										""
 									)}
 								</div>
 							</div>

@@ -4,7 +4,6 @@ const DriverSchema = mongoose.Schema({
 	// *************** datos personales ***************
 
 	name: { type: String, trim: true, required: true },
-	lastname: { type: String, trim: true },
 	CI: { type: String, trim: true, required: true, unique: true },
 	birthdate: { type: Date },
 	address: { type: String, trim: true, required: true },

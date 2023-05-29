@@ -17,20 +17,25 @@ import styles from "@/styles/Users/admin/Admins/add.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 import AdminForm from "@/components/AddAdmin/AdminForm";
 import ToastContext from "@/contexts/Toast.context";
-import { createAdminUser_Request } from "@/api/userAdmin.api";
+import {
+	createAdminUser_Request,
+	updateAdmin_Request,
+} from "@/api/userAdmin.api";
 import { useRouter } from "next/router";
+import { getUserAdmin_service } from "@/services/userAdmin.service";
+import dbConnect from "@/lib/db";
 
 //Contextos
 
 //******************************* Codigo*****************************//
-const Add = () => {
+const Add = ({ data }) => {
 	const router = useRouter();
 
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
 	const onSubmit = async (formdata) => {
 		withLoadingSuccessAndErrorFuntionsToast(
-			createAdminUser_Request(formdata),
+			updateAdmin_Request(data._id, formdata),
 			(res) => {
 				console.log(res.data);
 				router.replace("./menu");
@@ -62,10 +67,22 @@ const Add = () => {
 				right={<></>}
 			/>
 			<div className={styles.container}>
-				<AdminForm onSubmit={onSubmit} />
+				<AdminForm data={data} onSubmit={onSubmit} />
 			</div>
 		</Layout>
 	);
 };
 
 export default Add;
+
+export const getServerSideProps = async ({ params }) => {
+	await dbConnect();
+
+	const { _id } = params;
+
+	const data = JSON.parse(JSON.stringify(await getUserAdmin_service(_id)));
+
+	return {
+		props: { data },
+	};
+};

@@ -30,7 +30,7 @@ const Recover_password = ({ token, email, valid }) => {
 			withLoadingSuccessAndErrorFuntionsToast(
 				setPassword_Request(token, formData),
 				(res) => {
-					router.push("/login");
+					router.push(`../${token}/successful`);
 
 					return "Contraseña cambiada exitosamente";
 				},

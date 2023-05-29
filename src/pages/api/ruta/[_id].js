@@ -1,7 +1,6 @@
 import connectDb from "@/lib/db";
 
 import {
-	deleteRuta_controller,
 	getRuta_By_Id_controller,
 	toggleStatusRuta_controller,
 	updateRuta_controller,
