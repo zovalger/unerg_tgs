@@ -113,6 +113,7 @@ export const getAllUserDriver_service = async () => {
 		return drivers;
 	} catch (error) {
 		console.log(error);
+		return []
 	}
 };
 

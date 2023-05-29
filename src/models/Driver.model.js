@@ -42,4 +42,4 @@ const DriverSchema = mongoose.Schema({
 	},
 });
 
-export default mongoose.models.Driver || mongoose.model("Driver", DriverSchema);
+export default mongoose.models?.Driver || mongoose.model("Driver", DriverSchema);

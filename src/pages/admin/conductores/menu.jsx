@@ -217,6 +217,8 @@ export const getServerSideProps = async (context) => {
 
 	console.log(data);
 
+	console.log();
+
 	const drivers = JSON.parse(JSON.stringify(data));
 
 	return {
