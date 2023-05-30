@@ -24,12 +24,15 @@ import {
 import { useRouter } from "next/router";
 import { getUserAdmin_service } from "@/services/userAdmin.service";
 import dbConnect from "@/lib/db";
+import UserContext from "@/contexts/User.context";
 
 //Contextos
 
 //******************************* Codigo*****************************//
 const Add = ({ data }) => {
 	const router = useRouter();
+
+	const { user, getDataUser } = useContext(UserContext);
 
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
@@ -38,6 +41,9 @@ const Add = ({ data }) => {
 			updateAdmin_Request(data._id, formdata),
 			(res) => {
 				console.log(res.data);
+
+				// if (data._id === user._id)  getDataUser()
+
 				router.replace("./menu");
 
 				return "Guardado";

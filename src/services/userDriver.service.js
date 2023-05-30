@@ -4,6 +4,7 @@ import {
 	sendUrlToChangePasswordUser_service,
 } from "./auth.service";
 import userProcess from "@/config/userProcess";
+import TimetableModel from "@/models/Timetable.model";
 
 export const createUserDriver_service = async ({
 	name,
@@ -106,6 +107,10 @@ export const updateUserDriver_service = async (
 
 export const getAllUserDriver_service = async () => {
 	try {
+
+		// TimetableModel
+
+
 		const drivers = await DriverModel.find()
 			.sort({ name: 1 })
 			.populate(["busId", "timetableId"]);

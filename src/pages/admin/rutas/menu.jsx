@@ -23,6 +23,8 @@ import BotonRu from "@/components/RouteView/BotonRu";
 import RutaContext from "@/contexts/Ruta.context";
 import { useRouter } from "next/router";
 import { getAllRutas_Request } from "@/api/ruta.api";
+import { RxHamburgerMenu } from "react-icons/rx";
+import AsidePanel from "@/components/common/AsidePanel";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -35,6 +37,8 @@ const MainMap = () => {
 	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
 		useContext(MapContext);
 
+	const [offcanvasActive, setOffcanvasActive] = useState(false);
+	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 
 	const { rutas, insertRuta, setEditingRoute, getRuta } =
 		useContext(RutaContext);
@@ -60,10 +64,8 @@ const MainMap = () => {
 				<NavBar
 					left={
 						<>
-							<div>
-								<Link className={styleN.btn_return} href={"../map"}>
-									<IoIosArrowBack />
-								</Link>
+							<div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
+								<RxHamburgerMenu />
 							</div>
 							<div className={styleN.title_nav}>
 								<h2>Todas las Rutas</h2>
@@ -82,7 +84,6 @@ const MainMap = () => {
 				{/*Abrir vista de paradas*/}
 
 				<div className="container__rutas">
-
 					<div className={style.container_routes}>
 						<h2>Rutas disponibles</h2>
 
@@ -100,8 +101,12 @@ const MainMap = () => {
 						})}
 					</div>
 				</div>
-
 			</div>
+
+			<AsidePanel
+				toggleOffcanvas={toggleOffcanvas}
+				offcanvasActive={offcanvasActive}
+			/>
 		</Layout>
 	);
 };

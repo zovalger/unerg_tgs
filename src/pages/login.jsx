@@ -14,11 +14,14 @@ import * as Yup from "yup";
 import UserContext from "@/contexts/User.context";
 import { useContext, useState } from "react";
 import { login_Request } from "@/api/auth.api";
-import toast from "react-hot-toast";
+
 import { useRouter } from "next/router";
 import SocketContext from "@/contexts/Socket.context";
+import ToastContext from "@/contexts/Toast.context";
 
 export function Login() {
+	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
+
 	const { login } = useContext(UserContext);
 	const { resetSocket } = useContext(SocketContext);
 	const [isSubmiting, setIsSubmiting] = useState(false);
@@ -42,29 +45,23 @@ export function Login() {
 			console.log(formData);
 			setIsSubmiting(true);
 
-			try {
-				const myPromise = login(formData);
 
-				toast.promise(myPromise, {
-					loading: "Enviando",
-					success: (user) => {
-						console.log(user);
-						resetSocket();
-						router.push(`/${user.role}/map`);
-						return "autenticado correctamente";
-					},
-					error: (err, res) => {
-						setIsSubmiting(false);
-						console.log(err.response.data.error.message);
-						console.log(res);
-
-						return err.response.data.error.message;
-					},
-				});
-			} catch (error) {
-				setIsSubmiting(false);
-				console.log(error);
-			}
+			withLoadingSuccessAndErrorFuntionsToast(
+				login(formData),
+				(user) => {
+					console.log(user);
+					resetSocket();
+					router.push(`/${user.role}/map`);
+					return "autenticado correctamente";
+				},
+				(error) => {
+					console.log(error);
+					setIsSubmiting(false);
+					const message = error.response.data.message;
+					console.log(error);
+					return message ? message : error.message;
+				}
+			);
 		},
 	});
 	return (

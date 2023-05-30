@@ -32,9 +32,7 @@ import Layout from "@/layouts/Layout";
 //Styles
 import style from "@/styles/Routes/routes_view.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
-
-
-
+import AsidePanel from "@/components/common/AsidePanel";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -43,7 +41,7 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 const MainMap = () => {
 	//useContext
 
-	const { logout, user } = useContext(UserContext);
+	// const { logout, user } = useContext(UserContext);
 
 	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
 		useContext(MapContext);
@@ -54,7 +52,6 @@ const MainMap = () => {
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 
 	const [ro_active, setRo_active] = useState(false);
-
 	const Ro_Btn = () => setRo_active(!ro_active);
 
 	return (
@@ -121,92 +118,10 @@ const MainMap = () => {
 
 				{/* panel lateral desplegable */}
 
-				<div>
-					<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
-						<OffcanvasHeader
-							toggle={toggleOffcanvas}
-							className={styleN.header_nav}
-						>
-							<div className={styleN.user_container}>
-								<div className={styleN.user__img}>
-									<div className={styleN.container__img}>
-										<Image
-											src={"/User_icon.png"}
-											height={400}
-											width={400}
-											alt="Perfil"
-										/>
-									</div>
-								</div>
-
-								<div className={styleN.user__info}>
-									{user && (
-										<>
-											<p>{user.name}</p>
-											<p>{user.CI}</p>
-											<p>{user.role}</p>
-										</>
-									)}
-								</div>
-							</div>
-						</OffcanvasHeader>
-						<OffcanvasBody style={{ padding: 0 }}>
-							<button
-								className={styleN.btn_nav}
-								onClick={() => {
-									// si esta en true se va a desactivar
-									if (viewUserCoord) {
-										toogleViewUserCoord(false);
-									} else {
-										toogleViewUserCoord(true);
-										getCoordsUser();
-										setOffcanvasActive(!offcanvasActive);
-									}
-								}}
-							>
-								<GoLocation className={styleN.route} />
-								<p>Mi Ubicación</p>
-							</button>
-
-							{/************* Botones para navegar entre rutas ************/}
-
-							<Link href={"./rutas/menu"} className={styleN.btn_nav}>
-								<TbRoute className={styleN.route} />
-								<p>Rutas</p>
-							</Link>
-
-							<Link href={"./paradas/menu"} className={styleN.btn_nav}>
-								<GiBusStop className={styleN.route} />
-								<p>Paradas</p>
-							</Link>
-
-							<Link href={"./autobuses/menu"} className={styleN.btn_nav}>
-								<FaBusAlt className={styleN.route} />
-								<p>Autobuses</p>
-							</Link>
-
-							<Link href={"./conductores/menu"} className={styleN.btn_nav}>
-								<ImUsers className={styleN.route} />
-								<p>Conductores</p>
-							</Link>
-
-							<Link href={"./admins/menu"} className={styleN.btn_nav}>
-								<ImUser className={styleN.route} />
-								<p>Administradores</p>
-							</Link>
-
-							<button
-								className={styleN.btn_nav__logout}
-								onClick={async () => {
-									await logout();
-								}}
-							>
-								<IoIosLogOut className={styleN.route} />
-								<p>Salir</p>
-							</button>
-						</OffcanvasBody>
-					</Offcanvas>
-				</div>
+				<AsidePanel
+					toggleOffcanvas={toggleOffcanvas}
+					offcanvasActive={offcanvasActive}
+				/>
 			</div>
 		</Layout>
 	);

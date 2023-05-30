@@ -156,13 +156,13 @@ const AdminForm = ({ onSubmit, data }) => {
 				<Input
 					name="type"
 					type="switch"
-					id="Ver_usuariosAdmin"
+					id={i}
 					checked={listPermises.includes(i)}
 					onChange={() => {
 						changePermises(i);
 					}}
 				/>
-				<Label check for="Ver_usuariosAdmin">
+				<Label check for={i}>
 					{permissionsSystem[i]}
 				</Label>
 			</FormGroup>

@@ -9,7 +9,6 @@ import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import Bus_stop from "@/components/RouteView/bus_stop/Bus_stop";
 
-
 import { BiPencil } from "react-icons/bi";
 import { IoIosArrowBack } from "react-icons/io";
 
@@ -27,6 +26,8 @@ import {
 	getAllWaypoints_Request,
 } from "@/api/waypoint.api";
 import WaypointContext from "@/contexts/Waypoint.context";
+import AsidePanel from "@/components/common/AsidePanel";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -40,8 +41,9 @@ const MainMap = () => {
 	const { insert, waypoints, getWaypoint, dropWaypoint } =
 		useContext(WaypointContext);
 
-
 	//useState
+	const [offcanvasActive, setOffcanvasActive] = useState(false);
+	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
 
 	const [edit, setEdit] = useState(false);
 	const getDataWaypoints = async () => {
@@ -98,11 +100,10 @@ const MainMap = () => {
 				<NavBar
 					left={
 						<>
-							<div>
-								<Link className={styleN.btn_return} href={"../map"}>
-									<IoIosArrowBack />
-								</Link>
+							<div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
+								<RxHamburgerMenu />
 							</div>
+
 							<div className={styleN.title_nav}>
 								<h2>Todas las paradas</h2>
 							</div>
@@ -132,8 +133,12 @@ const MainMap = () => {
 						onClick={onClick}
 					/>
 				</div>
-
 			</div>
+
+			<AsidePanel
+				toggleOffcanvas={toggleOffcanvas}
+				offcanvasActive={offcanvasActive}
+			/>
 		</Layout>
 	);
 };

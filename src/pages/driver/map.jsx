@@ -33,6 +33,7 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 
 import UserContext from "@/contexts/User.context";
 import DriverContext from "@/contexts/Driver.context";
+import AsidePanel from "@/components/common/AsidePanel";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -90,74 +91,24 @@ const DriveMap = () => {
 						<div className={style.porcentaje}></div>
 					</div>
 				</div>
-
-				<div>
-					<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
-						<OffcanvasHeader
-							toggle={toggleOffcanvas}
-							className={styleN.header_nav}
-						>
-									<div className={styleN.user_container}>
-								<div className={styleN.user__img}>
-									<div className={styleN.container__img}>
-										<Image
-											src={"/User_icon.png"}
-											height={400}
-											width={400}
-											alt="Perfil"
-										/>
-									</div>
-								</div>
-
-								<div className={styleN.user__info}>
-									{user ? (
-										<>
-											<p>
-												{user.name} {user.lastname}
-											</p>
-											<p>V-29.852.475</p>
-											<p>{user.role}</p>
-										</>
-									) : (
-										""
-									)}
-								</div>
-							</div>
-						</OffcanvasHeader>
-						<OffcanvasBody style={{ padding: 0 }}>
-							<button className={styleN.btn_nav}>
-								<TbBus className={styleN.route} />
-								<p>Rutas</p>
-							</button>
-
-							<button
-								onClick={() => {
-									setInter(
-										setInterval(() => {
-											const coord = getCenterMap();
-											console.log(coord);
-											sendCoord(coord);
-										}, 500)
-									);
-								}}
-							>
-								iniciar servicio
-							</button>
-
-							<button
-								className={styleN.btn_nav__logout}
-								onClick={async () => {
-									clearInterval(inter);
-									await logout();
-									// router.push("/login");
-								}}
-							>
-								<IoIosLogOut className={styleN.route} />
-								<p>Salir</p>
-							</button>
-						</OffcanvasBody>
-					</Offcanvas>
-				</div>
+				<AsidePanel
+					toggleOffcanvas={toggleOffcanvas}
+					offcanvasActive={offcanvasActive}
+				>
+					<button
+						onClick={() => {
+							setInter(
+								setInterval(() => {
+									const coord = getCenterMap();
+									console.log(coord);
+									sendCoord(coord);
+								}, 500)
+							);
+						}}
+					>
+						iniciar servicio
+					</button>
+				</AsidePanel>
 			</div>
 		</Layout>
 	);

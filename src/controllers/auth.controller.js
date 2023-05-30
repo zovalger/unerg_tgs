@@ -3,6 +3,7 @@ import { SECRET_WORD } from "@/config";
 import ErrorsMessages from "@/config/errorsMessages";
 import {
 	authorizeSendUrlToChangePassword_service,
+	getUser_By_Email,
 	loginUser_service,
 	setPasswordUser_service,
 } from "@/services/auth.service";
@@ -83,7 +84,7 @@ export const logoutUser_controller = (req, res) => {
 	}
 };
 
-export const profileUser_controller = (req, res) => {
+export const profileUser_controller = async (req, res) => {
 	const { authCookie } = req.cookies;
 
 	if (!authCookie)
@@ -93,7 +94,17 @@ export const profileUser_controller = (req, res) => {
 
 	try {
 		const user = verify(authCookie, SECRET_WORD);
-		return res.status(200).json(user);
+
+		let u = await getUser_By_Email(user.email);
+
+		if (!u)
+			return res
+				.status(400)
+				.json({ error: true, message: ErrorsMessages.userNotFound });
+
+		u = JSON.parse(JSON.stringify(u));
+
+		return res.status(200).json({ ...u, password: undefined });
 	} catch (error) {
 		console.log(error);
 		return res

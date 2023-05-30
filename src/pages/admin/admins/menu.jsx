@@ -36,6 +36,7 @@ import UserContext from "@/contexts/User.context";
 import { getAllUserAdmin_service } from "@/services/userAdmin.service";
 import { useRouter } from "next/router";
 import dbConnect from "@/lib/db";
+import AsidePanel from "@/components/common/AsidePanel";
 
 //*************************** Codigo  ************************/
 
@@ -117,91 +118,10 @@ const MenuAdmin = ({admins}) => {
 
 			{/* panel lateral desplegable */}
 
-			<div>
-				<Offcanvas isOpen={offcanvasActive} toggle={toggleOffcanvas}>
-					<OffcanvasHeader
-						toggle={toggleOffcanvas}
-						className={styleN.header_nav}
-					>
-						<div className={styleN.user_container}>
-							<div className={styleN.user__img}>
-								<div className={styleN.container__img}>
-									<Image
-										src={"/User_icon.png"}
-										height={400}
-										width={400}
-										alt="Perfil"
-									/>
-								</div>
-							</div>
-
-							<div className={styleN.user__info}>
-								{user ? (
-									<>
-										<p>
-											{user.name} {user.lastname}
-										</p>
-										<p>V-29.852.475</p>
-										<p>{user.role}</p>
-									</>
-								) : (
-									""
-								)}
-							</div>
-						</div>
-					</OffcanvasHeader>
-					<OffcanvasBody style={{ padding: 0 }}>
-						{/*********  Botones del panel lateral desplegable   *********/}
-
-						{/* <button
-								className={styleN.btn_nav}
-								onClick={() => {
-									// si esta en true se va a desactivar
-									if (viewUserCoord) {
-										toogleViewUserCoord(false);
-									} else {
-										toogleViewUserCoord(true);
-										getCoordsUser();
-										setOffcanvasActive(!offcanvasActive);
-									}
-								}}
-							>
-								<GoLocation className={styleN.route} />
-								<p>Mi Ubicación</p>
-							</button> */}
-
-						<Link href={"../rutas/menu"} className={styleN.btn_nav}>
-							<TbRoute className={styleN.route} />
-							<p>Rutas</p>
-						</Link>
-
-						<Link href={"../paradas/menu"} className={styleN.btn_nav}>
-							<GiBusStop className={styleN.route} />
-							<p>Paradas</p>
-						</Link>
-
-						<Link href={"../autobuses/menu"} className={styleN.btn_nav}>
-							<FaBusAlt className={styleN.route} />
-							<p>Autobuses</p>
-						</Link>
-
-						<Link href={"../map"} className={styleN.btn_nav}>
-							<GrReturn className={styleN.route} />
-							<p>Regresar</p>
-						</Link>
-
-						<button
-							className={styleN.btn_nav__logout}
-							onClick={async () => {
-								await logout();
-							}}
-						>
-							<IoIosLogOut className={styleN.route} />
-							<p>Salir</p>
-						</button>
-					</OffcanvasBody>
-				</Offcanvas>
-			</div>
+			<AsidePanel
+					toggleOffcanvas={toggleOffcanvas}
+					offcanvasActive={offcanvasActive}
+				/>
 		</Layout>
 	);
 };

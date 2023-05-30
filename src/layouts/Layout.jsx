@@ -15,8 +15,6 @@ function Layout({ children }) {
 		const tag = router.asPath;
 		const rolesRutas = tag.match(/\/admin\/|\/driver\//gi);
 
-		console.log(rolesRutas);
-
 		if (!rolesRutas) return;
 
 		if (rolesRutas.length > 0 && !auth) return router.replace("/login");
