@@ -50,37 +50,5 @@ export const adminOptions = [
 const pathDriver = "/driver";
 
 export const driverOptions = [
-	{
-		link: `${pathDriver}/rutas/menu`,
-		name: "Rutas",
-		icon: <TbRoute className={styleN.route} />,
-		permission: "rutaView",
-	},
-	{
-		link: `${pathDriver}/paradas/menu`,
-		name: "Paradas",
-		icon: <GiBusStop className={styleN.route} />,
-		permission: "waypointView",
-	},
-
-	{
-		link: `${pathDriver}/autobuses/menu`,
-		name: "Autobuses",
-		icon: <FaBusAlt className={styleN.route} />,
-		permission: "busView",
-	},
-
-	{
-		link: `${pathAdmin}/conductores/menu`,
-		name: "Conductores",
-		icon: <ImUsers className={styleN.route} />,
-		permission: "driverView",
-	},
-
-	{
-		link: `${pathAdmin}/admins/menu`,
-		name: "Administradores",
-		icon: <ImUser className={styleN.route} />,
-		permission: "adminView",
-	},
+	
 ];
