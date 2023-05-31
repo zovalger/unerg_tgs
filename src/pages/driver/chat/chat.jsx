@@ -1,7 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Link from "next/link";
+
+import Layout from "@/layouts/Layout";
+import NavBar from "@/components/common/NavBar";
+
 import { InputGroup, Input, Button } from 'reactstrap';
 import { FaPaperPlane, FaCamera } from 'react-icons/fa';
-import style from '@/styles/Chat/chat.module.css';
+import { IoIosArrowBack } from "react-icons/io";
+
+import styleC from '@/styles/Chat/chat.module.css';
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -34,7 +42,7 @@ const Chat = () => {
   const sendImage = (file) => {
     if (file) {
       // eslint-disable-next-line react/jsx-key, @next/next/no-img-element
-      setMessages([...messages, <img src={URL.createObjectURL(file)} alt="Foto" className={style.image} />]);
+      setMessages([...messages, <img src={URL.createObjectURL(file)} alt="Foto" className={styleC.image} />]);
       setImageFile(null);
     }
   };
@@ -50,17 +58,38 @@ const Chat = () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+
   return (
-    <div className={style.chatContainer}>
-      <div className={style.messageContainer}>
+<Layout>
+
+<NavBar
+					title={"Chat"}
+					ViPrincipal={true}
+					left={
+						<div>
+							<Link href={"../map"} className={styleN.btn_return}>
+								<IoIosArrowBack />
+							</Link>
+						</div>
+					}
+					right={
+						<>
+							<Link href={"./add"}>		
+							</Link>
+						</>
+					}
+				/>
+
+    <div className={styleC.chatContainer}>
+      <div className={styleC.messageContainer}>
         {messages.map((message, index) => (
-          <div key={index} className={style.message}>
+          <div key={index} className={styleC.message}>
             {message}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
-      <div className={style.inputContainer}>
+      <div className={styleC.inputContainer}>
         <InputGroup>
           <Input
             type="text"
@@ -85,6 +114,7 @@ const Chat = () => {
         </InputGroup>
       </div>
     </div>
+   </Layout> 
   );
 };
 

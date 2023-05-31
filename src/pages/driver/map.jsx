@@ -2,11 +2,13 @@
 import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link"
 
 // componentes de otras librerias
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbBus } from "react-icons/tb";
+import { GrChatOption } from "react-icons/gr"
 import { IoIosLogOut } from "react-icons/io";
 
 import {
@@ -95,6 +97,12 @@ const DriveMap = () => {
 					toggleOffcanvas={toggleOffcanvas}
 					offcanvasActive={offcanvasActive}
 				>
+					
+					<Link className={styleN.btn_nav} href={"./chat/chat"}>
+						<GrChatOption className={styleN.route} />
+						<p>Chat</p>
+					</Link>
+
 					<button
 						onClick={() => {
 							setInter(
