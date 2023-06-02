@@ -188,6 +188,7 @@
 	width: 100%;
 	align-items: center;
 	justify-content: flex-start;
+	height: auto;
 }
 
 .user__img {
@@ -211,26 +212,55 @@
 .container__img img {
 	height: 100%;
 	width: 100%;
-	object-fit: fill;
+	object-fit: cover;
 }
 
-.user__info {
+.user__info{
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
-	justify-content: center;
 	height: 100%;
 	width: 100%;
+	text-overflow: clip;
 }
 
-.user__info p {
-	font-size: 1rem;
-	height: 10px;
-	text-align: start;
+.user__info p{
+	 font-size: 1rem;
+	 font-weight: 500;
+	 margin-bottom: 2px;
+
 }
+
+.name{
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+
+@media (max-width: 550px) {
+		.user__info{
+	
+	width: 56%;
+
+}
+}
+
+
 
 @media (max-width: 320px) {
+
+	.title_nav h2 {
+		font-size: 1rem;
+		width: 150px;
+
+	}
+
 	/***********Header Nav************/
+
+	.user_container {
+		margin-top: 15px;
+	}
+
+
 	.user__img {
 		margin-right: 5px;
 	}
@@ -248,9 +278,7 @@
 	}
 
 	.user__info p {
-		font-size: 0.8rem;
-		height: 10px;
-		text-align: start;
+		font-size: 0.75rem;
 	}
 
 	/***************Botones****************/
@@ -261,7 +289,7 @@
 	}
 
 	.btn_nav p {
-		font-size: 1.1rem;
+		font-size: 1rem;
 		font-weight: 400;
 	}
 

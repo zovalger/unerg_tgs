@@ -100,8 +100,13 @@ const MainMap = () => {
 				<NavBar
 					left={
 						<>
-							<div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
-								<RxHamburgerMenu />
+							<div>
+								<Link
+									className={styleN.btn_return}
+									href={"../map"}
+								>
+									<IoIosArrowBack />
+								</Link>
 							</div>
 
 							<div className={styleN.title_nav}>

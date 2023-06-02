@@ -31,6 +31,7 @@
 
 .text h2{
    margin: 0;
+   font-size: 2rem;
 }
 
 .container__hours{
@@ -66,4 +67,29 @@
     margin: 0;
     font-weight: 400;
     font-size: 1.2rem;
+}
+
+
+@media (max-width:320px) {
+
+    .container__icon svg{
+        height: 45px;
+        width: 45px;
+     }
+
+     .text h2{
+        margin: 0;
+        font-size: 1.1rem;
+     }
+     
+
+    .titles p{
+        font-size: 0.9rem;
+    }
+
+    .hours p{
+     
+       
+        font-size: 0.9rem;
+    }
 }

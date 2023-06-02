@@ -42,7 +42,7 @@ export default function AsidePanel({
 					<div className={styleN.user__info}>
 						{user && (
 							<>
-								<p>{user.name}</p>
+								<p className={styleN.name}>{user.name}</p>
 								<p>{user.CI}</p>
 								<p>{user.role}</p>
 							</>

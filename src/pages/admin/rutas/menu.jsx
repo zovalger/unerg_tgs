@@ -23,7 +23,7 @@ import BotonRu from "@/components/RouteView/BotonRu";
 import RutaContext from "@/contexts/Ruta.context";
 import { useRouter } from "next/router";
 import { getAllRutas_Request } from "@/api/ruta.api";
-import { RxHamburgerMenu } from "react-icons/rx";
+
 import AsidePanel from "@/components/common/AsidePanel";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
@@ -64,8 +64,13 @@ const MainMap = () => {
 				<NavBar
 					left={
 						<>
-							<div onClick={toggleOffcanvas} className={styleN.HamburgerMenu}>
-								<RxHamburgerMenu />
+							<div>
+								<Link
+									className={styleN.btn_return}
+									href={"../map"}
+								>
+									<IoIosArrowBack />
+								</Link>
 							</div>
 							<div className={styleN.title_nav}>
 								<h2>Todas las Rutas</h2>
