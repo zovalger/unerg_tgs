@@ -121,6 +121,7 @@ const MenuAdmin = ({admins}) => {
 			<AsidePanel
 					toggleOffcanvas={toggleOffcanvas}
 					offcanvasActive={offcanvasActive}
+					location = {false}
 				/>
 		</Layout>
 	);

@@ -1,6 +1,5 @@
 // React/Next
 
-import Image from "next/image";
 import Link from "next/link";
 
 //Componentes
@@ -13,7 +12,7 @@ import moment from "moment";
 //Contextos
 
 //****************************  Codigo  *******************************//
-const Btn_conductor = ({ data, onClick }) => {
+const BtnMessages = ({ data, onClick }) => {
 	const { _id, name, phone, perfilImg, busId, timetableId } = data;
 	//Contextos
 
@@ -34,25 +33,16 @@ const Btn_conductor = ({ data, onClick }) => {
 					</div>
 
 					<div className={styles.text}>
-						<h2>{name}</h2> {/* Heredar*/}
+						<h2>{name}</h2> 
 						<p>Teléfono: {phone} </p>
-						{/* Heredar*/}
-						<p>
-							Horario:{" "}
-							{timetableId
-								? `${timetableId.name}: ${moment(timetableId.startTime).format(
-										"h:mm a"
-								  )} - ${moment(timetableId.endTime).format("h:mm a")}`
-								: "No asignado"}{" "}
-						</p>
-						{/* Heredar*/}
+	
 						<p>
 							Unidad:{" "}
 							{busId
 								? `Numero "${busId.num}" - Placa "${busId.placa}"`
 								: "No asignado"}
 						</p>
-						{/* Heredar*/}
+
 					</div>
 				</div>
 			</div>
@@ -60,4 +50,4 @@ const Btn_conductor = ({ data, onClick }) => {
 	);
 };
 
-export default Btn_conductor;
+export default BtnMessages;

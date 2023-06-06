@@ -3,7 +3,8 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import { FaBusAlt } from "react-icons/fa";
 import { GiBusStop } from "react-icons/gi";
 import { ImUser, ImUsers } from "react-icons/im";
-import { TbRoute } from "react-icons/tb";
+import { TbRoute, TbBus} from "react-icons/tb";
+import { GrChatOption } from "react-icons/gr"
 
 const pathAdmin = "/admin";
 
@@ -41,14 +42,30 @@ export const adminOptions = [
 		icon: <ImUser className={styleN.route} />,
 		permission: "adminView",
 	},
+
+	{
+		link: `${pathAdmin}/messages/menu`,
+		name: "Chat",
+		icon: <GrChatOption className={styleN.route} />,
+		permission: "adminView",
+	},
 ];
-
-
 
 
 
 const pathDriver = "/driver";
 
 export const driverOptions = [
-	
+	{
+		link: `${pathDriver}/chat/chat`,
+		name: "Chat",
+		icon: <GrChatOption className={styleN.route} />,
+
+	},
+	{
+		link: `${pathDriver}/capacidad`,
+		name: "Capacidad del Bus",
+		icon: <TbBus className={styleN.route} />,
+		
+	},
 ];

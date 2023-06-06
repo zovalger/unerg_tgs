@@ -19,6 +19,7 @@ export default function AsidePanel({
 	children,
 	offcanvasActive,
 	toggleOffcanvas,
+	location
 }) {
 	const { logout, user } = useContext(UserContext);
 
@@ -51,7 +52,7 @@ export default function AsidePanel({
 				</div>
 			</OffcanvasHeader>
 			<OffcanvasBody style={{ padding: 0 }}>
-				<button
+				{location && (<button
 					className={styleN.btn_nav}
 					onClick={() => {
 						// si esta en true se va a desactivar
@@ -66,7 +67,8 @@ export default function AsidePanel({
 				>
 					<GoLocation className={styleN.route} />
 					<p>Mi Ubicación</p>
-				</button>
+				</button>)}
+				
 				{/************* Botones para navegar entre rutas ************/}
 
 				{user && user.permissions

@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import { useContext, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 //Componentes
 import {
@@ -17,6 +18,7 @@ import {
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import Btn_conductor from "@/components/AddConductor/Btn_conductor";
+import AsidePanel from "@/components/common/AsidePanel";
 
 import { FaSearch, FaBusAlt } from "react-icons/fa";
 import { GoLocation } from "react-icons/go";
@@ -35,8 +37,8 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import UserContext from "@/contexts/User.context";
 import dbConnect from "@/lib/db";
 import { getAllUserDriver_service } from "@/services/userDriver.service";
-import { useRouter } from "next/router";
-import AsidePanel from "@/components/common/AsidePanel";
+
+
 
 //*************************** Codigo  ************************/
 
@@ -122,6 +124,7 @@ const MenuConductor = ({ drivers }) => {
 			<AsidePanel
 					toggleOffcanvas={toggleOffcanvas}
 					offcanvasActive={offcanvasActive}
+					location = {false}
 				/>
 		</Layout>
 	);

@@ -19,6 +19,8 @@ import {
 	OffcanvasHeader,
 } from "reactstrap";
 
+import { FaBusinessTime } from "react-icons/fa";
+
 // contextos
 import MapContext from "@/contexts/Map.context";
 
@@ -97,13 +99,7 @@ const DriveMap = () => {
 					toggleOffcanvas={toggleOffcanvas}
 					offcanvasActive={offcanvasActive}
 				>
-					
-					<Link className={styleN.btn_nav} href={"./chat/chat"}>
-						<GrChatOption className={styleN.route} />
-						<p>Chat</p>
-					</Link>
-
-					<button
+					<button className={styleN.btn_nav}
 						onClick={() => {
 							setInter(
 								setInterval(() => {
@@ -114,7 +110,8 @@ const DriveMap = () => {
 							);
 						}}
 					>
-						iniciar servicio
+						<FaBusinessTime className={styleN.route} />
+						<p>Iniciar servicio</p>
 					</button>
 				</AsidePanel>
 			</div>

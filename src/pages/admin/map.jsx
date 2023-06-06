@@ -121,6 +121,7 @@ const MainMap = () => {
 				<AsidePanel
 					toggleOffcanvas={toggleOffcanvas}
 					offcanvasActive={offcanvasActive}
+					location={true}
 				/>
 			</div>
 		</Layout>
