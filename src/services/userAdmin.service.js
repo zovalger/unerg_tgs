@@ -4,6 +4,8 @@ import {
 	sendUrlToChangePasswordUser_service,
 } from "./auth.service";
 import userProcess from "@/config/userProcess";
+import { ROOT_USER } from "@/config";
+import { getAllPermissions } from "@/config/permissionsSystem";
 
 export const createUserAdmin_service = async ({
 	name,
@@ -34,13 +36,13 @@ export const createUserAdmin_service = async ({
 
 		const admin = new AdminModel(data);
 
+		await admin.save();
+
 		// todo: enviar verificacion al correo
 		await sendUrlToChangePasswordUser_service(
 			admin,
 			userProcess.setFirstPassword
 		);
-
-		await admin.save();
 
 		return admin;
 	} catch (error) {
@@ -99,3 +101,12 @@ export const getUserAdmin_service = async (_id) => {
 		console.log(error);
 	}
 };
+
+export const getRootUserPerfil = () => ({
+	_id: "-100",
+	name: "root",
+	email: ROOT_USER,
+	role: "admin",
+	permissions: getAllPermissions(),
+	perfilImg: { url: "/root-vector-icon.jpg" },
+});

@@ -1,4 +1,4 @@
-import { SECRET_WORD } from "@/config";
+import { ROOT_USER, SECRET_WORD } from "@/config";
 
 import ErrorsMessages from "@/config/errorsMessages";
 import {
@@ -92,10 +92,17 @@ export const profileUser_controller = async (req, res) => {
 			.status(401)
 			.json({ error: true, message: ErrorsMessages.tokenNotFound });
 
+	let user = null;
 	try {
-		const user = verify(authCookie, SECRET_WORD);
+		user = verify(authCookie, SECRET_WORD);
+	} catch (error) {
+		return res
+			.status(500)
+			.json({ error, message: ErrorsMessages.tokenInvalidOrDefeated });
+	}
 
-		let u = await getUser_By_Email(user.email);
+	try {
+		let u = user.email == ROOT_USER ? user : await getUser_By_Email(user.email);
 
 		if (!u)
 			return res
@@ -107,9 +114,7 @@ export const profileUser_controller = async (req, res) => {
 		return res.status(200).json({ ...u, password: undefined });
 	} catch (error) {
 		console.log(error);
-		return res
-			.status(500)
-			.json({ error, message: ErrorsMessages.tokenInvalidOrDefeated });
+		return res.status(500).json({ error, message: ErrorsMessages.inServer });
 	}
 };
 

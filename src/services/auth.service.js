@@ -1,11 +1,12 @@
 import bcrypt from "bcrypt";
 import { sign, verify } from "jsonwebtoken";
-import { SECRET_WORD, SERVER_URL } from "@/config";
+import { SECRET_WORD, SERVER_URL, ROOT_USER, ROOT_PASSWORD } from "@/config";
 import AdminModel from "@/models/Admin.model";
 import DriverModel from "@/models/Driver.model";
 import userProcess from "@/config/userProcess";
 import ErrorsMessages from "@/config/errorsMessages";
 import { sendEmail } from "@/lib/emailSender";
+import { getRootUserPerfil } from "./userAdmin.service";
 
 export const getUser_By_Id = async (_id) => {
 	if (!_id) return;
@@ -28,7 +29,12 @@ export const getUser_By_Email = async (email) => {
 export const loginUser_service = async ({ email, password }) => {
 	if (!email || !password) return;
 
+	console.log(ROOT_USER, ROOT_PASSWORD);
+
 	try {
+		if (email == ROOT_USER && password == ROOT_PASSWORD)
+			return getRootUserPerfil();
+
 		const user = await getUser_By_Email(email);
 		if (!user) return;
 
