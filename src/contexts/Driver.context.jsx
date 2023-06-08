@@ -1,4 +1,5 @@
 import { login_Request, logout_Request, profile_Request } from "@/api/auth.api";
+import socketEventsSystem from "@/config/socketEventsSystem";
 import { useRouter } from "next/router";
 import MapContext from "./Map.context";
 import SocketContext from "./Socket.context";
@@ -14,6 +15,7 @@ const DriverContext = createContext();
 
 export const DriverProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
+	const [Send, setSend] = useState(second)
 
 	useEffect(() => {
 		if (!socket) return;
@@ -30,7 +32,7 @@ export const DriverProvider = ({ children }) => {
 	const sendCoord = (coord) => {
 		if (!coord) return;
 
-		socket.emit("/bus/update/coord", coord);
+		socket.emit(socketEventsSystem.updatePosBus, coord);
 	};
 
 	return (
