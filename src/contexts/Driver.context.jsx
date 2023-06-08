@@ -33,8 +33,14 @@ export const DriverProvider = ({ children }) => {
 		socket.emit("/bus/update/coord", coord);
 	};
 
+	// ############# Chat Sockets ###################
+
+	const sendMessage = (message) => {
+		socket.emit('Send Message', message);
+	};
+
 	return (
-		<DriverContext.Provider value={{ sendCoord }}>
+		<DriverContext.Provider value={{ sendCoord, sendMessage }}>
 			{children}
 		</DriverContext.Provider>
 	);
