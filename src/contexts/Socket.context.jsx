@@ -1,3 +1,4 @@
+import socketEventsSystem from "@/config/socketEventsSystem";
 import io from "socket.io-client";
 import MapContext from "./Map.context";
 
@@ -21,7 +22,6 @@ export const SocketProvider = ({ children }) => {
 	const socketInitializer = async () => {
 		await fetch("/api/socket");
 
-		// let socket = io("http://localhost:4000");
 		let socket = io();
 
 		setSocket(socket);
@@ -29,20 +29,27 @@ export const SocketProvider = ({ children }) => {
 		socket.on("connect", () => {
 			console.log("connected");
 		});
+	};
 
-		socket.on("/bus/update/coord", (busData) => {
+	// *************************************************************
+	// 					listeners predeterminados del socket
+	// *************************************************************
+
+	const defaultListeners = () => {
+		socket.on(socketEventsSystem.updatePosBus, (busData) => {
 			console.log(busData);
 			updateBus(busData);
 		});
 
-		// const onChangeHandler = (e) => {
-		// 	setInput(e.target.value);
-		// 	socket.emit("input-change", e.target.value);
-		// };
+		// notificaciones 
+	};
+
+	const offDefaultListeners = () => {
+		socket.off(socketEventsSystem.updatePosBus);
 	};
 
 	const resetSocket = () => {
-		socket.close()
+		socket.close();
 		socketInitializer();
 	};
 
