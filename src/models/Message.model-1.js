@@ -15,12 +15,12 @@ const ChatSchema = mongoose.Schema({
 	},
 	driverId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
+		ref: "Driver",
 		default: null,
 	},
 	adminId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
+		ref: "Admin",
 		default: null,
 	},
 },

@@ -15,7 +15,7 @@ const DriverContext = createContext();
 
 export const DriverProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
-	const [Send, setSend] = useState(second)
+	const [Send, setSend] = useState("")
 
 	useEffect(() => {
 		if (!socket) return;
