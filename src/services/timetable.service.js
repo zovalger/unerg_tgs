@@ -2,7 +2,7 @@ import ErrorsMessages from "@/config/errorsMessages";
 import TimetableModel from "@/models/Timetable.model";
 
 export const createTimetable_service = async (data) => {
-	const { name, startTime, endTime, workDays, type } = data;
+	const { name, startTime, endTime, workDays, type, description } = data;
 
 	try {
 		const timetable = new TimetableModel(
@@ -10,7 +10,8 @@ export const createTimetable_service = async (data) => {
 			startTime,
 			endTime,
 			workDays,
-			type
+			type,
+			description
 		);
 
 		await timetable.save();
@@ -62,10 +63,17 @@ export const getAllRutaTimetables_service = async () => {
 };
 
 export const updateTimetable_service = async (_id, data) => {
-	const { name, startTime, endTime, workDays } = data;
+	const { name, startTime, endTime, workDays, description } = data;
 
 	try {
-		await TimetableModel.updateOne({ _id }, name, startTime, endTime, workDays);
+		await TimetableModel.updateOne(
+			{ _id },
+			name,
+			startTime,
+			endTime,
+			workDays,
+			description
+		);
 
 		const timetable = await getTimetable_by_Id_service(_id);
 

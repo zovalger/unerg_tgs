@@ -16,8 +16,8 @@ import { timetableValidatorSchema } from "@/validations/timetable.validation";
 
 export const createTimetable_controller = async (req, res) => {
 	// obtencion de datos de la request
-	const { name, startTime, endTime, workDays, type } = req.body;
-	const timetableData = { name, startTime, endTime, workDays, type };
+	const { name, startTime, endTime, workDays, type,description } = req.body;
+	const timetableData = { name, startTime, endTime, workDays, type ,description};
 
 	try {
 		// validacion de datos
@@ -172,9 +172,9 @@ export const getTimetable_By_Id_controller = async (req, res) => {
 export const updateTimetable_controller = async (req, res) => {
 	// se obtinen los datos de la request
 	const { _id } = req.query;
-	const { name, startTime, endTime, workDays, type } = req.body;
+	const { name, startTime, endTime, workDays, type,description } = req.body;
 
-	const timetableData = { name, startTime, endTime, workDays, type };
+	const timetableData = { name, startTime, endTime, workDays, type,description };
 
 	try {
 		// validacion de datos
