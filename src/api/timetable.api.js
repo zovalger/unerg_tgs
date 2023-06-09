@@ -9,6 +9,12 @@ export const createTimetable_Request = async (data) =>
 // obtencion
 export const getAllTimetables_Request = async () => await axios.get(`${url}`);
 
+export const getAllDriverTimetables_Request = async () =>
+	await axios.get(`${url}/driver`);
+	
+export const getAllRutaTimetables_Request = async () =>
+	await axios.get(`${url}/ruta`);
+
 export const getTimetable_By_Id_Request = async (_id) =>
 	await axios.get(`${url}/${_id}`);
 
