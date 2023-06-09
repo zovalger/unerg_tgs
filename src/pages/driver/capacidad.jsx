@@ -29,8 +29,7 @@ import { IoIosArrowBack } from "react-icons/io";
 //****************************** Codigo *****************************//
 
 const Capacidad = () => {
-    const [value, setValue] = useState(5); // el valor inicial es 50
-
+    const [value, setValue] = useState(0); 
     const handleChange = e => {
       setValue(e.target.value);
     };
@@ -52,9 +51,17 @@ const Capacidad = () => {
 
       <div className={styles.container}>
 
-        <Form    className={styles.form}>
+        <Form   className={styles.form}>
 
-
+         <Input
+         type="range"
+         max={100}
+         min={0}
+         value={value}
+         className={styles.input}
+         onChange={handleChange}
+         style={{height:`${value}`}}
+         />
         </Form>
         <p>{value}</p>
       </div>
