@@ -4,7 +4,9 @@ import { FaBusAlt } from "react-icons/fa";
 import { GiBusStop } from "react-icons/gi";
 import { ImUser, ImUsers } from "react-icons/im";
 import { TbRoute, TbBus} from "react-icons/tb";
-import { GrChatOption } from "react-icons/gr"
+import { GrChatOption, GrGroup } from "react-icons/gr"
+import { BiBus } from "react-icons/bi";
+import { AiOutlineFieldTime, AiOutlineUser } from "react-icons/ai";
 
 const pathAdmin = "/admin";
 
@@ -25,21 +27,28 @@ export const adminOptions = [
 	{
 		link: `${pathAdmin}/autobuses/menu`,
 		name: "Autobuses",
-		icon: <FaBusAlt className={styleN.route} />,
+		icon: <BiBus className={styleN.route} />,
 		permission: "busView",
 	},
 
 	{
 		link: `${pathAdmin}/conductores/menu`,
 		name: "Conductores",
-		icon: <ImUsers className={styleN.route} />,
+		icon: <GrGroup className={styleN.route} />,
 		permission: "driverView",
+	},
+
+	{
+		link: `${pathAdmin}/horarios/menu`,
+		name: "Horarios",
+		icon: <AiOutlineFieldTime className={styleN.route} />,
+		// permission: "driverView",
 	},
 
 	{
 		link: `${pathAdmin}/admins/menu`,
 		name: "Administradores",
-		icon: <ImUser className={styleN.route} />,
+		icon: <AiOutlineUser className={styleN.route} />,
 		permission: "adminView",
 	},
 
