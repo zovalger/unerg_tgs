@@ -1,5 +1,5 @@
 .container{
-   height: 91vh;
+   height: 91.2vh;
     width: 100%;
     display: flex;
     align-items: center;
@@ -10,14 +10,30 @@
 .form{
     height: 100%;
     width: 100%;
+    display: flex;
+    overflow: hidden;
+    align-items: flex-end;
 }
 
-.input {
-
+.barra{
+    min-height:15%;
     width: 100%;
+    background-color:#0075FF;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
 
-    list-style: decimal;
-    background-color: aquamarine;
-
-  }
+.porcentaje{
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 40px;
+    width: 40px;
+    margin: auto;
+    font-size: 2.8rem;
+    color: rgba(0, 0, 0, 0.548);
+    font-weight: 400;
+}
   
