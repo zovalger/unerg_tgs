@@ -1,16 +1,20 @@
-import permissionsSystem from "@/config/permissionsSystem";
 import styleN from "@/styles/Nav/NavStyle.module.css";
-import { FaBusAlt } from "react-icons/fa";
 import { GiBusStop } from "react-icons/gi";
-import { ImUser, ImUsers } from "react-icons/im";
-import { TbRoute, TbBus} from "react-icons/tb";
-import { GrChatOption, GrGroup } from "react-icons/gr"
+import { TbRoute, TbBus } from "react-icons/tb";
+import { GrChatOption, GrGroup } from "react-icons/gr";
 import { BiBus } from "react-icons/bi";
 import { AiOutlineFieldTime, AiOutlineUser } from "react-icons/ai";
+import { BsMap } from "react-icons/bs";
 
 const pathAdmin = "/admin";
 
 export const adminOptions = [
+	{
+		link: `${pathAdmin}/map`,
+		name: "Mapa",
+		icon: <BsMap className={styleN.route} />,
+	},
+
 	{
 		link: `${pathAdmin}/rutas/menu`,
 		name: "Rutas",
@@ -60,21 +64,22 @@ export const adminOptions = [
 	},
 ];
 
-
-
 const pathDriver = "/driver";
 
 export const driverOptions = [
+	//	{
+	//	link: `${pathAdmin}/map`,
+	//	name: "Rutas",
+	//	icon: <BsMap className={styleN.route} />,
+	//},
 	{
 		link: `${pathDriver}/chat/chat`,
 		name: "Chat",
 		icon: <GrChatOption className={styleN.route} />,
-
 	},
 	{
 		link: `${pathDriver}/capacidad`,
 		name: "Capacidad del Bus",
 		icon: <TbBus className={styleN.route} />,
-		
 	},
 ];

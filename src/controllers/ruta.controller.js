@@ -21,7 +21,7 @@ export const createRuta_controller = async (req, res) => {
 		if (!ruta)
 			return res
 				.status(500)
-				.json({ error: { message: "Error en el servidor" } });
+				.json({ error: true, message: "Error en el servidor" });
 
 		return res.status(200).json(ruta);
 	} catch (error) {
@@ -36,7 +36,7 @@ export const getAllRutas_controller = async (req, res) => {
 		if (!rutas)
 			return res
 				.status(500)
-				.json({ error: { message: "Error en el servidor" } });
+				.json({ error: true,message: "Error en el servidor" });
 
 		if (rutas.length <= 0)
 			return res.status(404).json({ error: { message: "No hay paradas" } });

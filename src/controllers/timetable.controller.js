@@ -16,8 +16,15 @@ import { timetableValidatorSchema } from "@/validations/timetable.validation";
 
 export const createTimetable_controller = async (req, res) => {
 	// obtencion de datos de la request
-	const { name, startTime, endTime, workDays, type,description } = req.body;
-	const timetableData = { name, startTime, endTime, workDays, type ,description};
+	const { name, startTime, endTime, workDays, type, description } = req.body;
+	const timetableData = {
+		name,
+		startTime,
+		endTime,
+		workDays,
+		type,
+		description,
+	};
 
 	try {
 		// validacion de datos
@@ -32,6 +39,7 @@ export const createTimetable_controller = async (req, res) => {
 		// Formateado de datos
 		const formateData = timetableValidatorSchema.cast(timetableData);
 
+		console.log(formateData);
 		// creacion del timetable
 		const timetable = await createTimetable_service(formateData);
 
@@ -39,7 +47,7 @@ export const createTimetable_controller = async (req, res) => {
 		if (!timetable)
 			return res
 				.status(500)
-				.json({ error: true, message: ErrorsMessages.inServer });
+				.json({ error: true, message: ErrorsMessages.notCreate });
 
 		// si la funcion devuelve algun error se le enviara al cliente
 		if (timetable.error) return res.status(500).json(timetable);
@@ -172,9 +180,16 @@ export const getTimetable_By_Id_controller = async (req, res) => {
 export const updateTimetable_controller = async (req, res) => {
 	// se obtinen los datos de la request
 	const { _id } = req.query;
-	const { name, startTime, endTime, workDays, type,description } = req.body;
+	const { name, startTime, endTime, workDays, type, description } = req.body;
 
-	const timetableData = { name, startTime, endTime, workDays, type,description };
+	const timetableData = {
+		name,
+		startTime,
+		endTime,
+		workDays,
+		type,
+		description,
+	};
 
 	try {
 		// validacion de datos
@@ -196,7 +211,7 @@ export const updateTimetable_controller = async (req, res) => {
 		if (!timetable)
 			return res
 				.status(500)
-				.json({ error: true, message: ErrorsMessages.inServer });
+				.json({ error: true, message: ErrorsMessages.notCreate });
 
 		// si la funcion devuelve algun error se le enviara al cliente
 		if (timetable.error) return res.status(500).json(timetable);

@@ -55,14 +55,12 @@ const TimetableSchema = mongoose.Schema({
 	type: { type: String, default: "d", enum: ["r", "d"] }, // r: ruta, d: driver
 });
 
-TimetableSchema.pre('save', function (next) {
-  if (this.isModified('workDays')) {
-    this.workDays.sort((a, b) => a - b);
-  }
-  next();
+TimetableSchema.pre("save", function (next) {
+	if (this.isModified("workDays")) {
+		this.workDays.sort((a, b) => a - b);
+	}
+	next();
 });
-
-
 
 export default mongoose.models?.Timetable ||
 	mongoose.model("Timetable", TimetableSchema);

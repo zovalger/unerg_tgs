@@ -19,23 +19,37 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import RutaContext from "@/contexts/Ruta.context";
 import { v4 as uuid } from "uuid";
+import { rutaValidatorSchema } from "@/validations/ruta.validation";
+import { getAllRutaTimetables_Request } from "@/api/timetable.api";
+import moment from "moment";
+import { getBuses_By_RutaId_Request } from "@/api/ruta.api";
 
 //Retocar
 export default function RutaForm({ data, onSubmit, path }) {
 	const [state, setState] = useState(true);
 	const { editingRoute, setEditingRoute } = useContext(RutaContext);
 
+	const [listTimetible, setListTimetible] = useState([]);
+
+	const [ListBuses, setListBuses] = useState([]);
+
+	useEffect(() => {
+		getAllRutaTimetables_Request()
+			.then(({ data }) => setListTimetible(data))
+			.catch((error) => console.log(error));
+
+		if (formik.values._id)
+			getBuses_By_RutaId_Request(formik.values._id)
+				.then(({ data }) => setListBuses(data))
+				.catch((error) => console.log(error));
+	}, []);
+
 	const formik = useFormik({
 		initialValues: data || {
 			name: "",
 			description: "",
 		},
-		validationSchema: Yup.object({
-			name: Yup.string()
-				.required("El nombre es obligatorio")
-				.min(3, "El nombre es muy corto"),
-			description: Yup.string(),
-		}),
+		validationSchema: rutaValidatorSchema,
 		onSubmit,
 	});
 
@@ -80,19 +94,46 @@ export default function RutaForm({ data, onSubmit, path }) {
 							<FormFeedback>{formik.errors.description}</FormFeedback>
 						</FormGroup>
 
-						<FormGroup>
-							{/*Modificar*/}
-							<Label className={style.label} for="bus">
-								Autobuses asignados
-							</Label>
-							<Input id="bus" name="bus" type="select" />
-						</FormGroup>
+						{ListBuses.length > 0 && (
+							<FormGroup>
+								{/*Modificar*/}
+								<Label className={style.label} for="bus">
+									Autobuses asignados
+								</Label>
+
+								{ListBuses.map((b) => (
+									<div key={b._id}>
+										Numero: {b.num}, Placa: {b.placa}
+									</div>
+								))}
+								{
+									//<Input id="bus" name="bus" type="select" />
+								}
+							</FormGroup>
+						)}
 
 						<FormGroup>
 							<Label className={style.label} for="active_hours">
 								Horario
 							</Label>
-							<div className={style.container_hours}>
+
+							<Input
+								id="timetableId"
+								name="timetableId"
+								type="select"
+								onChange={onChange}
+								value={formik.values.timetableId}
+								invalid={!!formik.errors.timetableId}
+							>
+								{listTimetible.map((l) => (
+									<option key={l._id} value={l._id}>
+										{l.name} (
+										<span> {moment(l.startTime).format("h:mm a")}</span> -
+										<span> {moment(l.endTime).format("h:mm a")}</span>)
+									</option>
+								))}
+							</Input>
+							{/*<div className={style.container_hours}>
 								<div className={style.hours}>
 									<p>Hora de inicio</p>
 									<Input
@@ -112,7 +153,7 @@ export default function RutaForm({ data, onSubmit, path }) {
 										type="time"
 									/>
 								</div>
-							</div>
+	</div> */}
 						</FormGroup>
 
 						<FormGroup>

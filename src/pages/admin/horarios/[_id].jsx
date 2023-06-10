@@ -1,57 +1,74 @@
 //React/Next
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //Componentes
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 
 import { IoIosArrowBack } from "react-icons/io";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 import BusForm from "@/components/BusView/BusForm";
 
-
-import { createBus_Request, updateBus_Request } from "@/api/bus.api";
-import BusContext from "@/contexts/Bus.context";
+import {
+	getTimetable_By_Id_Request,
+	updateTimetable_Request,
+} from "@/api/timetable.api";
+import TimetableForm from "@/components/TimetableView/TimetableForm";
+import ToastContext from "@/contexts/Toast.context";
 
 const AddBuss = () => {
 	const router = useRouter();
 	const { _id } = router.query;
+	const [data, setData] = useState(null);
 
 	const [isSubmiting, setIsSubmitin] = useState(false);
+	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
-	const { updateBus, getBus } = useContext(BusContext);
+	useEffect(() => {
+		if (_id)
+			withLoadingSuccessAndErrorFuntionsToast(
+				getTimetable_By_Id_Request(_id),
+				({ data }) => {
+					setData(data);
+					return "cargado";
+				},
+				(error) => {
+					console.log(error);
+					setIsSubmitin(false);
 
-	const formateToFormBus = (bus) => {
-		if (!bus) return;
-		if (!bus.ruta) return bus;
-		const b = { ...bus, ruta: bus.ruta._id };
-		return b;
-	};
+					const { message, error: err } = error.response.data;
+					return err ? message : error.message;
+				}
+			);
+	}, [_id]);
 
 	//useState
 
 	const onSubmit = async (formData) => {
-		console.log(formData);
 		if (isSubmiting) return;
 		setIsSubmitin(true);
 
-		try {
-			const res = await updateBus_Request(_id, formData);
-			console.log(res);
+		console.log(formData);
 
-			const b = res.data;
-			updateBus(b);
+		withLoadingSuccessAndErrorFuntionsToast(
+			updateTimetable_Request(_id, formData),
+			({ data }) => {
+				console.log(data);
+				router.back();
+				return "guardado";
+			},
+			(error) => {
+				console.log(error);
+				setIsSubmitin(false);
 
-			router.back();
-		} catch (error) {
-			console.log(error);
-			setIsSubmitin(false);
-		}
+				const { message, error: err } = error.response.data;
+				return err ? message : error.message;
+			}
+		);
 	};
 
 	return (
@@ -65,14 +82,16 @@ const AddBuss = () => {
 							</Link>
 						</div>
 						<div className={styleN.title_nav}>
-							<h2>Autobuses</h2>
+							<h2>Horarios</h2>
 						</div>
 					</>
 				}
 				right={<></>}
 			/>
 
-			<BusForm onSubmit={onSubmit} data={formateToFormBus(getBus(_id))} />
+			<div className="container mt-4">
+				{data && <TimetableForm onSubmit={onSubmit} data={data} />}
+			</div>
 		</Layout>
 	);
 };

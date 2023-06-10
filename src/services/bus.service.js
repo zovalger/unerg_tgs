@@ -104,6 +104,25 @@ export const getBus_by_Id_service = async (_id = null) => {
 // 									buses: obtencion por ID
 // ********************************************************************
 
+export const getBuses_By_RutaId_service = async (_id = null) => {
+	// si no se proporciona id no se hace nada
+	if (!_id) return;
+
+	try {
+		// busqueda del bus en la DB
+		const buses = await BusModel.find({ ruta: _id });
+
+		// devolucion de la consulta
+		return buses;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+// ********************************************************************
+// 									buses: obtencion por ID
+// ********************************************************************
+
 // se utilizara para obtener los bus referenciados en una ruta
 
 export const getBuses_by_Ids_service = async (_ids = null) => {

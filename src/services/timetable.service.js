@@ -5,14 +5,14 @@ export const createTimetable_service = async (data) => {
 	const { name, startTime, endTime, workDays, type, description } = data;
 
 	try {
-		const timetable = new TimetableModel(
+		const timetable = new TimetableModel({
 			name,
 			startTime,
 			endTime,
 			workDays,
 			type,
-			description
-		);
+			description,
+		});
 
 		await timetable.save();
 
@@ -68,11 +68,7 @@ export const updateTimetable_service = async (_id, data) => {
 	try {
 		await TimetableModel.updateOne(
 			{ _id },
-			name,
-			startTime,
-			endTime,
-			workDays,
-			description
+			{ name, startTime, endTime, workDays, description }
 		);
 
 		const timetable = await getTimetable_by_Id_service(_id);

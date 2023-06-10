@@ -7,6 +7,7 @@ import {
 	updateBus_service,
 	getAllPlacas_service,
 	getAllNum_service,
+	getBuses_By_RutaId_service,
 } from "@/services/bus.service";
 import { busValidatorSchema } from "@/validations/bus.validation";
 
@@ -114,6 +115,34 @@ export const getBus_By_Id_controller = async (req, res) => {
 			.json({ error: true, message: ErrorsMessages.inServer });
 	}
 };
+
+
+export const getBus_By_RutaId_controller = async (req, res) => {
+	// se obtiene el id solicitado
+	const { _id } = req.query;
+
+	try {
+		// se busca en la DB
+		const buses = await getBuses_By_RutaId_service(_id);
+
+		// si no devuelve nada se envia un error 404
+		if (!buses)
+			return res
+				.status(404)
+				.json({ error: true, message: ErrorsMessages.noData });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (buses.error) return res.status(500).json(buses);
+
+		return res.status(200).json(buses);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};
+
 
 // ********************************************************************
 // 								buses: obtencion por busqueda (numero o placa)

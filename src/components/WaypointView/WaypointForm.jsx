@@ -104,15 +104,14 @@ export default function WaypointForm({ onSubmit, data }) {
 						</FormGroup>
 
 						<FormGroup>
-						<h4 className={styleForm.label}>Coordenadas</h4>
+							<h4 className={styleForm.label}>Coordenadas</h4>
 
-						<div>latitud: {formik.values.coord.lat.toFixed(4)}</div>
-						<div>longitud: {formik.values.coord.lng.toFixed(4)}</div>
+							<div>latitud: {formik.values.coord.lat.toFixed(4)}</div>
+							<div>longitud: {formik.values.coord.lng.toFixed(4)}</div>
 						</FormGroup>
 
 						<h4 className={styleForm.label}>Tipo</h4>
 						<FormGroup check>
-					
 							<Input
 								name="type"
 								type="radio"

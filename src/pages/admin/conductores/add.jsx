@@ -19,7 +19,10 @@ import dbConnect from "@/lib/db";
 import ToastContext from "@/contexts/Toast.context";
 import { useRouter } from "next/router";
 import { createDriverUser_Request } from "@/api/userDriver.api";
-import { getAllTimetables_service } from "@/services/timetable.service";
+import {
+	getAllDriverTimetables_service,
+	getAllTimetables_service,
+} from "@/services/timetable.service";
 
 //******************************* Codigo*****************************//
 const Add = ({ buses, timetables }) => {
@@ -76,7 +79,7 @@ export const getServerSideProps = async (context) => {
 
 	const buses = JSON.parse(JSON.stringify(await getAllActiveBuses_service()));
 	const timetables = JSON.parse(
-		JSON.stringify(await getAllTimetables_service())
+		JSON.stringify(await getAllDriverTimetables_service())
 	);
 
 	return {

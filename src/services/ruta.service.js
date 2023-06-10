@@ -1,6 +1,7 @@
 import RutaModel from "@/models/Ruta.model";
 import { createOrUpdateWapoint_service } from "./waypoint.service";
 
+
 export const createRuta_service = async (data) => {
 	try {
 		const { name, description, waypoints } = data;
