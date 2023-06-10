@@ -14,7 +14,7 @@ import RutaForm from "@/components/RouteView/RutaForm";
 import styleN from "../../../../styles/Nav/NavStyle.module.css";
 import RutaContext from "@/contexts/Ruta.context";
 import { createRuta_Request, updateRuta_Request } from "@/api/ruta.api";
-
+import MapContext from "@/contexts/Map.context";
 
 //Contextos
 
@@ -22,7 +22,8 @@ const MainMap = () => {
 	const router = useRouter();
 	const { _id } = router.query;
 	//useContext
-	const { editingRoute, insertRuta } = useContext(RutaContext);
+	const { editingRoute, updateRuta, setEditingRoute } = useContext(RutaContext);
+	const { clearWaypoint, clearRutas } = useContext(MapContext);
 
 	useEffect(() => {
 		if (!editingRoute) router.push("/admin/rutas/menu");
@@ -42,9 +43,9 @@ const MainMap = () => {
 			formData.waypoints = formData.waypoints.map((w) => (w._id ? w._id : w));
 			const res = await updateRuta_Request(_id, formData);
 
-			insertRuta(res.data);
+			updateRuta(_id, res.data);
 			restore();
-			router.push("./menu");
+			router.push(`../${_id}`);
 		} catch (error) {
 			setIsSubmitin(false);
 			console.log(error);

@@ -5,32 +5,33 @@ import { useContext, useEffect, useState } from "react";
 
 //Componentes
 
-
-import { TbBus } from "react-icons/tb"
+import { TbBus } from "react-icons/tb";
 
 //Estilos
 
-import styles from "@/styles/Routes/admin/InfoBus.module.css"
+import styles from "@/styles/Routes/admin/InfoBus.module.css";
 
 //Contextos
 
 //**********************************  Codigo  ************************//
-const InfoBus = () =>{
+const InfoBus = ({ data }) => {
+	if (!data) return;
+	const { num, placa } = data;
 
-    return(
-        <div className={styles.container}>
+	if (!num && !placa) return;
 
-            <div className={styles.container__icon}>
-                <TbBus/>
-            </div>
+	return (
+		<div className={styles.container}>
+			<div className={styles.container__icon}>
+				<TbBus />
+			</div>
 
-            <div className={styles.container__text}>
-                <p>Nombre: Unidad 504</p>
-                <p>Placa: AA00817H</p>
-            </div>
+			<div className={styles.container__text}>
+				<p>Nombre: Unidad {num}</p>
+				<p>Placa: {placa}</p>
+			</div>
+		</div>
+	);
+};
 
-        </div>
-    )
-}
-
-export default InfoBus
+export default InfoBus;

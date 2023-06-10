@@ -82,6 +82,7 @@ export default function WaypointForm({ onSubmit, data }) {
 								placeholder="Nombre de la parada"
 								type="text"
 								invalid={!!formik.errors.name}
+								autoComplete="none"
 							/>
 							<FormFeedback>{formik.errors.name}</FormFeedback>
 						</FormGroup>

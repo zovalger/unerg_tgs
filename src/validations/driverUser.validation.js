@@ -25,8 +25,18 @@ export const driverUserValidatorSchema = Yup.object({
 		["Indefinido", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
 		"El tipo de sangre no esta dentro de los reconosidos"
 	),
-	phone: Yup.string().required("El numero de telefono es obligatorio"),
-	emergencyPhone: Yup.string(),
+	phone: Yup.string()
+		.required("El numero de telefono es obligatorio")
+		.transform((value, originalValue) => {
+			if (!originalValue) return "";
+
+			return originalValue.toString().replace(/\D/g, "");
+		}),
+	emergencyPhone: Yup.string().transform((value, originalValue) => {
+		if (!originalValue) return "";
+
+		return originalValue.toString().replace(/\D/g, "");
+	}),
 	email: Yup.string()
 		.required("El correo electronico es obligatorio")
 		.email("No es un formato de correo valido"),

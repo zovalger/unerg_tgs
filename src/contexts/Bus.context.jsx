@@ -41,6 +41,19 @@ export const BusProvider = ({ children }) => {
 		return b;
 	};
 
+	const getBuses_by_RutaId = (_id) =>
+		buses.filter((b) =>
+			b.ruta
+				? typeof b.ruta === "string"
+					? _id === b.ruta
+						? true
+						: false
+					: b.ruta._id === _id
+					? true
+					: false
+				: false
+		);
+
 	const updateBus = (_id, data) => {
 		const i = buses.findIndex((item) => item._id == _id);
 
@@ -69,6 +82,7 @@ export const BusProvider = ({ children }) => {
 				updateBus,
 				dropBus,
 				refresh,
+				getBuses_by_RutaId,
 			}}
 		>
 			{children}

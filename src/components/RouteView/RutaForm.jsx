@@ -75,6 +75,7 @@ export default function RutaForm({ data, onSubmit, path }) {
 								onChange={onChange}
 								value={formik.values.name}
 								invalid={!!formik.errors.name}
+								autoComplete="none"
 							/>
 							<FormFeedback>{formik.errors.name}</FormFeedback>
 						</FormGroup>
@@ -106,9 +107,6 @@ export default function RutaForm({ data, onSubmit, path }) {
 										Numero: {b.num}, Placa: {b.placa}
 									</div>
 								))}
-								{
-									//<Input id="bus" name="bus" type="select" />
-								}
 							</FormGroup>
 						)}
 
@@ -125,6 +123,7 @@ export default function RutaForm({ data, onSubmit, path }) {
 								value={formik.values.timetableId}
 								invalid={!!formik.errors.timetableId}
 							>
+								<option value="null">Seleccione un horario</option>
 								{listTimetible.map((l) => (
 									<option key={l._id} value={l._id}>
 										{l.name} (
@@ -133,7 +132,7 @@ export default function RutaForm({ data, onSubmit, path }) {
 									</option>
 								))}
 							</Input>
-							{/*<div className={style.container_hours}>
+							{/* <div className={style.container_hours}>
 								<div className={style.hours}>
 									<p>Hora de inicio</p>
 									<Input
@@ -153,7 +152,8 @@ export default function RutaForm({ data, onSubmit, path }) {
 										type="time"
 									/>
 								</div>
-	</div> */}
+							</div> */}
+							<FormFeedback>{formik.errors.timetableId}</FormFeedback>
 						</FormGroup>
 
 						<FormGroup>

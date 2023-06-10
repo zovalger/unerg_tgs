@@ -105,29 +105,45 @@ export const updateUserDriver_service = async (
 	}
 };
 
+export const getUserDriver_service = async (_id) => {
+	try {
+		const driver = await DriverModel.findById(_id, { password: 0 });
+
+		return driver;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export const getAllUserDriver_service = async () => {
 	try {
-
 		// TimetableModel
 
-
-		const drivers = await DriverModel.find()
+		const drivers = await DriverModel.find({}, { password: 0 })
 			.sort({ name: 1 })
 			.populate(["busId", "timetableId"]);
 
 		return drivers;
 	} catch (error) {
 		console.log(error);
-		return []
+		return [];
 	}
 };
 
-export const getUserDriver_service = async (_id) => {
+export const getAllUserDriver_by_BusId_service = async (_id) => {
 	try {
-		const driver = await DriverModel.findById(_id);
+		// TimetableModel
 
-		return driver;
+		const drivers = await DriverModel.find(
+			{ busId: _id },
+			{_id:1, name: 1, CI: 1, bloodType: 1, timetableId: 1, perfilImg: 1 }
+		)
+			.sort({ name: 1 })
+			.populate(["timetableId"]);
+
+		return drivers;
 	} catch (error) {
 		console.log(error);
+		return [];
 	}
 };

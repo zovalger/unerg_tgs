@@ -17,6 +17,9 @@ export const getAllPlacas_Request = async () =>
 export const getBus_By_Id_Request = async (_id) =>
 	await axios.get(`${url}/${_id}`);
 
+export const getBusUsersDriver_By_Id_Request = async (_id) =>
+	await axios.get(`${url}/${_id}/users`);
+
 // actualizacion
 export const updateBus_Request = async (_id, data) =>
 	await axios.put(`${url}/${_id}`, data);

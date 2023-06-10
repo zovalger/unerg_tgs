@@ -6,17 +6,30 @@ import {
 	toggleRuta_service,
 	updateRuta_service,
 } from "@/services/ruta.service";
+import { rutaValidatorSchema } from "@/validations/ruta.validation";
 
 export const createRuta_controller = async (req, res) => {
-	try {
-		const { name, description, waypoints } = req.body;
+	const { name, description, waypoints, timetableId } = req.body;
 
-		const ruta = await createRuta_service({
-			name,
-			description,
-			waypoints,
-			// idTimetable,
-		});
+	const data = {
+		name,
+		description,
+		waypoints,
+		timetableId,
+	};
+
+	try {
+		// validacion de datos
+		await rutaValidatorSchema.validate(data);
+	} catch (error) {
+		// si existe un error en los datos se le envia al cliente
+		console.log(error);
+		return res.status(400).json({ error, message: error.errors });
+	}
+	try {
+		const formateData = rutaValidatorSchema.cast(data);
+
+		const ruta = await createRuta_service(formateData);
 
 		if (!ruta)
 			return res
@@ -36,7 +49,7 @@ export const getAllRutas_controller = async (req, res) => {
 		if (!rutas)
 			return res
 				.status(500)
-				.json({ error: true,message: "Error en el servidor" });
+				.json({ error: true, message: "Error en el servidor" });
 
 		if (rutas.length <= 0)
 			return res.status(404).json({ error: { message: "No hay paradas" } });
@@ -65,15 +78,28 @@ export const getRuta_By_Id_controller = async (req, res) => {
 };
 
 export const updateRuta_controller = async (req, res) => {
-	try {
-		const { _id } = req.query;
-		const { name, description, waypoints } = req.body;
+	const { _id } = req.query;
+	const { name, description, waypoints, timetableId } = req.body;
 
-		const ruta = await updateRuta_service(_id, {
-			name,
-			description,
-			waypoints,
-		});
+	const data = {
+		name,
+		description,
+		waypoints,
+		timetableId,
+	};
+
+	try {
+		// validacion de datos
+		await rutaValidatorSchema.validate(data);
+	} catch (error) {
+		// si existe un error en los datos se le envia al cliente
+		console.log(error);
+		return res.status(400).json({ error, message: error.errors });
+	}
+	try {
+		const formateData = rutaValidatorSchema.cast(data);
+
+		const ruta = await updateRuta_service(_id, formateData);
 
 		if (!ruta)
 			return res

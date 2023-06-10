@@ -21,14 +21,13 @@ import { BiPencil } from "react-icons/bi";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 import style from "@/styles/Routes/routes_view.module.css";
 
-
-
 //Contextos
 
 import MapContext from "@/contexts/Map.context";
 import RutaContext from "@/contexts/Ruta.context";
 import BotonPa from "@/components/RouteView/bus_stop/BotonPa";
 import { getRuta_By_Id_Request } from "@/api/ruta.api";
+import BusContext from "@/contexts/Bus.context";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -41,12 +40,16 @@ const MainMap = () => {
 	const { _id } = router.query;
 
 	const { getRuta, insertRuta, setEditingRoute } = useContext(RutaContext);
+	const { getBuses_by_RutaId } = useContext(BusContext);
+
 	const {
 		insertRuta: insertRutaMap,
 		insertWaypoint: insertWaypointMap,
+		insertBus: insertBusMap,
 		clearWaypoint,
 		clearRutas,
 	} = useContext(MapContext);
+
 	const data = getRuta(_id);
 
 	useEffect(() => {
@@ -62,6 +65,8 @@ const MainMap = () => {
 			insertRutaMap([data]);
 			insertWaypointMap(data.waypoints);
 		}
+		
+		insertBusMap(getBuses_by_RutaId(_id));
 	}, []);
 
 	const onClick = (_id) => {
@@ -120,8 +125,10 @@ const MainMap = () => {
 
 				<div className="container__rutas">
 					<div className={style.container_routes}>
-						<BtnBus />
-						<BtnBus />
+						{getBuses_by_RutaId(_id).map((b) => (
+							<BtnBus key={b._id} data={b} />
+						))}
+
 						<HourBus />
 						<h2 style={{ textAlign: "center", marginTop: "15px" }}>
 							Paradas de autobus

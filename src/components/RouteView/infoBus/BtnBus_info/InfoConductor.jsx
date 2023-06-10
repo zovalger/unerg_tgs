@@ -16,31 +16,27 @@ import styles from "@/styles/Routes/admin/InfoConductor.module.css";
 
 //**********************************  Codigo  ************************//
 
-const InfoCondcutor = () => {
-  return (
-    <div className={styles.container}>
+const InfoCondcutor = ({ data }) => {
+	const { _id, name, CI, bloodType, timetableId, perfilImg } = data;
 
-      <div className={styles.container__img}>
+	return (
+		<div className={styles.container}>
+			<div className={styles.container__img}>
+				<div className={styles.imagen}>
+					<img
+						src={perfilImg.url ? perfilImg.url : "/User_icon.png"}
+						alt="Imagen de perfil"
+					/>
+				</div>
+			</div>
 
-        <div className={styles.imagen}>
-          <Image
-            src={"/User_icon.png"}
-            width={400}
-            height={400}
-            alt="Imagen de perfil"
-          />
-        </div>
-
-      </div>
-
-      <div className={styles.container__text}>
-        <p>Marcelo Carabaño</p>
-        <p>V-12.357.123</p>
-        <p>Sangre DATO</p>
-      </div>
-
-    </div>
-  );
+			<div className={styles.container__text}>
+				<p>{name}</p>
+				<p>{CI}</p>
+				<p>Sangre: {bloodType}</p>
+			</div>
+		</div>
+	);
 };
 
 export default InfoCondcutor;

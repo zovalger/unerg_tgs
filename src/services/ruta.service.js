@@ -1,10 +1,9 @@
 import RutaModel from "@/models/Ruta.model";
 import { createOrUpdateWapoint_service } from "./waypoint.service";
 
-
 export const createRuta_service = async (data) => {
 	try {
-		const { name, description, waypoints } = data;
+		const { name, description, waypoints, timetableId } = data;
 
 		// ver si hay una ruta con el mismo nombre
 		const oldRuta = await RutaModel.findOne({ name: new RegExp(name, "i") });
@@ -30,8 +29,8 @@ export const createRuta_service = async (data) => {
 			name,
 			description,
 			waypoints: waypointIds,
+			timetableId,
 		});
-
 
 		// devolverla al front
 		await ruta.save();
@@ -83,7 +82,7 @@ export const getRutas_by_Name_service = async (
 
 export const updateRuta_service = async (_id, data) => {
 	try {
-		const { name, description, waypoints } = data;
+		const { name, description, waypoints, timetableId } = data;
 
 		const ruta = await RutaModel.findById(_id);
 
@@ -101,12 +100,8 @@ export const updateRuta_service = async (_id, data) => {
 
 		await RutaModel.updateOne(
 			{ _id },
-			{ name, description, waypoints: waypointIds }
+			{ name, description, waypoints: waypointIds, timetableId }
 		);
-		// ruta.name = name;
-		// ruta.description = description;
-		// ruta.waypoints = waypointIds;
-		// await ruta.save();
 
 		console.log(ruta);
 

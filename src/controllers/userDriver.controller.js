@@ -2,6 +2,9 @@ import { SECRET_WORD } from "@/config";
 import ErrorsMessages from "@/config/errorsMessages";
 import {
 	createUserDriver_service,
+	getAllUserDriver_by_BusId_service,
+	getAllUserDriver_service,
+	getUserDriver_service,
 	updateUserDriver_service,
 } from "@/services/userDriver.service";
 
@@ -143,3 +146,77 @@ export async function updateUserDriver_controller(req, res) {
 			.json({ error: true, message: ErrorsMessages.inServer });
 	}
 }
+
+export const getAllUserDrivers_controller = async (req, res) => {
+	try {
+		// obtencion de todos los timetable con status "a" en la DB
+		const driver = await getAllUserDriver_service();
+
+		// si la funcion no devuelve nada se devuelve un error al cliente
+		if (!driver)
+			return res
+				.status(500)
+				.json({ error: true, message: ErrorsMessages.notFound });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (driver.error) return res.status(500).json(driver);
+
+		return res.status(200).json(driver);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};
+
+export const getUserDriver_by_Id_controller = async (req, res) => {
+	const { _id } = req.query;
+
+	try {
+		// se timetableca en la DB
+		const driver = await getUserDriver_service(_id);
+
+		// si no devuelve nada se envia un error 404
+		if (!driver)
+			return res
+				.status(404)
+				.json({ error: true, message: ErrorsMessages.notFound });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (driver.error) return res.status(500).json(driver);
+
+		return res.status(200).json(driver);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};
+
+
+export const getUserDriver_by_BusId_controller = async (req, res) => {
+	const { _id } = req.query;
+
+	try {
+		// se timetableca en la DB
+		const driver = await getAllUserDriver_by_BusId_service(_id);
+
+		// si no devuelve nada se envia un error 404
+		if (!driver)
+			return res
+				.status(404)
+				.json({ error: true, message: ErrorsMessages.notFound });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (driver.error) return res.status(500).json(driver);
+
+		return res.status(200).json(driver);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};
