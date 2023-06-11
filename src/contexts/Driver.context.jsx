@@ -15,8 +15,6 @@ const DriverContext = createContext();
 
 export const DriverProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
-
-
 	const [Send, setSend] = useState("");
 
 	useEffect(() => {
@@ -54,7 +52,14 @@ export const DriverProvider = ({ children }) => {
 	// ############# Chat Sockets ###################
 
 	const sendMessage = (message) => {
-		socket.emit("Send Message", message);
+		socket.emit(socketEventsSystem.sendMessage, message);
+	};
+
+	const reciveMessage = (message) => {
+		socket.on(socketEventsSystem.reciveMessage, message);
+		return () => {
+			socket.off(socketEventsSystem.reciveMessage, message);
+		};
 	};
 
 	return (
@@ -63,7 +68,10 @@ export const DriverProvider = ({ children }) => {
 				startServiceDriver,
 				endServiceDriver,
 				sendCoord_by_socket,
+
+				sendCoord,
 				sendMessage,
+				reciveMessage,
 			}}
 		>
 			{children}
