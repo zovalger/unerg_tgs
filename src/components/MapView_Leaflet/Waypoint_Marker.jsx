@@ -23,7 +23,7 @@ const WaypointMarker = () => {
 				<MarkerPopup data={w} />
 			</Marker>
 		) : (
-			<WaypointControl data={w} />
+			<WaypointControl key={uuid()} data={w} />
 		);
 	});
 };

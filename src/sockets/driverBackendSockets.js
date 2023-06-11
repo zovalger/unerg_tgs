@@ -14,6 +14,7 @@ export const driverSocketController = (io, socket, user) => {
 		await dbConnect();
 
 		const bus = await updateCoordBus_service(user.busId, coord);
+		console.log(`bus: ${bus.num}; updatePos: ${JSON.stringify(bus.coord)}`);
 
 		socket.broadcast.emit(socketEventsSystem.updatePosBus, bus);
 	});

@@ -59,27 +59,39 @@ export const MapProvider = ({ children }) => {
 			enableHighAccuracy: true,
 		});
 	};
+	const getCoordsDevice = async () => {
+		try {
+			const coordsPromise = new Promise((resolve, reject) => {
+				const success = (pos) => {
+					const { coords } = pos;
+					const { latitude: lat, longitude: lng } = coords;
 
-	const getCoordsDevice = () => {
-		const success = (pos) => {
-			const { coords } = pos;
-			const { latitude: lat, longitude: lng } = coords;
+					if (!lat || !lng) {
+						reject("No se obtuvieron las coordenadas del usuario");
+					}
 
-			if (!lat || !lng)
-				return console.log("no se obtuvieron las coordenadas del usuario");
+					const formatedCoord = { lat, lng };
+					console.log("Coordenadas del usuario:", formatedCoord);
+					resolve(formatedCoord);
+				};
 
-			const formatedCoord = { lat, lng };
-			console.log("coordenadas del usuario:", formatedCoord);
+				const error = (error) => {
+					console.log("No se obtuvieron las coordenadas del usuario", error);
+					reject(error);
+				};
 
-			setUserCoord(formatedCoord);
-		};
+				navigator.geolocation.getCurrentPosition(success, error, {
+					enableHighAccuracy: true,
+				});
+			});
 
-		const error = (error) =>
-			console.log("no se obtuvieron las coordenadas del usuario", error);
-
-		navigator.geolocation.getCurrentPosition(success, error, {
-			enableHighAccuracy: true,
-		});
+			const coords = await coordsPromise;
+			setUserCoord(coords);
+			return coords;
+		} catch (error) {
+			console.error(error);
+			return null;
+		}
 	};
 
 	// ****************************************************************************

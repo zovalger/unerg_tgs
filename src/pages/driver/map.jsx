@@ -79,7 +79,7 @@ const DriveMap = () => {
 
 				<div className={style.menu}>
 					<div className={style.left}>
-						<h2>45%</h2>{" "}
+						<h2>45%</h2>
 						{/*Remplazar con valor actulizable  // {actualizable}%*/}
 						<TbBus className={style.bus} />
 					</div>
@@ -94,12 +94,18 @@ const DriveMap = () => {
 				>
 					<button
 						className={styleN.btn_nav}
-						onClick={() => {
-							!user.inService ? startServiceDriver() : endServiceDriver();
-						}}
+						onClick={() =>
+							user && !user.inService
+								? startServiceDriver()
+								: endServiceDriver()
+						}
 					>
 						<FaBusinessTime className={styleN.route} />
-						<p>Iniciar servicio</p>
+						<p>
+							{user && !user.inService
+								? "Iniciar servicio"
+								: "Detener servicio"}{" "}
+						</p>
 					</button>
 				</AsidePanel>
 			</div>

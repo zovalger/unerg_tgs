@@ -15,6 +15,8 @@ import UserContext from "@/contexts/User.context";
 import { v4 as uuid } from "uuid";
 import { adminOptions, driverOptions } from "./AsidePanelOptions";
 
+const placeholderPerfilImg = "/User_icon.png";
+
 export default function AsidePanel({
 	children,
 	offcanvasActive,
@@ -31,9 +33,11 @@ export default function AsidePanel({
 						<div className={styleN.container__img}>
 							<img
 								src={
-									user && user.perfilImg.url
+									user
 										? user.perfilImg.url
-										: "/User_icon.png"
+											? user.perfilImg.url
+											: placeholderPerfilImg
+										: placeholderPerfilImg
 								}
 								alt="imagen de perfil"
 							/>
