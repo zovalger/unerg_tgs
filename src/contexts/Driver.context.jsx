@@ -15,7 +15,7 @@ const DriverContext = createContext();
 
 export const DriverProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
-	const [Send, setSend] = useState("")
+	const [ Send, setSend ] = useState("")
 
 	useEffect(() => {
 		if (!socket) return;
@@ -38,11 +38,22 @@ export const DriverProvider = ({ children }) => {
 	// ############# Chat Sockets ###################
 
 	const sendMessage = (message) => {
-		socket.emit('Send Message', message);
+		socket.emit(socketEventsSystem.sendMessage, message);
+	};
+
+	const reciveMessage = (message) => {
+		socket.on(socketEventsSystem.reciveMessage, message);
+		return () => {
+			socket.off(socketEventsSystem.reciveMessage, message);
+		};
 	};
 
 	return (
-		<DriverContext.Provider value={{ sendCoord, sendMessage }}>
+		<DriverContext.Provider value={{ 
+			sendCoord,
+			sendMessage,
+			reciveMessage,
+		}}>
 			{children}
 		</DriverContext.Provider>
 	);
