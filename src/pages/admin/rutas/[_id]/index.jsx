@@ -138,7 +138,7 @@ const RutaOverview = () => {
 							<BtnBus key={b._id} data={b} />
 						))}
 
-						<HourBus data={timetable} />
+{timetable && <HourBus data={timetable} />}
 						<h2 style={{ textAlign: "center", marginTop: "15px" }}>
 							Paradas de autobus
 						</h2>

@@ -21,14 +21,16 @@ import { BiPencil } from "react-icons/bi";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 import style from "@/styles/Routes/routes_view.module.css";
 
-
-
 //Contextos
 
 import MapContext from "@/contexts/Map.context";
 import RutaContext from "@/contexts/Ruta.context";
 import BotonPa from "@/components/RouteView/bus_stop/BotonPa";
-import { getRuta_By_Id_Request } from "@/api/ruta.api";
+import BusContext from "@/contexts/Bus.context";
+import {
+	getRuta_By_Id_Request,
+	getTimetable_By_Id_Request,
+} from "@/api/public.api";
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -36,32 +38,46 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 
 //**********************************  Codigo  ************************//
 
-const MainMap = () => {
+const RutaOverview = () => {
 	const router = useRouter();
 	const { _id } = router.query;
 
 	const { getRuta, insertRuta, setEditingRoute } = useContext(RutaContext);
+	const { getBuses_by_RutaId } = useContext(BusContext);
+
+	const [timetable, setTimetable] = useState(null);
+
 	const {
 		insertRuta: insertRutaMap,
 		insertWaypoint: insertWaypointMap,
+		insertBus: insertBusMap,
 		clearWaypoint,
 		clearRutas,
 	} = useContext(MapContext);
+
 	const data = getRuta(_id);
 
 	useEffect(() => {
-		if (!data)
-			getRuta_By_Id_Request(_id)
-				.then(({ data }) => {
-					insertRuta([data]);
-					insertRutaMap([data]);
-					insertWaypointMap(data.waypoints);
-				})
-				.catch((error) => console.log(error));
-		else {
+		if (!data) {
+			if (_id)
+				getRuta_By_Id_Request(_id)
+					.then(({ data }) => {
+						insertRuta([data]);
+						insertRutaMap([data]);
+						insertWaypointMap(data.waypoints);
+					})
+					.catch((error) => console.log(error));
+		} else {
 			insertRutaMap([data]);
 			insertWaypointMap(data.waypoints);
 		}
+
+		insertBusMap(getBuses_by_RutaId(_id));
+
+		if (_id && data)
+			getTimetable_By_Id_Request(data.timetableId)
+				.then(({ data }) => setTimetable(data))
+				.catch((error) => console.log(error));
 	}, []);
 
 	const onClick = (_id) => {
@@ -72,7 +88,6 @@ const MainMap = () => {
 		clearWaypoint();
 		clearRutas();
 	};
-
 
 	return (
 		<Layout>
@@ -85,7 +100,7 @@ const MainMap = () => {
 							<div>
 								<Link
 									className={styleN.btn_return}
-									href={"../map"}
+									href={"./menu"}
 									onClick={() => {
 										restore();
 									}}
@@ -98,11 +113,6 @@ const MainMap = () => {
 							</div>
 						</>
 					}
-					right={
-						<>
-							
-						</>
-					}
 				/>
 
 				{/* Contenedor del mapa */}
@@ -113,9 +123,11 @@ const MainMap = () => {
 
 				<div className="container__rutas">
 					<div className={style.container_routes}>
-						<BtnBus />
-						<BtnBus />
-						<HourBus />
+						{getBuses_by_RutaId(_id).map((b) => (
+							<BtnBus key={b._id} data={b} />
+						))}
+
+						{timetable && <HourBus data={timetable} />}
 						<h2 style={{ textAlign: "center", marginTop: "15px" }}>
 							Paradas de autobus
 						</h2>
@@ -130,4 +142,4 @@ const MainMap = () => {
 	);
 };
 
-export default MainMap;
+export default RutaOverview;
