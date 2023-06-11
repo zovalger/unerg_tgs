@@ -19,7 +19,7 @@ export default function AsidePanel({
 	children,
 	offcanvasActive,
 	toggleOffcanvas,
-	location
+	location,
 }) {
 	const { logout, user } = useContext(UserContext);
 
@@ -52,47 +52,50 @@ export default function AsidePanel({
 				</div>
 			</OffcanvasHeader>
 			<OffcanvasBody style={{ padding: 0 }}>
-				{location && (<button
-					className={styleN.btn_nav}
-					onClick={() => {
-						// si esta en true se va a desactivar
-						if (viewUserCoord) {
-							toogleViewUserCoord(false);
-						} else {
-							toogleViewUserCoord(true);
-							getCoordsUser();
-							setOffcanvasActive(!offcanvasActive);
-						}
-					}}
-				>
-					<GoLocation className={styleN.route} />
-					<p>Mi Ubicación</p>
-				</button>)}
-				
+				{location && (
+					<button
+						className={styleN.btn_nav}
+						onClick={() => {
+							// si esta en true se va a desactivar
+							if (viewUserCoord) {
+								toogleViewUserCoord(false);
+							} else {
+								toogleViewUserCoord(true);
+								getCoordsUser();
+								setOffcanvasActive(!offcanvasActive);
+							}
+						}}
+					>
+						<GoLocation className={styleN.route} />
+						<p>Mi Ubicación</p>
+					</button>
+				)}
+
 				{/************* Botones para navegar entre rutas ************/}
 
-				{user && user.permissions
-					? adminOptions.map((l) => {
-							if (l.permission)
-								if (
-									!user.permissions ||
-									!user.permissions.includes(l.permission)
-								)
-									return;
+				{user &&
+					(user.permissions
+						? adminOptions.map((l) => {
+								if (l.permission)
+									if (
+										!user.permissions ||
+										!user.permissions.includes(l.permission)
+									)
+										return;
 
-							return (
+								return (
+									<Link key={uuid()} href={l.link} className={styleN.btn_nav}>
+										{l.icon}
+										<p>{l.name}</p>
+									</Link>
+								);
+						  })
+						: driverOptions.map((l) => (
 								<Link key={uuid()} href={l.link} className={styleN.btn_nav}>
 									{l.icon}
 									<p>{l.name}</p>
 								</Link>
-							);
-					  })
-					: driverOptions.map((l) => (
-							<Link key={uuid()} href={l.link} className={styleN.btn_nav}>
-								{l.icon}
-								<p>{l.name}</p>
-							</Link>
-					  ))}
+						  )))}
 
 				{children}
 

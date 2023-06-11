@@ -2,6 +2,7 @@ import UserContext from "@/contexts/User.context";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
+import { DriverDataManager } from "./DriverDataManager";
 
 function Layout({ children }) {
 	const router = useRouter();
@@ -30,6 +31,7 @@ function Layout({ children }) {
 
 	return (
 		<div>
+			<DriverDataManager />
 			<Head>
 				<meta
 					name="description"

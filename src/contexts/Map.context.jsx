@@ -60,6 +60,28 @@ export const MapProvider = ({ children }) => {
 		});
 	};
 
+	const getCoordsDevice = () => {
+		const success = (pos) => {
+			const { coords } = pos;
+			const { latitude: lat, longitude: lng } = coords;
+
+			if (!lat || !lng)
+				return console.log("no se obtuvieron las coordenadas del usuario");
+
+			const formatedCoord = { lat, lng };
+			console.log("coordenadas del usuario:", formatedCoord);
+
+			setUserCoord(formatedCoord);
+		};
+
+		const error = (error) =>
+			console.log("no se obtuvieron las coordenadas del usuario", error);
+
+		navigator.geolocation.getCurrentPosition(success, error, {
+			enableHighAccuracy: true,
+		});
+	};
+
 	// ****************************************************************************
 	// 									 	waypoins: funcionalidades y estados
 	// ****************************************************************************
@@ -153,6 +175,7 @@ export const MapProvider = ({ children }) => {
 				viewUserCoord,
 				toogleViewUserCoord,
 				getCoordsUser,
+				getCoordsDevice,
 
 				// waypoins
 				Waypoints,

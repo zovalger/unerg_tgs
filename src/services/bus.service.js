@@ -248,23 +248,30 @@ export const updateBus_service = async (_id, data) => {
 };
 
 // ********************************************************************
-// 							buses: creacion o actualizacion
+// 							buses: update coords
 // ********************************************************************
-// se utilizara cuando una ruta envie datos de un bus que
-// sea nuevo o que ya este creado, para actualizar sus datos
 
-// export const createOrUpdateWapoint_service = async (data) => {
-// 	try {
-// 		// si el objeto tiene un id se actualiza, sino se crea
-// 		const bus = data._id
-// 			? await updateBus_service(data.id, data)
-// 			: await createBus_service(data);
+export const updateCoordBus_service = async (_id, coord) => {
+	if (!_id) return;
 
-// 		return bus;
-// 	} catch (error) {
-// 		console.log(error);
-// 	}
-// };
+	// obtencion de los datos modificables
+	const { lat, lng } = coord;
+	const newData = { coord: { lat, lng } };
+
+	try {
+		await BusModel.findByIdAndUpdate(_id, newData);
+
+		const bus = await BusModel.findById(_id);
+
+		// si no se encuentra se devuelve un error de no encontrado
+		if (!bus) return { error: true, message: ErrorsMessages.notFound };
+
+		// devolucion exitosa
+		return bus;
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 // ********************************************************************
 // 	 buses: intercambiar el status entre eliminado o no eliminado

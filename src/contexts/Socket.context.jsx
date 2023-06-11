@@ -26,9 +26,7 @@ export const SocketProvider = ({ children }) => {
 
 		setSocket(socket);
 
-		socket.on("connect", () => {
-			console.log("connected");
-		});
+		defaultListeners();
 	};
 
 	// *************************************************************
@@ -36,12 +34,15 @@ export const SocketProvider = ({ children }) => {
 	// *************************************************************
 
 	const defaultListeners = () => {
-		socket.on(socketEventsSystem.updatePosBus, (busData) => {
-			console.log(busData);
-			updateBus(busData);
+		if (!socket) return;
+
+		socket.on("connect", () => {
+			console.log("connected");
 		});
 
-		// notificaciones 
+		socket.on(socketEventsSystem.updatePosBus, (busData) => updateBus(busData));
+
+		// notificaciones
 	};
 
 	const offDefaultListeners = () => {

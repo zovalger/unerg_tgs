@@ -2,13 +2,13 @@
 import { useContext, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link"
+import Link from "next/link";
 
 // componentes de otras librerias
 
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TbBus } from "react-icons/tb";
-import { GrChatOption } from "react-icons/gr"
+import { GrChatOption } from "react-icons/gr";
 import { IoIosLogOut } from "react-icons/io";
 
 import {
@@ -45,19 +45,12 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 
 const DriveMap = () => {
 	const { logout, user } = useContext(UserContext);
-	const { sendCoord } = useContext(DriverContext);
+	const { inService, startServiceDriver, endServiceDriver } =
+		useContext(DriverContext);
 
 	const [inter, setInter] = useState(null);
 
-	const {
-		getCenterMap,
-		toogleViewUserCoord,
-		getCoordsUser,
-		viewUserCoord,
-		updateBus,
-		insertRuta,
-		Rutas,
-	} = useContext(MapContext);
+	const { getCenterMap } = useContext(MapContext);
 
 	//useState
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
@@ -99,15 +92,10 @@ const DriveMap = () => {
 					toggleOffcanvas={toggleOffcanvas}
 					offcanvasActive={offcanvasActive}
 				>
-					<button className={styleN.btn_nav}
+					<button
+						className={styleN.btn_nav}
 						onClick={() => {
-							setInter(
-								setInterval(() => {
-									const coord = getCenterMap();
-									console.log(coord);
-									sendCoord(coord);
-								}, 500)
-							);
+							!user.inService ? startServiceDriver() : endServiceDriver();
 						}}
 					>
 						<FaBusinessTime className={styleN.route} />

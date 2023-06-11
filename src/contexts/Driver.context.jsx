@@ -15,7 +15,9 @@ const DriverContext = createContext();
 
 export const DriverProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
-	const [Send, setSend] = useState("")
+
+
+	const [Send, setSend] = useState("");
 
 	useEffect(() => {
 		if (!socket) return;
@@ -29,8 +31,22 @@ export const DriverProvider = ({ children }) => {
 		// });
 	};
 
-	const sendCoord = (coord) => {
+	const startServiceDriver = async (testMode) => {
+		setInService(true);
+	};
+
+	const endServiceDriver = async () => {
+		setInService(false);
+	};
+
+	// *******************************************************
+	// 									Sockets
+	// *******************************************************
+
+	const sendCoord_by_socket = (coord) => {
 		if (!coord) return;
+
+		console.log(coord);
 
 		socket.emit(socketEventsSystem.updatePosBus, coord);
 	};
@@ -38,11 +54,18 @@ export const DriverProvider = ({ children }) => {
 	// ############# Chat Sockets ###################
 
 	const sendMessage = (message) => {
-		socket.emit('Send Message', message);
+		socket.emit("Send Message", message);
 	};
 
 	return (
-		<DriverContext.Provider value={{ sendCoord, sendMessage }}>
+		<DriverContext.Provider
+			value={{
+				startServiceDriver,
+				endServiceDriver,
+				sendCoord_by_socket,
+				sendMessage,
+			}}
+		>
 			{children}
 		</DriverContext.Provider>
 	);
