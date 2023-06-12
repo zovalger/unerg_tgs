@@ -29,20 +29,25 @@ import Layout from "@/layouts/Layout";
 //Estilos
 import style from "@/styles/Routes/routes_view.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
-
-import { set } from "mongoose";
+import { getAllWaypoints_Request } from "@/api/public.api";
 
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
 });
 
-
 //**************************************** Codigo ************************************/
 
 const MainMap = () => {
-	const { toogleViewUserCoord, getCoordsUser, viewUserCoord, Rutas } =
-		useContext(MapContext);
+	const {
+		toogleViewUserCoord,
+		getCoordsUser,
+		viewUserCoord,
+		Rutas,
+		insertWaypoint,
+	} = useContext(MapContext);
+
+	const { insert, waypoints, getWaypoint } = useContext(WaypointContext);
 
 	const [offcanvasActive, setOffcanvasActive] = useState(false);
 	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
@@ -50,11 +55,6 @@ const MainMap = () => {
 	const [ro_active, setRo_active] = useState(false);
 
 	const Ro_Btn = () => setRo_active(!ro_active);
-
-
-	const { insert, waypoints, getWaypoint } =
-		useContext(WaypointContext);
-
 
 	const getDataWaypoints = async () => {
 		try {
@@ -69,11 +69,9 @@ const MainMap = () => {
 		}
 	};
 
-
 	useEffect(() => {
 		getDataWaypoints();
 	}, []);
-
 
 	//Vista de las rutas
 
@@ -159,9 +157,7 @@ const MainMap = () => {
 						</div>
 					) : undefined}
 				</div>
-				
 
-				
 				{/*Abrir vista de rutas*/}
 				{ro_menu && (
 					<div className="container__rutas">
@@ -173,7 +169,7 @@ const MainMap = () => {
 
 				{pa_menu && (
 					<div className="container__rutas">
-						<Bus_stopClient data={waypoints}/>
+						<Bus_stopClient data={waypoints} />
 					</div>
 				)}
 

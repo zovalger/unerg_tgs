@@ -19,3 +19,9 @@ export const updateDriver_Request = async (_id, data) =>
 // eliminacion
 export const deleteDriver_Request = async (_id) =>
 	await axios.delete(`${url}/${_id}`);
+
+export const startInServiceDriver_Request = async (_id) =>
+	await axios.post(`${url}/${_id}/inService/start`);
+
+export const stopInServiceDriver_Request = async (_id) =>
+	await axios.post(`${url}/${_id}/inService/stop`);

@@ -8,6 +8,7 @@ import { parse } from "cookie";
 import { verify } from "jsonwebtoken";
 import { Server } from "socket.io";
 import { chatSocketController } from "@/sockets/chatBackendSockets.js";
+import { driverSocketController } from "@/sockets/driverBackendSockets";
 
 export const socketInit = (req, res) => {
 	if (res.socket.server.io) {
@@ -23,28 +24,13 @@ export const socketInit = (req, res) => {
 			let user = null;
 
 			try {
-				if (authCookie) {
-					user = verify(authCookie, SECRET_WORD);
-					console.log("usuario registrado");
-
-					console.log(user);
-
-				}
+				if (authCookie) user = verify(authCookie, SECRET_WORD);
 			} catch (error) {
 				console.log(error);
 			}
 
-			if (user) {
-				socket.on(socketEventsSystem.updatePosBus, async (coord) => {
-
-					socket.broadcast.emit(socketEventsSystem.updatePosBus, {
-						_id: "1",
-						coord,
-						name: "bus dinamico",
-					});
-					console.log(coord);
-				});
-			}
+			// eventos especificos de los conductores
+			driverSocketController(io, socket, user);
 
 			chatSocketController(io, socket);
 

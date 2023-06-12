@@ -5,6 +5,8 @@ import {
 	getAllUserDriver_by_BusId_service,
 	getAllUserDriver_service,
 	getUserDriver_service,
+	startInServiceUserDriver_service,
+	stopInServiceUserDriver_service,
 	updateUserDriver_service,
 } from "@/services/userDriver.service";
 
@@ -202,6 +204,62 @@ export const getUserDriver_by_BusId_controller = async (req, res) => {
 	try {
 		// se timetableca en la DB
 		const driver = await getAllUserDriver_by_BusId_service(_id);
+
+		// si no devuelve nada se envia un error 404
+		if (!driver)
+			return res
+				.status(404)
+				.json({ error: true, message: ErrorsMessages.notFound });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (driver.error) return res.status(500).json(driver);
+
+		return res.status(200).json(driver);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};
+
+
+
+
+
+export const startInServiceUserDriver_controller = async (req, res) => {
+	const { _id } = req.query;
+
+	try {
+		// se timetableca en la DB
+		const driver = await startInServiceUserDriver_service(_id);
+
+		// si no devuelve nada se envia un error 404
+		if (!driver)
+			return res
+				.status(404)
+				.json({ error: true, message: ErrorsMessages.notFound });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (driver.error) return res.status(500).json(driver);
+
+		return res.status(200).json(driver);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};
+
+
+
+export const stopInServiceUserDriver_controller = async (req, res) => {
+	const { _id } = req.query;
+
+	try {
+		// se timetableca en la DB
+		const driver = await stopInServiceUserDriver_service(_id);
 
 		// si no devuelve nada se envia un error 404
 		if (!driver)

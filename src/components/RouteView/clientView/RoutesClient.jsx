@@ -34,7 +34,7 @@ export default function RoutesClient(props) {
 
 	const onClick = (_id) => {
 		setEditingRoute(getRuta(_id));
-		router.push(`./info/${_id}`);
+		router.push(`./rutas/${_id}`);
 	};
 
 	return (

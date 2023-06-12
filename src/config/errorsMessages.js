@@ -2,7 +2,7 @@ const ErrorsMessages = {
 	inServer: "Error en el servidor",
 	noData: "No hay datos",
 	notFound: "No encontrado",
-notCreate:"Registro no se a creado",
+	notCreate: "Registro no se a creado",
 
 	// users
 	userNotFound: "Usuario no encontrado",
@@ -15,7 +15,10 @@ notCreate:"Registro no se a creado",
 	tokenNotFound: "Token no encontrado",
 	tokenInvalidOrDefeated: "Token no valido o vencido",
 
+	// driver
 
+	otherIsInService: "otro conductor esta de servicio en el mismo autobus",
+	noInYourTimetable: "No estas en tu horario de trabajo",
 };
 
 export default ErrorsMessages;

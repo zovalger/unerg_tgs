@@ -14,7 +14,7 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 
 const Chat = () => {
 
-  const { sendMessage } = useContext(DriverContext);
+  const { sendMessage, reciveMessage } = useContext(DriverContext);
 
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -63,6 +63,12 @@ const Chat = () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    const cleanup = reciveMessage((data) => {
+      setMessages((oldMessages) => [...oldMessages, data]);
+    });
+    return cleanup;
+  }, []);
 
   return (
 <Layout>

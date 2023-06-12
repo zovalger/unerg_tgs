@@ -26,22 +26,26 @@ export const SocketProvider = ({ children }) => {
 
 		setSocket(socket);
 
-		socket.on("connect", () => {
-			console.log("connected");
-		});
+		defaultListeners(socket);
 	};
 
 	// *************************************************************
 	// 					listeners predeterminados del socket
 	// *************************************************************
 
-	const defaultListeners = () => {
+	const defaultListeners = (socket) => {
+		if (!socket) return;
+
+		socket.on("connect", () => {
+			console.log("connected");
+		});
+
 		socket.on(socketEventsSystem.updatePosBus, (busData) => {
 			console.log(busData);
 			updateBus(busData);
 		});
 
-		// notificaciones 
+		// notificaciones
 	};
 
 	const offDefaultListeners = () => {

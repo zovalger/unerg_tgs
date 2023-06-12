@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Link from "next/link";
 
 import Layout from "@/layouts/Layout";
@@ -7,11 +7,15 @@ import NavBar from "@/components/common/NavBar";
 import { InputGroup, Input, Button } from 'reactstrap';
 import { FaPaperPlane, FaCamera } from 'react-icons/fa';
 import { IoIosArrowBack } from "react-icons/io";
+import DriverContext from "@/contexts/Driver.context";
 
 import styleC from '@/styles/Chat/chat.module.css';
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
 const Chat = () => {
+
+  const { sendMessage, reciveMessage } = useContext(DriverContext);
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [imageFile, setImageFile] = useState(null);
@@ -26,6 +30,7 @@ const Chat = () => {
     if (newMessage !== '') {
       setMessages([...messages, newMessage]);
       setNewMessage('');
+      sendMessage(newMessage);
     }
   };
 
@@ -58,6 +63,12 @@ const Chat = () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  useEffect(() => {
+    const cleanup = reciveMessage((data) => {
+      setMessages((oldMessages) => [...oldMessages, data]);
+    });
+    return cleanup;
+  }, []);
 
   return (
 <Layout>
@@ -67,7 +78,7 @@ const Chat = () => {
 					ViPrincipal={true}
 					left={
 						<div>
-							<Link href={"../menu"} className={styleN.btn_return}>
+							<Link href={"../map"} className={styleN.btn_return}>
 								<IoIosArrowBack />
 							</Link>
 						</div>

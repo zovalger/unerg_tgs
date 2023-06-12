@@ -24,8 +24,8 @@ export const ToastProvider = ({ children }) => {
 	}
 
 	// Función para mostrar un toast de carga
-	function showLoadingToast() {
-		return toast.loading("Cargando...");
+	function showLoadingToast(message) {
+		return toast.loading(message || "Cargando...");
 	}
 
 	// Función que envuelve una promesa y muestra un toast de carga mientras se está ejecutando
