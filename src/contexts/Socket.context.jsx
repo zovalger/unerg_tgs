@@ -1,5 +1,6 @@
 import socketEventsSystem from "@/config/socketEventsSystem";
 import io from "socket.io-client";
+import BusContext from "./Bus.context";
 import MapContext from "./Map.context";
 
 const { createContext, useState, useEffect, useContext } = require("react");
@@ -13,7 +14,6 @@ const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
 	const [socket, setSocket] = useState(null);
 	const [io_instance, setIo] = useState(io);
-	const { updateBus } = useContext(MapContext);
 
 	useEffect(() => {
 		socketInitializer();
@@ -40,10 +40,7 @@ export const SocketProvider = ({ children }) => {
 			console.log("connected");
 		});
 
-		socket.on(socketEventsSystem.updatePosBus, (busData) => {
-			console.log(busData);
-			updateBus(busData);
-		});
+	
 
 		// notificaciones
 	};

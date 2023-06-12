@@ -1,13 +1,16 @@
 import socketEventsSystem from "@/config/socketEventsSystem";
 import dbConnect from "@/lib/db";
-import { updateCoordBus_service } from "@/services/bus.service";
+import {
+	updateCapacityBus_service,
+	updateCoordBus_service,
+} from "@/services/bus.service";
 
 export const driverSocketController = (io, socket, user) => {
 	if (!user) return;
 	if (user.role != "driver") return;
 
 	// *****************************************************************
-	// 								actualizacion de posicion de bus
+	// 									Bus: update Coords
 	// *****************************************************************
 
 	socket.on(socketEventsSystem.updatePosBus, async (coord) => {
@@ -20,6 +23,15 @@ export const driverSocketController = (io, socket, user) => {
 	});
 
 	// *****************************************************************
-	// 								actualizacion de posicion de bus
+	// 									Bus: update Capacity
 	// *****************************************************************
+
+	socket.on(socketEventsSystem.updateCapacityBus, async (capacity) => {
+		await dbConnect();
+
+		const bus = await updateCapacityBus_service(user.busId, capacity);
+		console.log(`bus: ${bus.num}; updateCapacity: ${capacity}`);
+
+		socket.broadcast.emit(socketEventsSystem.updateCapacityBus, bus);
+	});
 };
