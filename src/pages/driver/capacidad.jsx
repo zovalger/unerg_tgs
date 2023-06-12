@@ -32,6 +32,13 @@ import { IoIosArrowBack } from "react-icons/io";
 //****************************** Codigo *****************************//
 
 const Capacidad = () => {
+
+  const [value, setValue] = useState(0);
+
+  const handleStateChange = (newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <Layout>
       <NavBar
@@ -49,7 +56,8 @@ const Capacidad = () => {
 
       <div className={styles.container}>
         <Form className={styles.form}>
-        <SuperSimple>
+          <p>{value}</p>
+        <SuperSimple value={value} onStateChange={handleStateChange}>
         </SuperSimple>
         </Form>
       </div>
@@ -60,7 +68,10 @@ const Capacidad = () => {
 export default Capacidad;
 
 class SuperSimple extends React.Component {
-  state = { values: [0] };
+  state = { values: [this.props.value] };
+  handleStateChange = (newValue) => {
+    this.props.onStateChange(newValue);
+  };
   render() {
     return (
       <Range
@@ -69,14 +80,18 @@ class SuperSimple extends React.Component {
         max={100}
         values={this.state.values}
         direction={Direction.Up}
-        onChange={(values) => this.setState({ values })}
+        onChange={(values) => {
+          this.setState({ values });
+          this.handleStateChange(values[0]);
+        }}
         renderTrack={({ props, children }) => (
           <div
-            className={styles.barra}
+
             {...props}
             style={{
               ...props.style,
-              height: `${(this.state.values[0]/100)*100}%`,
+              height: '100%',
+              width: '100%',
               transition: 'height 0.1s ease-in-out',
             }}
             
@@ -87,7 +102,7 @@ class SuperSimple extends React.Component {
         )}
         renderThumb={({ props }) => (
           <div
-            className={styles.boton}
+
             {...props}
             style={{
               ...props.style,
