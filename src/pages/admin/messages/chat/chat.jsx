@@ -11,7 +11,7 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import ChatView from "@/components/messagesView/ChatView";
 
 const Chat = () => {
-	const { sendMessage, reciveMessage, messages } = useContext(ChatsContext);
+	const { sendMessage, messages } = useContext(ChatsContext);
 
 	return (
 		<Layout>
@@ -20,7 +20,7 @@ const Chat = () => {
 				ViPrincipal={true}
 				left={
 					<div>
-						<Link href={"../map"} className={styleN.btn_return}>
+						<Link href={"../menu"} className={styleN.btn_return}>
 							<IoIosArrowBack />
 						</Link>
 					</div>
@@ -34,8 +34,8 @@ const Chat = () => {
 
 			<ChatView
 				chat={{}}
-				messages={[]}
-				sendMessage={(text, image) => console.log(text, image)}
+				messages={ messages }
+				sendMessage={sendMessage}
 			/>
 		</Layout>
 	);

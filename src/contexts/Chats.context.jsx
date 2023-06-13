@@ -17,8 +17,12 @@ export const ChatsProvider = ({ children }) => {
 	const { user, setUser } = useContext(UserContext);
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
-	const [messages] = useState([]);
+	const [messages, setMessages] = useState([]);
 
+	useEffect(() => {
+		if (!socket) return;
+		reciveMessage();
+	}, [socket]);
 
 	// *******************************************************
 	// 									Sockets
@@ -32,17 +36,16 @@ export const ChatsProvider = ({ children }) => {
 
 
 	//TODO: if (!socket) return
-	const sendMessage = (message) => {
-		socket.emit(socketEventsSystem.sendMessage, message);
+	const sendMessage = (newMessage) => {
+		setMessages([...messages, newMessage]);
+		socket.emit(socketEventsSystem.sendMessage, newMessage);
 	};
 
-	const reciveMessage = (message) => {
-		socket.on(socketEventsSystem.reciveMessage, message);
-		
-		return () => {
-			socket.off(socketEventsSystem.reciveMessage, message);
-		};
-	};
+	const reciveMessage = () => {
+		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
+		  setMessages((prevMessages) => [...prevMessages, newMessage]);
+		});
+	  };
 
 	return (
 		<ChatsContext.Provider
@@ -50,7 +53,6 @@ export const ChatsProvider = ({ children }) => {
 				messages,
 
 				sendMessage,
-				reciveMessage,
 			}}
 		>
 			{children}

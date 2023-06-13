@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useContext } from "react";
 
 import { InputGroup, Input, Button } from "reactstrap";
 import { FaPaperPlane, FaCamera } from "react-icons/fa";
-import DriverContext from "@/contexts/Driver.context";
+import ChatsContext from "@/contexts/Chats.context";
 
 import styleC from "@/styles/Chat/chat.module.css";
 import MessageItem from "./MessageItem";
