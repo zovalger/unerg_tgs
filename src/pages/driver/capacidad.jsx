@@ -9,10 +9,10 @@ import styles from "@/styles/Users/driver/capacidad.module.css";
 //Componentes
 
 import Layout from "@/layouts/Layout";
-import NavBar from "@/components/common/NavBar";
+
 
 import { Range, Direction } from "react-range";
-import { Form } from "reactstrap";
+import { Navbar, NavbarToggler, NavbarBrand, Button } from "reactstrap";
 
 import { IoIosArrowBack } from "react-icons/io";
 import DriverContext from "@/contexts/Driver.context";
@@ -36,26 +36,28 @@ const Capacidad = () => {
 
 	return (
 		<Layout>
-			<NavBar
-				title={"Capacidad del bus"}
-				ViPrincipal={true}
-				left={
-					<div>
+				<Navbar fixed="top">
+			
+			<div>
 						<Link href={"./map"} className={styleN.btn_return}>
 							<IoIosArrowBack />
 						</Link>
 					</div>
-				}
-				right={<></>}
-			/>
+				<h2 className={styles.title}>Capacidad del bus</h2>
+
+
+
+
+			</Navbar>
+		
 
 			<div className={styles.container}>
-				<Form className={styles.form}>
+			
 					<SuperSimple
 						value={user && getBus(user.busId)}
 						onFinalChange={onFinalChange}
 					/>
-				</Form>
+
 			</div>
 		</Layout>
 	);
@@ -77,24 +79,25 @@ const SuperSimple = ({ value, onFinalChange }) => {
 			onFinalChange={(v) => onFinalChange(v[0])}
 			renderTrack={({ props, children }) => (
 				<div
-					className={styles.barra}
 					{...props}
 					style={{
 						...props.style,
-						height: `${100}%`,
-						transition: "height 0.1s ease-in-out",
+						height: '100%',
+						width: '100%'
 					}}
 				>
 					{children}
 					<h2 className={styles.porcentaje}>{values}%</h2>
+					<div className={styles.barra} style={{height:`${values}%`, borderTopLeftRadius: `${values == 100 ? 0 : 20}px`, borderTopRightRadius: `${values == 100 ? 0 : 20}px`}}></div>
 				</div>
 			)}
 			renderThumb={({ props }) => (
 				<div
-					className={styles.boton}
+				
 					{...props}
 					style={{
 						...props.style,
+						
 					}}
 				/>
 			)}
