@@ -5,13 +5,13 @@ import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 
 import { IoIosArrowBack } from "react-icons/io";
-import DriverContext from "@/contexts/Driver.context";
+import ChatsContext from "@/contexts/Chats.context";
 
 import styleN from "@/styles/Nav/NavStyle.module.css";
 import ChatView from "@/components/messagesView/ChatView";
 
 const Chat = () => {
-	const { sendMessage, reciveMessage } = useContext(DriverContext);
+	const { sendMessage, reciveMessage, messages } = useContext(ChatsContext);
 
 	return (
 		<Layout>

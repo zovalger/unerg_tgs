@@ -13,6 +13,7 @@ import { WaypointProvider } from "@/contexts/Waypoint.context";
 import { RutaProvider } from "@/contexts/Ruta.context";
 import { BusProvider } from "@/contexts/Bus.context";
 import { ToastProvider } from "@/contexts/Toast.context";
+import { ChatsProvider } from "@/contexts/Chats.context";
 
 export default function App({ Component, pageProps }) {
 	return (
@@ -21,14 +22,16 @@ export default function App({ Component, pageProps }) {
 				<SocketProvider>
 					<UserProvider>
 						<DriverProvider>
-							<WaypointProvider>
-								<RutaProvider>
-									<BusProvider>
-									
-										<Component {...pageProps} />
-									</BusProvider>
-								</RutaProvider>
-							</WaypointProvider>
+							<ChatsProvider>
+								<WaypointProvider>
+									<RutaProvider>
+										<BusProvider>
+										
+											<Component {...pageProps} />
+										</BusProvider>
+									</RutaProvider>
+								</WaypointProvider>
+							</ChatsProvider>
 						</DriverProvider>
 					</UserProvider>
 				</SocketProvider>
