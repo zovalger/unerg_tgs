@@ -24,7 +24,7 @@ import dbConnect from "@/lib/db";
 const Menu = ({ drivers }) => {
 	const router = useRouter();
 
-    const onClick = () => {
+  const onClick = () => {
 		router.push(`./chat/chat`);
 	};
 

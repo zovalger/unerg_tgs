@@ -19,6 +19,7 @@ export const ChatsProvider = ({ children }) => {
 
 	const [messages, setMessages] = useState([]);
 
+
 	useEffect(() => {
 		if (!socket) return;
 		reciveMessage();
@@ -35,15 +36,21 @@ export const ChatsProvider = ({ children }) => {
 	//TODO: integraion db
 
 
-	//TODO: if (!socket) return
 	const sendMessage = (newMessage) => {
-		setMessages([...messages, newMessage]);
-		socket.emit(socketEventsSystem.sendMessage, newMessage);
+		let data = {
+			chatId: "",
+			text: newMessage,
+			driverId: "",
+			adminId: ""
+		}
+		setMessages([...messages, data]);
+		socket.emit(socketEventsSystem.sendMessage, data);
 	};
 
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
-		  setMessages((prevMessages) => [...prevMessages, newMessage]);
+			console.log(newMessage)
+		 	setMessages((prevMessages) => [...prevMessages, newMessage ]);
 		});
 	  };
 

@@ -87,7 +87,7 @@ const ChatView = ({ chat, messages, sendMessage }) => {
 		<div className={styleC.chatContainer}>
 			<div className={styleC.messageContainer}>
 				{messages.map((message, index) => (
-					<MessageItem key={message?.id || uuid()} data={message} />
+					<MessageItem key={message?.id || uuid()} data={message.text} />
 				))}
 				<div ref={messagesEndRef} />
 			</div>
