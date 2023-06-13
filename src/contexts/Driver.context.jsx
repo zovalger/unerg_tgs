@@ -60,7 +60,7 @@ export const DriverProvider = ({ children }) => {
 			({ data }) => {
 				console.log(data);
 				setUser({ ...user, inService: data.inService });
-				return "Estas en servicio"
+				return "Estas en servicio";
 			},
 			(error) => {
 				console.log(error);
@@ -81,7 +81,7 @@ export const DriverProvider = ({ children }) => {
 			({ data }) => {
 				console.log(data);
 				setUser({ ...user, inService: data.inService });
-				return "Saliste de servicio"
+				return "Saliste de servicio";
 			},
 			(error) => {
 				console.log(error);
@@ -108,6 +108,15 @@ export const DriverProvider = ({ children }) => {
 		socket.emit(socketEventsSystem.updatePosBus, coord);
 	};
 
+	const sendCapacity_by_socket = (capacity) => {
+		if (typeof capacity !== "number") return;
+		if (!socket) return;
+
+		console.log(capacity);
+
+		socket.emit(socketEventsSystem.updateCapacityBus, capacity);
+	};
+
 	// ############# Chat Sockets ###################
 
 	const sendMessage = (message) => {
@@ -131,6 +140,7 @@ export const DriverProvider = ({ children }) => {
 				clearIntervalService,
 
 				sendCoord_by_socket,
+				sendCapacity_by_socket,
 
 				sendMessage,
 				reciveMessage,

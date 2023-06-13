@@ -274,6 +274,32 @@ export const updateCoordBus_service = async (_id, coord) => {
 };
 
 // ********************************************************************
+// 							buses: update coords
+// ********************************************************************
+
+export const updateCapacityBus_service = async (_id, capacity) => {
+	if (!_id) return;
+
+	// obtencion de los datos modificables
+
+	const newData = { capacity };
+
+	try {
+		await BusModel.findByIdAndUpdate(_id, newData);
+
+		const bus = await BusModel.findById(_id);
+
+		// si no se encuentra se devuelve un error de no encontrado
+		if (!bus) return { error: true, message: ErrorsMessages.notFound };
+
+		// devolucion exitosa
+		return bus;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+// ********************************************************************
 // 	 buses: intercambiar el status entre eliminado o no eliminado
 // ********************************************************************
 

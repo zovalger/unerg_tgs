@@ -1,6 +1,9 @@
 import { getAllBuses_Request } from "@/api/public.api";
+import socketEventsSystem from "@/config/socketEventsSystem";
+import MapContext from "./Map.context";
+import SocketContext from "./Socket.context";
 
-const { createContext, useState, useEffect } = require("react");
+const { createContext, useState, useEffect, useContext } = require("react");
 
 const BusContext = createContext();
 
@@ -9,11 +12,35 @@ const BusContext = createContext();
 // ****************************************************************************
 
 export const BusProvider = ({ children }) => {
+	const { socket } = useContext(SocketContext);
+
+	const { updateBus: mapUpdateBus } = useContext(MapContext);
+
 	const [buses, setBuses] = useState([]);
 
 	useEffect(() => {
 		refresh();
 	}, []);
+
+	useEffect(() => {
+		if (!socket) return;
+		socketInitializer();
+	}, [socket]);
+
+	const socketInitializer = async () => {
+		// actualizacion de coordenadas
+		socket.on(socketEventsSystem.updatePosBus, (busData) => {
+			console.log(busData);
+			updateBus(busData)
+			mapUpdateBus(busData);
+		});
+
+		// actualizacion de capacidad
+		socket.on(socketEventsSystem.updateCapacityBus, (busData) => {
+			console.log(busData);
+			updateBus(busData._id, busData);
+		});
+	};
 
 	const refresh = () => {
 		getAllBuses_Request()

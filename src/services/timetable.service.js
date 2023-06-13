@@ -34,7 +34,11 @@ export const getTimetable_by_Id_service = async (_id) => {
 
 export const getAllTimetables_service = async () => {
 	try {
-		const timetables = await TimetableModel.find().sort({ name: 1, type: 1 });
+		const timetables = await TimetableModel.find()
+			.sort({ name: 1, type: 1 })
+			.sort({
+				name: 1,
+			});
 
 		return timetables;
 	} catch (error) {
@@ -44,7 +48,9 @@ export const getAllTimetables_service = async () => {
 
 export const getAllDriverTimetables_service = async () => {
 	try {
-		const timetables = await TimetableModel.find({ type: "d" });
+		const timetables = await TimetableModel.find({ type: "d" }).sort({
+			name: 1,
+		});
 
 		return timetables;
 	} catch (error) {
@@ -54,7 +60,9 @@ export const getAllDriverTimetables_service = async () => {
 
 export const getAllRutaTimetables_service = async () => {
 	try {
-		const timetables = await TimetableModel.find({ type: "r" });
+		const timetables = await TimetableModel.find({ type: "r" }).sort({
+			name: 1,
+		});
 
 		return timetables;
 	} catch (error) {
