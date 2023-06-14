@@ -24,7 +24,10 @@ export default function Bus_stop({ edit, data, onDelete, onClick }) {
 				<h2>Paradas</h2>
 
 				{edit && (
-					<Link href={"./add"} className={style.add}>
+					<Link
+						href={"./add"}
+						className={`btn-primary btn text-white ${style.add}`}
+					>
 						<IoIosAdd />
 					</Link>
 				)}

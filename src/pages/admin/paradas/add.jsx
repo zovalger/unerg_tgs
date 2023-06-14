@@ -11,7 +11,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import WaypointForm from "@/components/WaypointView/WaypointForm";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
@@ -87,7 +87,6 @@ const MainMap = () => {
 				<div className="container__rutas">
 					<WaypointForm onSubmit={onSubmit} />
 				</div>
-
 			</div>
 		</Layout>
 	);
