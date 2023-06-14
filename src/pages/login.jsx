@@ -53,7 +53,7 @@ export function Login() {
 
 					if (user.role == "admin" || user.role == "root")
 						router.push("/admin/map");
-					else router.push(`/driver/map`);
+					else router.push(`/driver/capacidad`);
 
 					return "autenticado correctamente";
 				},
