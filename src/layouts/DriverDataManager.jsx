@@ -45,7 +45,7 @@ export const DriverDataManager = () => {
 
 					sendCoord_by_socket(coord);
 				},
-				testMode ? 1000 : 1000
+				testMode ? 1000 : 10000
 			)
 		);
 	};

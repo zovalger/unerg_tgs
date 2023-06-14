@@ -1,5 +1,5 @@
 //React/Next
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 //Componentes
@@ -14,23 +14,42 @@ import { IoIosArrowBack } from "react-icons/io";
 import styles from "@/styles/Users/admin/Conductores/add.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 import DriverForm from "@/components/AddConductor/DriverForm";
-import { getAllActiveBuses_service } from "@/services/bus.service";
-import dbConnect from "@/lib/db";
 import ToastContext from "@/contexts/Toast.context";
 import { useRouter } from "next/router";
-import { updateDriver_Request } from "@/api/userDriver.api";
-import {
-	getAllDriverTimetables_service,
-	getAllTimetables_service,
-} from "@/services/timetable.service";
-import { getUserDriver_service } from "@/services/userDriver.service";
+import { getDriver_By_Id_Request, updateDriver_Request } from "@/api/userDriver.api";
+
+import { getAllBuses_Request } from "@/api/bus.api";
+import { getAllTimetables_Request } from "@/api/timetable.api";
 
 //Contextos
 
 //******************************* Codigo*****************************//
-const Add = ({ data, buses, timetables }) => {
+const Add = () => {
 	const router = useRouter();
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
+
+	const { _id } = router.query;
+
+	const [data, setData] = useState(null);
+	const [buses, setBuses] = useState([]);
+	const [timetables, setTimetables] = useState([]);
+
+	useEffect(() => {
+		if (_id)
+			getDriver_By_Id_Request(_id)
+				.then(({ data: ad }) => setData(ad))
+				.catch((error) => console.log(error));
+	}, [_id]);
+
+	useEffect(() => {
+		getAllBuses_Request()
+			.then(({ data }) => setBuses(data))
+			.catch((error) => console.log(error));
+
+		getAllTimetables_Request()
+			.then(({ data }) => setTimetables(data))
+			.catch((error) => console.log(error));
+	}, []);
 
 	const onSubmit = async (formdata) => {
 		withLoadingSuccessAndErrorFuntionsToast(
@@ -68,35 +87,17 @@ const Add = ({ data, buses, timetables }) => {
 			{/********************************  Input para Imagen de Perfil *********************************/}
 
 			<div className={styles.container}>
-				<DriverForm
-					data={data}
-					onSubmit={onSubmit}
-					buses={buses}
-					timetables={timetables}
-				/>
+				{data && (
+					<DriverForm
+						data={data}
+						onSubmit={onSubmit}
+						buses={buses}
+						timetables={timetables}
+					/>
+				)}
 			</div>
 		</Layout>
 	);
 };
 
 export default Add;
-
-export const getServerSideProps = async ({ params }) => {
-	await dbConnect();
-	// BusModel
-	// TimetableModel
-
-	const { _id } = params;
-
-	const data = JSON.parse(JSON.stringify(await getUserDriver_service(_id)));
-
-	const buses = JSON.parse(JSON.stringify(await getAllActiveBuses_service()));
-
-	const timetables = JSON.parse(
-		JSON.stringify(await getAllDriverTimetables_service())
-	);
-
-	return {
-		props: { data, buses, timetables },
-	};
-};

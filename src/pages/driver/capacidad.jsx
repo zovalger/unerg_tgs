@@ -10,7 +10,6 @@ import styles from "@/styles/Users/driver/capacidad.module.css";
 
 import Layout from "@/layouts/Layout";
 
-
 import { Range, Direction } from "react-range";
 import { Navbar, NavbarToggler, NavbarBrand, Button } from "reactstrap";
 
@@ -29,6 +28,7 @@ const Capacidad = () => {
 	const { user } = useContext(UserContext);
 	const { getBus } = useContext(BusContext);
 
+	// todo: que no pueda modificar/enviar si no esta en servicio
 	const onFinalChange = (value) => {
 		console.log("enviado capacidad de", value);
 		sendCapacity_by_socket(value);
@@ -36,28 +36,20 @@ const Capacidad = () => {
 
 	return (
 		<Layout>
-				<Navbar fixed="top">
-			
-			<div>
-						<Link href={"./map"} className={styleN.btn_return}>
-							<IoIosArrowBack />
-						</Link>
-					</div>
+			<Navbar fixed="top">
+				<div>
+					<Link href={"./map"} className={styleN.btn_return}>
+						<IoIosArrowBack />
+					</Link>
+				</div>
 				<h2 className={styles.title}>Capacidad del bus</h2>
-
-
-
-
 			</Navbar>
-		
 
 			<div className={styles.container}>
-			
-					<SuperSimple
-						value={user && getBus(user.busId)}
-						onFinalChange={onFinalChange}
-					/>
-
+				<SuperSimple
+					value={user && getBus(user.busId)}
+					onFinalChange={onFinalChange}
+				/>
 			</div>
 		</Layout>
 	);
@@ -66,6 +58,7 @@ const Capacidad = () => {
 export default Capacidad;
 
 const SuperSimple = ({ value, onFinalChange }) => {
+	// todo: retomar el valor que tiene la DB
 	const [values, setValues] = useState([typeof value === "number" ? value : 0]);
 
 	return (
@@ -82,22 +75,27 @@ const SuperSimple = ({ value, onFinalChange }) => {
 					{...props}
 					style={{
 						...props.style,
-						height: '100%',
-						width: '100%'
+						height: "100%",
+						width: "100%",
 					}}
 				>
 					{children}
 					<h2 className={styles.porcentaje}>{values}%</h2>
-					<div className={styles.barra} style={{height:`${values}%`, borderTopLeftRadius: `${values == 100 ? 0 : 20}px`, borderTopRightRadius: `${values == 100 ? 0 : 20}px`}}></div>
+					<div
+						className={styles.barra}
+						style={{
+							height: `${values}%`,
+							borderTopLeftRadius: `${values == 100 ? 0 : 20}px`,
+							borderTopRightRadius: `${values == 100 ? 0 : 20}px`,
+						}}
+					></div>
 				</div>
 			)}
 			renderThumb={({ props }) => (
 				<div
-				
 					{...props}
 					style={{
 						...props.style,
-						
 					}}
 				/>
 			)}
