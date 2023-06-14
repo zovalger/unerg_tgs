@@ -1,7 +1,7 @@
 import UserContext from "@/contexts/User.context";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { use, useContext, useEffect } from "react";
 import { DriverDataManager } from "./DriverDataManager";
 
 function Layout({ children }) {
@@ -21,8 +21,11 @@ function Layout({ children }) {
 
 		if (!user) return router.replace("/login");
 
-		if (rolesRutas[0] != `/${user.role}/`)
-			return router.replace(`/${user.role}/map`);
+		if (user.role !== "root")
+			if (rolesRutas[0] != `/${user.role}/`) {
+				if (user.role === "admin") return router.replace(`/admin/map`);
+				if (user.role === "driver") return router.replace(`/driver/capacidad`);
+			}
 	};
 
 	useEffect(() => {

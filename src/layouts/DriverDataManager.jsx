@@ -5,7 +5,7 @@ import ToastContext from "@/contexts/Toast.context";
 import UserContext from "@/contexts/User.context";
 import { useContext, useEffect, useState } from "react";
 
-const testMode = true;
+const testMode = false;
 
 export const DriverDataManager = () => {
 	const { user } = useContext(UserContext);

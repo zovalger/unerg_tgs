@@ -45,13 +45,16 @@ export function Login() {
 			console.log(formData);
 			setIsSubmiting(true);
 
-
 			withLoadingSuccessAndErrorFuntionsToast(
 				login(formData),
 				(user) => {
 					console.log(user);
 					resetSocket();
-					router.push(`/${user.role}/map`);
+
+					if (user.role == "admin" || user.role == "root")
+						router.push("/admin/map");
+					else router.push(`/driver/map`);
+
 					return "autenticado correctamente";
 				},
 				(error) => {
