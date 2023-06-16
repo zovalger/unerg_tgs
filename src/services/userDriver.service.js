@@ -1,10 +1,12 @@
 import DriverModel from "@/models/Driver.model";
+import ChatModel from "@/models/Chat.model";
 import {
 	getUser_By_Email,
 	sendUrlToChangePasswordUser_service,
 } from "./auth.service";
 import userProcess from "@/config/userProcess";
 import TimetableModel from "@/models/Timetable.model";
+import BusModel from "@/models/Bus.model";
 import ErrorsMessages from "@/config/errorsMessages";
 import { getTimetable_by_Id_service } from "./timetable.service";
 import verificInTimetable from "@/utils/verificInTimetable";
@@ -44,15 +46,27 @@ export const createUserDriver_service = async ({
 
 		const driver = new DriverModel(data);
 
+
 		// todo: enviar verificacion al correo
 		await sendUrlToChangePasswordUser_service(
 			driver,
 			userProcess.setFirstPassword
 		);
 
-		await driver.save();
+		const { _id } = await driver.save();
+		await createChatForDriver_service(_id);
+
 
 		return driver;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const createChatForDriver_service = async (driverId) => {
+	try {
+		const newChat = new ChatModel({ driverId });
+		await newChat.save();
 	} catch (error) {
 		console.log(error);
 	}
