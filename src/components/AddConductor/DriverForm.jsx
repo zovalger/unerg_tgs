@@ -131,11 +131,11 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 					email: "",
 
 					perfilImg: {
-						url: null,
-						imgfileId: null,
+						url: "",
+						imgfileId: "",
 					},
 					busId: "",
-					timetableId: null,
+					timetableId: "",
 			  },
 		validationSchema: driverUserValidatorSchema,
 		onSubmit: (formData) => {
@@ -482,9 +482,9 @@ const DriverForm = ({ onSubmit, data, timetables, buses }) => {
 					className={styles.button}
 					type="button"
 					onClick={() => {
-						if (submitImage) return showErrorToast("Espere a que se suba la image")
-						
-						
+						if (submitImage)
+							return showErrorToast("Espere a que se suba la image");
+
 						formik.submitForm();
 					}}
 				>
