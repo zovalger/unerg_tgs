@@ -4,7 +4,7 @@ import SocketContext from "./Socket.context";
 import ToastContext from "./Toast.context";
 import UserContext from "./User.context";
 
-import { getAllChats_service } from "@/services/chats.service" 
+// import { getAllChats_service } from "@/services/chats.service"
 
 const { createContext, useState, useEffect, useContext } = require("react");
 
@@ -21,7 +21,6 @@ export const ChatsProvider = ({ children }) => {
 
 	const [messages, setMessages] = useState([]);
 
-
 	useEffect(() => {
 		if (!socket) return;
 		reciveMessage();
@@ -37,24 +36,23 @@ export const ChatsProvider = ({ children }) => {
 
 	//TODO: integraion db
 
-
 	const sendMessage = (newMessage) => {
 		let data = {
 			chatId: "",
 			text: newMessage,
 			driverId: "",
-			adminId: ""
-		}
+			adminId: "",
+		};
 		setMessages([...messages, data]);
 		socket.emit(socketEventsSystem.sendMessage, data);
 	};
 
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
-			console.log(newMessage)
-		 	setMessages((prevMessages) => [...prevMessages, newMessage ]);
+			console.log(newMessage);
+			setMessages((prevMessages) => [...prevMessages, newMessage]);
 		});
-	  };
+	};
 
 	return (
 		<ChatsContext.Provider
