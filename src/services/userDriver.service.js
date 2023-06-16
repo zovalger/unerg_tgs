@@ -6,6 +6,7 @@ import {
 } from "./auth.service";
 import userProcess from "@/config/userProcess";
 import TimetableModel from "@/models/Timetable.model";
+import BusModel from "@/models/Bus.model";
 import ErrorsMessages from "@/config/errorsMessages";
 import { getTimetable_by_Id_service } from "./timetable.service";
 import verificInTimetable from "@/utils/verificInTimetable";

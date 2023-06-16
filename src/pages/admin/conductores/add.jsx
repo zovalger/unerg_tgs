@@ -1,5 +1,5 @@
 //React/Next
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 //Componentes
@@ -14,21 +14,29 @@ import { IoIosArrowBack } from "react-icons/io";
 import styles from "@/styles/Users/admin/Conductores/add.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
 import DriverForm from "@/components/AddConductor/DriverForm";
-import { getAllActiveBuses_service } from "@/services/bus.service";
-import dbConnect from "@/lib/db";
 import ToastContext from "@/contexts/Toast.context";
 import { useRouter } from "next/router";
 import { createDriverUser_Request } from "@/api/userDriver.api";
-import {
-	getAllDriverTimetables_service,
-	getAllTimetables_service,
-} from "@/services/timetable.service";
+import { getAllBuses_Request } from "@/api/bus.api";
+import { getAllDriverTimetables_Request } from "@/api/timetable.api";
 
 //******************************* Codigo*****************************//
-const Add = ({ buses, timetables }) => {
+const Add = () => {
 	const router = useRouter();
 
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
+	const [buses, setBuses] = useState([]);
+	const [timetables, setTimetables] = useState([]);
+
+	useEffect(() => {
+		getAllBuses_Request()
+			.then(({ data }) => setBuses(data))
+			.catch((error) => console.log(error));
+
+		getAllDriverTimetables_Request()
+			.then(({ data }) => setTimetables(data))
+			.catch((error) => console.log(error));
+	}, []);
 
 	const onSubmit = async (formdata) => {
 		withLoadingSuccessAndErrorFuntionsToast(
@@ -73,16 +81,3 @@ const Add = ({ buses, timetables }) => {
 };
 
 export default Add;
-
-export const getServerSideProps = async (context) => {
-	await dbConnect();
-
-	const buses = JSON.parse(JSON.stringify(await getAllActiveBuses_service()));
-	const timetables = JSON.parse(
-		JSON.stringify(await getAllDriverTimetables_service())
-	);
-
-	return {
-		props: { buses, timetables },
-	};
-};
