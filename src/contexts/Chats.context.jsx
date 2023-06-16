@@ -4,8 +4,6 @@ import SocketContext from "./Socket.context";
 import ToastContext from "./Toast.context";
 import UserContext from "./User.context";
 
-// import { getAllChats_service } from "@/services/chats.service"
-
 const { createContext, useState, useEffect, useContext } = require("react");
 
 const ChatsContext = createContext();
