@@ -4,8 +4,6 @@ import SocketContext from "./Socket.context";
 import ToastContext from "./Toast.context";
 import UserContext from "./User.context";
 
-import { getAllChats_service } from "@/services/chats.service" 
-
 const { createContext, useState, useEffect, useContext } = require("react");
 
 const ChatsContext = createContext();
@@ -31,12 +29,14 @@ export const ChatsProvider = ({ children }) => {
 	// 									Sockets
 	// *******************************************************
 
-	//TODO: Mensajes desde contexto
-
 	//TODO: Schemas
 
 	//TODO: integraion db
 
+	const chatConnection = () => {
+		console.log("ola k hace")
+		socket.emit(socketEventsSystem.chatConnection);
+	};
 
 	const sendMessage = (newMessage) => {
 		let data = {
@@ -62,6 +62,7 @@ export const ChatsProvider = ({ children }) => {
 				messages,
 
 				sendMessage,
+				chatConnection
 			}}
 		>
 			{children}

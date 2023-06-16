@@ -14,12 +14,15 @@ import NavBar from "@/components/common/NavBar";
 import BtnMessages from "@/components/messagesView/BtnMessages";
 
 import { IoIosArrowBack } from "react-icons/io";
+import ChatsContext from "@/contexts/Chats.context";
 
 import { getAllDrivers_Request } from "@/api/userDriver.api";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 
 const Menu = () => {
 	const router = useRouter();
+
+	const { chatConnection } = useContext(ChatsContext);
 
 	const [drivers, setDrivers] = useState([]);
 
@@ -29,6 +32,7 @@ const Menu = () => {
 
 	const onClick = () => {
 		router.push(`./chat/chat`);
+		chatConnection();
 	};
 
 	return (
