@@ -22,15 +22,34 @@ export const DriverProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
 	const { user, setUser } = useContext(UserContext);
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
-
-	const [Send, setSend] = useState("");
-
 	const [intervalService, setIntervalService] = useState(null);
+
+	const [recorrido, setRecorrido] = useState(null);
 
 	useEffect(() => {
 		if (!socket) return;
 		driverInitializer();
 	}, [socket]);
+
+	useEffect(() => {
+		// guardar en localstorage
+		// guardar en el estados
+	}, []);
+
+	const getRecordTravel = () =>
+		JSON.parse(localStorage.getItem("busTravel")) || {};
+
+	const setRecorTravel = (busTravel) =>
+		localStorage.setItem("busTravel", JSON.stringify(busTravel));
+
+	const saveCoordInBusTravel = (coord) => {
+		const busTravel = getRecordTravel();
+		const { waypoints } = busTravel;
+
+		busTravel.waypoints = [...waypoints, { coord, date: new Date() }];
+
+		setRecorTravel(busTravel);
+	};
 
 	const driverInitializer = async () => {
 		// socket.on("update-input", (msg) => {
@@ -60,6 +79,7 @@ export const DriverProvider = ({ children }) => {
 			({ data }) => {
 				console.log(data);
 				setUser({ ...user, inService: data.inService });
+				setRecorTravel(data.busTravel);
 				return "Estas en servicio";
 			},
 			(error) => {
@@ -79,7 +99,7 @@ export const DriverProvider = ({ children }) => {
 		withLoadingSuccessAndErrorFuntionsToast(
 			stopInServiceDriver_Request(user._id),
 			({ data }) => {
-				console.log(data);
+				//	console.log(data);
 				setUser({ ...user, inService: data.inService });
 				return "Saliste de servicio";
 			},
@@ -95,6 +115,8 @@ export const DriverProvider = ({ children }) => {
 		);
 	};
 
+	// informacion de la vuelta del autobus
+
 	// *******************************************************
 	// 									Sockets
 	// *******************************************************
@@ -105,7 +127,7 @@ export const DriverProvider = ({ children }) => {
 
 		console.log(coord);
 
-		socket.emit(socketEventsSystem.updatePosBus, coord);
+		socket.volatile.emit(socketEventsSystem.updatePosBus, coord);
 	};
 
 	const sendCapacity_by_socket = (capacity) => {
@@ -139,6 +161,7 @@ export const DriverProvider = ({ children }) => {
 				setServiceInterval,
 				clearIntervalService,
 
+				saveCoordInBusTravel,
 				sendCoord_by_socket,
 				sendCapacity_by_socket,
 

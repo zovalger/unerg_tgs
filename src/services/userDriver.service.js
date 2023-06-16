@@ -10,6 +10,13 @@ import BusModel from "@/models/Bus.model";
 import ErrorsMessages from "@/config/errorsMessages";
 import { getTimetable_by_Id_service } from "./timetable.service";
 import verificInTimetable from "@/utils/verificInTimetable";
+import BusTravelModel from "@/models/BusTravel.model";
+import {
+	getBuses_By_RutaId_service,
+	getBus_by_Id_service,
+} from "./bus.service";
+import { getRuta_by_Id_service } from "./ruta.service";
+import { createBusTravel_service } from "./busTravel.service";
 
 export const createUserDriver_service = async ({
 	name,
@@ -46,7 +53,6 @@ export const createUserDriver_service = async ({
 
 		const driver = new DriverModel(data);
 
-
 		// todo: enviar verificacion al correo
 		await sendUrlToChangePasswordUser_service(
 			driver,
@@ -55,7 +61,6 @@ export const createUserDriver_service = async ({
 
 		const { _id } = await driver.save();
 		await createChatForDriver_service(_id);
-
 
 		return driver;
 	} catch (error) {
@@ -191,10 +196,16 @@ export const startInServiceUserDriver_service = async (_id) => {
 
 		await driver.save();
 
-		return { inService: true };
+		const busTravel = await createBusTravel_service(driver);
+
+		if (!busTravel)
+		return { error: true, message: ErrorsMessages.inServer };
+
+
+		return { inService: true, busTravel };
 	} catch (error) {
 		console.log(error);
-		return [];
+		return { error: true, message: ErrorsMessages.inServer };
 	}
 };
 

@@ -18,6 +18,9 @@ import DriverContext from "@/contexts/Driver.context";
 import { useContext } from "react";
 import UserContext from "@/contexts/User.context";
 import BusContext from "@/contexts/Bus.context";
+import AsidePanel from "@/components/common/AsidePanel";
+import { FaBusinessTime } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 //Contextos
 
@@ -34,13 +37,17 @@ const Capacidad = () => {
 		sendCapacity_by_socket(value);
 	};
 
+	//useState
+	const [offcanvasActive, setOffcanvasActive] = useState(false);
+	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
+
 	return (
 		<Layout>
 			<Navbar fixed="top">
 				<div>
-					<Link href={"./map"} className={styleN.btn_return}>
-						<IoIosArrowBack />
-					</Link>
+				<div onClick={toggleOffcanvas}>
+							<RxHamburgerMenu />
+						</div>
 				</div>
 				<h2 className={styles.title}>Capacidad del bus</h2>
 			</Navbar>
@@ -51,6 +58,27 @@ const Capacidad = () => {
 					onFinalChange={onFinalChange}
 				/>
 			</div>
+
+			<AsidePanel
+					toggleOffcanvas={toggleOffcanvas}
+					offcanvasActive={offcanvasActive}
+				>
+					<button
+						className={styleN.btn_nav}
+						onClick={() =>
+							user && !user.inService
+								? startServiceDriver()
+								: endServiceDriver()
+						}
+					>
+						<FaBusinessTime className={styleN.route} />
+						<p>
+							{user && !user.inService
+								? "Iniciar servicio"
+								: "Detener servicio"}{" "}
+						</p>
+					</button>
+				</AsidePanel>
 		</Layout>
 	);
 };

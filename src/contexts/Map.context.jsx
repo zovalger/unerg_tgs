@@ -185,6 +185,7 @@ export const MapProvider = ({ children }) => {
 				// user
 				userCoord,
 				viewUserCoord,
+				setUserCoord,
 				toogleViewUserCoord,
 				getCoordsUser,
 				getCoordsDevice,

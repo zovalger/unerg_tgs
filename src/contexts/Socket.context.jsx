@@ -14,6 +14,7 @@ const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
 	const [socket, setSocket] = useState(null);
 	const [io_instance, setIo] = useState(io);
+	const [eventSubscribe, setEventSubscribe] = useState([]);
 
 	useEffect(() => {
 		socketInitializer();
@@ -40,18 +41,20 @@ export const SocketProvider = ({ children }) => {
 			console.log("connected");
 		});
 
-	
-
 		// notificaciones
 	};
 
-	const offDefaultListeners = () => {
-		socket.off(socketEventsSystem.updatePosBus);
-	};
+	const offDefaultListeners = () => {};
 
 	const resetSocket = () => {
-		socket.close();
-		socketInitializer();
+		//		socket.close();
+		//	socketInitializer();
+
+		//socket.off(socketEventsSystem.updatePosBus);
+		eventSubscribe.map((event) => {
+			socket.off(event);
+		});
+		setEventSubscribe([]);
 	};
 
 	return (
