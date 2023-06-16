@@ -2,6 +2,7 @@ import {
 	createRuta_service,
 	// deleteRuta_service,
 	getAllRutas_service,
+	getRuta_by_BusId_service,
 	getRuta_by_Id_service,
 	toggleRuta_service,
 	updateRuta_service,
@@ -65,6 +66,23 @@ export const getRuta_By_Id_controller = async (req, res) => {
 		const { _id } = req.query;
 
 		const ruta = await getRuta_by_Id_service(_id);
+
+		if (!ruta)
+			return res
+				.status(404)
+				.json({ error: { message: "Parada no encontrada" } });
+
+		return res.status(200).json(ruta);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const getRuta_By_BusId_controller = async (req, res) => {
+	try {
+		const { _id } = req.query;
+
+		const ruta = await getRuta_by_BusId_service(_id);
 
 		if (!ruta)
 			return res

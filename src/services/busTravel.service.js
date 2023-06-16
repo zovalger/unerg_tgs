@@ -47,7 +47,7 @@ export const updateBustravelWaypoints_service = async (driverId, coord) => {
 };
 
 // finalizar el recorrido de una vuelta de una ruta
-export const finishBusTravel_service = async (driverId, busTravel) => {
+export const finishBusTravel_service = async (driverId, busTravel = {}) => {
 	const { waypoints, waypointsVisited } = busTravel;
 	try {
 		const oldBusTravel = await BusTravelModel.findOne({
@@ -55,8 +55,11 @@ export const finishBusTravel_service = async (driverId, busTravel) => {
 			endDate: null,
 		});
 
-		oldBusTravel.waypoints = waypoints;
-		oldBusTravel.waypointsVisited = waypointsVisited;
+		if (waypoints && waypointsVisited) {
+			oldBusTravel.waypoints = waypoints;
+			oldBusTravel.waypointsVisited = waypointsVisited;
+		}
+		
 		oldBusTravel.endDate = new Date();
 
 		await oldBusTravel.save();

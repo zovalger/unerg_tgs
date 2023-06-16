@@ -197,7 +197,6 @@ export const getUserDriver_by_Id_controller = async (req, res) => {
 	}
 };
 
-
 export const getUserDriver_by_BusId_controller = async (req, res) => {
 	const { _id } = req.query;
 
@@ -222,10 +221,6 @@ export const getUserDriver_by_BusId_controller = async (req, res) => {
 			.json({ error: true, message: ErrorsMessages.inServer });
 	}
 };
-
-
-
-
 
 export const startInServiceUserDriver_controller = async (req, res) => {
 	const { _id } = req.query;
@@ -252,14 +247,13 @@ export const startInServiceUserDriver_controller = async (req, res) => {
 	}
 };
 
-
-
 export const stopInServiceUserDriver_controller = async (req, res) => {
 	const { _id } = req.query;
+	const busTravel = req.body;
 
 	try {
 		// se timetableca en la DB
-		const driver = await stopInServiceUserDriver_service(_id);
+		const driver = await stopInServiceUserDriver_service(_id, busTravel);
 
 		// si no devuelve nada se envia un error 404
 		if (!driver)

@@ -1,4 +1,5 @@
 import RutaModel from "@/models/Ruta.model";
+import { getBus_by_Id_service } from "./bus.service";
 import { createOrUpdateWapoint_service } from "./waypoint.service";
 
 export const createRuta_service = async (data) => {
@@ -46,6 +47,18 @@ export const getAllRutas_service = async () => {
 		const rutas = await RutaModel.find({ state: { $ne: "d" } }).populate(
 			"waypoints"
 		);
+
+		return rutas;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const getRuta_by_BusId_service = async (busId) => {
+	try {
+		const { ruta: rutaId } = await getBus_by_Id_service(busId);
+
+		const rutas = await RutaModel.findById(rutaId).populate("waypoints");
 
 		return rutas;
 	} catch (error) {

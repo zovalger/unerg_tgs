@@ -16,7 +16,10 @@ import {
 	getBus_by_Id_service,
 } from "./bus.service";
 import { getRuta_by_Id_service } from "./ruta.service";
-import { createBusTravel_service } from "./busTravel.service";
+import {
+	createBusTravel_service,
+	finishBusTravel_service,
+} from "./busTravel.service";
 
 export const createUserDriver_service = async ({
 	name,
@@ -198,9 +201,7 @@ export const startInServiceUserDriver_service = async (_id) => {
 
 		const busTravel = await createBusTravel_service(driver);
 
-		if (!busTravel)
-		return { error: true, message: ErrorsMessages.inServer };
-
+		if (!busTravel) return { error: true, message: ErrorsMessages.inServer };
 
 		return { inService: true, busTravel };
 	} catch (error) {
@@ -209,7 +210,7 @@ export const startInServiceUserDriver_service = async (_id) => {
 	}
 };
 
-export const stopInServiceUserDriver_service = async (_id) => {
+export const stopInServiceUserDriver_service = async (_id, busTravel) => {
 	try {
 		// TimetableModel
 
@@ -220,6 +221,8 @@ export const stopInServiceUserDriver_service = async (_id) => {
 		driver.inService = false;
 
 		await driver.save();
+
+		await finishBusTravel_service(_id, busTravel);
 
 		return { inService: false };
 	} catch (error) {

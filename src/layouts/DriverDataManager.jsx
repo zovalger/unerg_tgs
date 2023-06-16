@@ -9,6 +9,7 @@ const testMode = true;
 
 export const DriverDataManager = () => {
 	const { user } = useContext(UserContext);
+	const { ourRuta } = useContext(DriverContext);
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 	const {
 		getCenterMap,
@@ -27,17 +28,18 @@ export const DriverDataManager = () => {
 
 	useEffect(() => {
 		toogleService();
-	}, [user, user?.inService]);
+	}, [user, user?.inService, ourRuta]);
 
 	// todo: funcion para iniciar
 
 	const toogleService = async () => {
 		if (user)
-			if (user.inService) {
-				await start();
-			} else {
-				await stop();
-			}
+			if (user.role == "driver")
+				if (user.inService && ourRuta) {
+					await start();
+				} else {
+					await stop();
+				}
 	};
 
 	const start = async () => {
@@ -55,7 +57,7 @@ export const DriverDataManager = () => {
 
 					// colocar pos en el mapa
 					setUserCoord(coord);
-					setCenterMap(coord,14);
+					setCenterMap(coord, 16);
 
 					sendCoord_by_socket(coord);
 				},
