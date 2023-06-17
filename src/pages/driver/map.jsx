@@ -77,17 +77,16 @@ const DriveMap = () => {
 					<MapView />
 				</div>
 
-				<div className={style.menu}>
+				{/* <div className={style.menu}>
 					<div className={style.left}>
 						<h2>45%</h2>
-						{/*Remplazar con valor actulizable  // {actualizable}%*/}
 						<TbBus className={style.bus} />
 					</div>
 
 					<div className={style.right}>
 						<div className={style.porcentaje}></div>
 					</div>
-				</div>
+				</div> */}
 				<AsidePanel
 					toggleOffcanvas={toggleOffcanvas}
 					offcanvasActive={offcanvasActive}

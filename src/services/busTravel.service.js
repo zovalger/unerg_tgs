@@ -3,17 +3,28 @@ import ErrorsMessages from "@/config/errorsMessages";
 import BusTravelModel from "@/models/BusTravel.model";
 import { getBus_by_Id_service } from "./bus.service";
 import { getRuta_by_Id_service } from "./ruta.service";
+import { getUserDriver_service } from "./userDriver.service";
 
 // ********************************************************************
 // 								buses: Creacion en la DB
 // ********************************************************************
 
 export const createBusTravel_service = async (driver) => {
+	try {
+		driver =
+			typeof driver == "string" ? await getUserDriver_service(driver) : driver;
+	} catch (error) {
+		console.log(error);
+	}
+	
 	const { _id, timetableId, busId } = driver;
 
 	try {
 		const bus = await getBus_by_Id_service(busId);
 		const ruta = await getRuta_by_Id_service(bus.ruta);
+
+		console.log(bus);
+		console.log(ruta);
 
 		const busTravel = new BusTravelModel({
 			driver: _id,
@@ -55,11 +66,13 @@ export const finishBusTravel_service = async (driverId, busTravel = {}) => {
 			endDate: null,
 		});
 
+		if (!oldBusTravel) return;
+
 		if (waypoints && waypointsVisited) {
 			oldBusTravel.waypoints = waypoints;
 			oldBusTravel.waypointsVisited = waypointsVisited;
 		}
-		
+
 		oldBusTravel.endDate = new Date();
 
 		await oldBusTravel.save();
