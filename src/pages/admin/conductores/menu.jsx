@@ -1,32 +1,18 @@
 //React-Next
-import dynamic from "next/dynamic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/router";
 
 //Componentes
-import {
-	Form,
-	FormGroup,
-	Input,
-	Button,
-	Offcanvas,
-	OffcanvasBody,
-	OffcanvasHeader,
-} from "reactstrap";
+import { Form, FormGroup, Input, Button } from "reactstrap";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import Btn_conductor from "@/components/AddConductor/Btn_conductor";
 import AsidePanel from "@/components/common/AsidePanel";
 
-import { FaSearch, FaBusAlt } from "react-icons/fa";
-import { GoLocation } from "react-icons/go";
-import { TbRoute } from "react-icons/tb";
+import { FaSearch } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { GiBusStop } from "react-icons/gi";
-import { IoIosLogOut, IoIosAdd } from "react-icons/io";
-import { GrReturn } from "react-icons/gr";
+import { IoIosAdd } from "react-icons/io";
 
 //Estilos
 import style from "@/styles/Bus/menu.module.css";
@@ -35,15 +21,19 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 //Contextos
 
 import UserContext from "@/contexts/User.context";
-import dbConnect from "@/lib/db";
-import { getAllUserDriver_service } from "@/services/userDriver.service";
 
-
+import { getAllDrivers_Request } from "@/api/userDriver.api";
 
 //*************************** Codigo  ************************/
 
-const MenuConductor = ({ drivers }) => {
+const MenuConductor = () => {
 	const router = useRouter();
+
+	const [drivers, setDrivers] = useState([]);
+
+	useEffect(() => {
+		getAllDrivers_Request().then(({ data }) => setDrivers(data));
+	}, []);
 
 	//useContext
 
@@ -122,28 +112,12 @@ const MenuConductor = ({ drivers }) => {
 
 			{/* panel lateral desplegable */}
 			<AsidePanel
-					toggleOffcanvas={toggleOffcanvas}
-					offcanvasActive={offcanvasActive}
-					location = {false}
-				/>
+				toggleOffcanvas={toggleOffcanvas}
+				offcanvasActive={offcanvasActive}
+				location={false}
+			/>
 		</Layout>
 	);
 };
 
 export default MenuConductor;
-
-export const getServerSideProps = async (context) => {
-	await dbConnect();
-
-	const data = await getAllUserDriver_service();
-
-	console.log(data);
-
-	console.log();
-
-	const drivers = JSON.parse(JSON.stringify(data));
-
-	return {
-		props: { drivers },
-	};
-};

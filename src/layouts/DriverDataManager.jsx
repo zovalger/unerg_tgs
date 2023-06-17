@@ -5,7 +5,7 @@ import ToastContext from "@/contexts/Toast.context";
 import UserContext from "@/contexts/User.context";
 import { useContext, useEffect, useState } from "react";
 
-const testMode = true;
+const testMode = false;
 
 export const DriverDataManager = () => {
 	const { user } = useContext(UserContext);
@@ -45,7 +45,7 @@ export const DriverDataManager = () => {
 
 					sendCoord_by_socket(coord);
 				},
-				testMode ? 1000 : 1000
+				testMode ? 1000 : 10000
 			)
 		);
 	};

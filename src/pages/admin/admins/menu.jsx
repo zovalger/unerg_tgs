@@ -1,6 +1,6 @@
 //React-Next
 import dynamic from "next/dynamic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -33,17 +33,24 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 //Contextos
 
 import UserContext from "@/contexts/User.context";
-import { getAllUserAdmin_service } from "@/services/userAdmin.service";
 import { useRouter } from "next/router";
-import dbConnect from "@/lib/db";
 import AsidePanel from "@/components/common/AsidePanel";
+import { getAllAdmins_Request } from "@/api/userAdmin.api";
 
 //*************************** Codigo  ************************/
 
-const MenuAdmin = ({admins}) => {
+const MenuAdmin = () => {
 	//useContext
 	const router = useRouter();
 	const { logout, user } = useContext(UserContext);
+
+	const [admins, setAdmins] = useState([]);
+
+	useEffect(() => {
+		getAllAdmins_Request()
+			.then(({ data }) => setAdmins(data))
+			.catch((error) => console.log(error));
+	}, []);
 
 	//useState
 
@@ -119,26 +126,12 @@ const MenuAdmin = ({admins}) => {
 			{/* panel lateral desplegable */}
 
 			<AsidePanel
-					toggleOffcanvas={toggleOffcanvas}
-					offcanvasActive={offcanvasActive}
-					location = {false}
-				/>
+				toggleOffcanvas={toggleOffcanvas}
+				offcanvasActive={offcanvasActive}
+				location={false}
+			/>
 		</Layout>
 	);
 };
 
 export default MenuAdmin;
-
-export const getServerSideProps = async (context) => {
-	await dbConnect();
-
-	const data = await getAllUserAdmin_service();
-
-	console.log(data);
-
-	const admins = JSON.parse(JSON.stringify(data));
-
-	return {
-		props: { admins },
-	};
-};

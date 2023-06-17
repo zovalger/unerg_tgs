@@ -15,62 +15,47 @@ import BtnMessages from "@/components/messagesView/BtnMessages";
 
 import { IoIosArrowBack } from "react-icons/io";
 
+import { getAllDrivers_Request } from "@/api/userDriver.api";
+import { useEffect, useState } from "react";
 
-//Contextos
-
-import { getAllUserDriver_service } from "@/services/userDriver.service";
-import dbConnect from "@/lib/db";
-
-const Menu = ({ drivers }) => {
+const Menu = () => {
 	const router = useRouter();
 
-  const onClick = () => {
+	const [drivers, setDrivers] = useState([]);
+
+	useEffect(() => {
+		getAllDrivers_Request().then(({ data }) => setDrivers(data));
+	}, []);
+
+	const onClick = () => {
 		router.push(`./chat/chat`);
 	};
 
-
-  return (
-    <Layout>
-      <NavBar
-        left={
-          <>
-            <div>
-              <Link className={styleN.btn_return} href={"../map"}>
-                <IoIosArrowBack />
-              </Link>
-            </div>
-            <div className={styleN.title_nav}>
-              <h2>Mensajes</h2>
-            </div>
-          </>
-        }
-        right={<></>}
-      />
-<div className="container mt-3">
-        {drivers &&
-        drivers.map((d) => (
-          <BtnMessages key={d._id} data={d} onClick={onClick} />
-        ))}
-        </div>
-    </Layout>
-  );
+	return (
+		<Layout>
+			<NavBar
+				left={
+					<>
+						<div>
+							<Link className={styleN.btn_return} href={"../map"}>
+								<IoIosArrowBack />
+							</Link>
+						</div>
+						<div className={styleN.title_nav}>
+							<h2>Mensajes</h2>
+						</div>
+					</>
+				}
+				right={<></>}
+			/>
+			<div className="container mt-3">
+				{drivers &&
+					drivers.map((d) => (
+						<BtnMessages key={d._id} data={d} onClick={onClick} />
+					))}
+			</div>
+		</Layout>
+	);
 };
 
 export default Menu;
-
-
-export const getServerSideProps = async (context) => {
-	await dbConnect();
-
-	const data = await getAllUserDriver_service();
-
-	console.log(data);
-
-	console.log();
-
-	const drivers = JSON.parse(JSON.stringify(data));
-
-	return {
-		props: { drivers },
-	};
-};

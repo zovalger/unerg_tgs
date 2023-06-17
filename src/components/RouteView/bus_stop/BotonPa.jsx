@@ -2,6 +2,8 @@ import style from "@/styles/Routes/routes_view.module.css";
 
 export default function BotonPa({ data, onClick }) {
 	const { _id, name, description } = data;
+
+	// todo: colocar distancia al usuario
 	const km = 0;
 
 	return (

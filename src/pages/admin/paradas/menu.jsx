@@ -14,7 +14,7 @@ import { IoIosArrowBack } from "react-icons/io";
 
 //Estilos
 
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 
 //Contextos
 
@@ -101,10 +101,7 @@ const MainMap = () => {
 					left={
 						<>
 							<div>
-								<Link
-									className={styleN.btn_return}
-									href={"../map"}
-								>
+								<Link className={styleN.btn_return} href={"../map"}>
 									<IoIosArrowBack />
 								</Link>
 							</div>
@@ -112,11 +109,11 @@ const MainMap = () => {
 							<div className={styleN.title_nav}>
 								<h2>Todas las paradas</h2>
 							</div>
-							{user && user.role == "admin" && (
+							{user && (user.role == "admin" || user.role == "root") ? (
 								<div className={styleN.btn_edit} onClick={btn_edit}>
 									<BiPencil />
 								</div>
-							)}
+							) : null}
 						</>
 					}
 					right={<></>}

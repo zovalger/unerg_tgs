@@ -1,4 +1,4 @@
-import { getAllWaypoints_Request } from "@/api/waypoint.api";
+import { getAllWaypoints_Request } from "@/api/public.api";
 
 const { createContext, useState, useEffect } = require("react");
 

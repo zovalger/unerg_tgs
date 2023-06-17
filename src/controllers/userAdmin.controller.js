@@ -2,6 +2,8 @@ import { SECRET_WORD } from "@/config";
 import ErrorsMessages from "@/config/errorsMessages";
 import {
 	createUserAdmin_service,
+	getAllUserAdmin_service,
+	getUserAdmin_service,
 	updateUserAdmin_service,
 } from "@/services/userAdmin.service";
 
@@ -113,3 +115,51 @@ export async function updateUserAdmin_controller(req, res) {
 			.json({ error: true, message: ErrorsMessages.inServer });
 	}
 }
+
+export const getAllUserAdmins_controller = async (req, res) => {
+	try {
+		// obtencion de todos los timetable con status "a" en la DB
+		const admin = await getAllUserAdmin_service();
+
+		// si la funcion no devuelve nada se devuelve un error al cliente
+		if (!admin)
+			return res
+				.status(500)
+				.json({ error: true, message: ErrorsMessages.notFound });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (admin.error) return res.status(500).json(admin);
+
+		return res.status(200).json(admin);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};
+
+export const getUserAdmin_by_Id_controller = async (req, res) => {
+	const { _id } = req.query;
+
+	try {
+		// se timetableca en la DB
+		const admin = await getUserAdmin_service(_id);
+
+		// si no devuelve nada se envia un error 404
+		if (!admin)
+			return res
+				.status(404)
+				.json({ error: true, message: ErrorsMessages.notFound });
+
+		// si la funcion devuelve algun error se le enviara al cliente
+		if (admin.error) return res.status(500).json(admin);
+
+		return res.status(200).json(admin);
+	} catch (error) {
+		console.log(error);
+		return res
+			.status(500)
+			.json({ error: true, message: ErrorsMessages.inServer });
+	}
+};

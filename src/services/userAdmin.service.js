@@ -106,7 +106,7 @@ export const getRootUserPerfil = () => ({
 	_id: "-100",
 	name: "root",
 	email: ROOT_USER,
-	role: "admin",
+	role: "root",
 	permissions: getAllPermissions(),
 	perfilImg: { url: "/root-vector-icon.jpg" },
 });

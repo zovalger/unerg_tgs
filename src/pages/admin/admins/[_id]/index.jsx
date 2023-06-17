@@ -1,11 +1,9 @@
 //React/Next
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 //Componentes
 
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 
@@ -18,19 +16,27 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import AdminForm from "@/components/AddAdmin/AdminForm";
 import ToastContext from "@/contexts/Toast.context";
 import {
-	createAdminUser_Request,
+	getAdmin_By_Id_Request,
 	updateAdmin_Request,
 } from "@/api/userAdmin.api";
 import { useRouter } from "next/router";
-import { getUserAdmin_service } from "@/services/userAdmin.service";
-import dbConnect from "@/lib/db";
 import UserContext from "@/contexts/User.context";
 
 //Contextos
 
 //******************************* Codigo*****************************//
-const Add = ({ data }) => {
+const Add = () => {
 	const router = useRouter();
+	const { _id } = router.query;
+
+	const [data, setData] = useState(null);
+
+	useEffect(() => {
+		if (_id)
+			getAdmin_By_Id_Request(_id)
+				.then(({ data: ad }) => setData(ad))
+				.catch((error) => console.log(error));
+	}, [_id]);
 
 	const { user, getDataUser } = useContext(UserContext);
 
@@ -73,22 +79,10 @@ const Add = ({ data }) => {
 				right={<></>}
 			/>
 			<div className={styles.container}>
-				<AdminForm data={data} onSubmit={onSubmit} />
+				{data && <AdminForm data={data} onSubmit={onSubmit} />}
 			</div>
 		</Layout>
 	);
 };
 
 export default Add;
-
-export const getServerSideProps = async ({ params }) => {
-	await dbConnect();
-
-	const { _id } = params;
-
-	const data = JSON.parse(JSON.stringify(await getUserAdmin_service(_id)));
-
-	return {
-		props: { data },
-	};
-};
