@@ -47,14 +47,14 @@ export const SocketProvider = ({ children }) => {
 	const offDefaultListeners = () => {};
 
 	const resetSocket = () => {
-		//		socket.close();
-		//	socketInitializer();
+		socket.disconnect();
+		socketInitializer();
 
 		//socket.off(socketEventsSystem.updatePosBus);
-		eventSubscribe.map((event) => {
-			socket.off(event);
-		});
-		setEventSubscribe([]);
+		// eventSubscribe.map((event) => {
+		//	socket.off(event);
+		//});
+		//setEventSubscribe([]);
 	};
 
 	return (

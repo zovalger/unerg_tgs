@@ -1,7 +1,7 @@
 const socketEventsSystem = {
 	updatePosBus: "/bus/update/coord",
 	updateCapacityBus: "/bus/update/capacity",
-	chatConnection: "chat/connecion",
+	sendChats: "send/chats",
 	sendMessage: "send/message",
 	reciveMessage: "recive/message",
 };

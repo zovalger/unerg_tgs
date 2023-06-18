@@ -71,10 +71,11 @@ export const createUserDriver_service = async ({
 	}
 };
 
-const createChatForDriver_service = async (driverId) => {
+export const createChatForDriver_service = async (driverId) => {
 	try {
 		const newChat = new ChatModel({ driverId });
 		await newChat.save();
+		return newChat;
 	} catch (error) {
 		console.log(error);
 	}

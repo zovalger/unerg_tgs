@@ -18,24 +18,29 @@ export const ChatsProvider = ({ children }) => {
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
 	const [messages, setMessages] = useState([]);
+	const [chats, setChats] = useState([]);
+	const [driverId, setDriverId] = useState("");
 
 	useEffect(() => {
 		if (!socket) return;
 		reciveMessage();
+		reciveChats()
 	}, [socket]);
 
 	// *******************************************************
 	// 									Sockets
 	// *******************************************************
 
-	//TODO: Schemas
-
 	//TODO: integraion db
+	//TODO: buscar novia
 
-	const chatConnection = () => {
-		console.log("ola k hace")
-		socket.emit(socketEventsSystem.chatConnection);
+	const chatConnection = (id) => {
+		setDriverId(id)
+		console.log(driverId)
 	};
+
+
+	//Enviar
 
 	const sendMessage = (newMessage) => {
 		let data = {
@@ -44,9 +49,28 @@ export const ChatsProvider = ({ children }) => {
 			driverId: "",
 			adminId: "",
 		};
+		console.log(chats)
+		console.log(driverId)
+		if (user.role === "driver") {
+			data.driverId = user._id;
+			data.chatId = chats._id.toString()
+		} else if (user.role === "admin") {
+			data.adminId = user._id;
+			for (let i = 0; i < chats.length; i++) {
+				if (chats[i].driverId === driverId) {
+				  data.chatId = chats[i]._id;
+				  break;
+				};
+			};
+		};
+		
 		setMessages([...messages, data]);
 		socket.emit(socketEventsSystem.sendMessage, data);
+		console.log("message send");
 	};
+
+
+	//Recibir
 
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
@@ -55,13 +79,24 @@ export const ChatsProvider = ({ children }) => {
 		});
 	};
 
+
+	//Recibir chats
+
+	const reciveChats = () => {
+		socket.on(socketEventsSystem.sendChats, (data) => {
+			console.log(data, "chats del front")
+			setChats(data);
+		});
+	};
+
+
 	return (
 		<ChatsContext.Provider
 			value={{
 				messages,
 
 				sendMessage,
-				chatConnection
+				chatConnection,
 			}}
 		>
 			{children}

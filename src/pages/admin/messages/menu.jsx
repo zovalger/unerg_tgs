@@ -30,9 +30,9 @@ const Menu = () => {
 		getAllDrivers_Request().then(({ data }) => setDrivers(data));
 	}, []);
 
-	const onClick = () => {
+	const onClick = (_id) => {
 		router.push(`./chat/chat`);
-		chatConnection();
+		chatConnection(_id);
 	};
 
 	return (
