@@ -14,25 +14,19 @@ export const chatSocketController = (io, socket, user) => {
     });
 };
 
-//TODO: borrar console logs y conseguir novia
 export const roomsUserJoin = async (io, socket, user) => {
     if (!user) return;
     await dbConnect();
     if (user.role === "driver") {
-        console.log(user._id);
         const chat = await getChatsByDriverId_service(user._id);
-        console.log(chat);
         socket.join(chat._id.toString());
-        socket.emit(socketEventsSystem.sendChats, chat)
-        console.log(io.sockets.adapter.rooms);
+        socket.emit(socketEventsSystem.sendChats, chat)   
     } else if (user.role === "admin" || user.role === "root") {
-        console.log(user._id);
         const chats = await getAllChats_service();
-        console.log(chats);
         chats.forEach((chat) => {
             socket.join(chat._id.toString());
         });
         socket.emit(socketEventsSystem.sendChats, chats)
-        console.log(io.sockets.adapter.rooms);
     };
+    console.log(io.sockets.adapter.rooms);
 };

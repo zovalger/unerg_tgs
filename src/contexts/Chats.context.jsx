@@ -20,6 +20,7 @@ export const ChatsProvider = ({ children }) => {
 	const [messages, setMessages] = useState([]);
 	const [chats, setChats] = useState([]);
 	const [driverId, setDriverId] = useState("");
+	const [chatsObj, setChatsObj] = useState({});
 
 	useEffect(() => {
 		if (!socket) return;
@@ -49,8 +50,8 @@ export const ChatsProvider = ({ children }) => {
 			driverId: "",
 			adminId: "",
 		};
-		console.log(chats)
-		console.log(driverId)
+
+		//chatId para mensajes
 		if (user.role === "driver") {
 			data.driverId = user._id;
 			data.chatId = chats._id.toString()
@@ -64,9 +65,14 @@ export const ChatsProvider = ({ children }) => {
 			};
 		};
 		
+		//objeto chats (sin uso por el momento)
+		addNewMessageToChatObj(data, data.chatId)
+
+		console.log(chats)
+		console.log(chatsObj)
+
 		setMessages([...messages, data]);
 		socket.emit(socketEventsSystem.sendMessage, data);
-		console.log("message send");
 	};
 
 
@@ -74,7 +80,6 @@ export const ChatsProvider = ({ children }) => {
 
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
-			console.log(newMessage);
 			setMessages((prevMessages) => [...prevMessages, newMessage]);
 		});
 	};
@@ -83,11 +88,31 @@ export const ChatsProvider = ({ children }) => {
 	//Recibir chats
 
 	const reciveChats = () => {
-		socket.on(socketEventsSystem.sendChats, (data) => {
-			console.log(data, "chats del front")
-			setChats(data);
+		socket.on(socketEventsSystem.sendChats, (chats) => {
+			setChats(chats);
+			chats.forEach(chat => addChatToObj(chat));
 		});
 	};
+
+	//Agregar chat a objeto de chats
+	const addChatToObj = (chat) => {
+		if (!chat) return
+		const { _id } = chat;
+		console.log(_id)
+		setChatsObj(prevChatsObj => ({
+			...prevChatsObj,
+			[_id]: []
+		}));
+	};
+
+	//Agregar Mensaje a objeto de chats
+	const addNewMessageToChatObj = (newMessage, chatId) => {
+		setChatsObj(prevChatsObj => ({
+			...prevChatsObj,
+			[chatId]: [...prevChatsObj[chatId], newMessage]
+		}));
+	};
+
 
 
 	return (
