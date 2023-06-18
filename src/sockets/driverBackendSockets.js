@@ -19,7 +19,7 @@ export const driverSocketController = (io, socket, user) => {
 
 		const bus = await updateCoordBus_service(user.busId, coord);
 
-		await updateBustravelWaypoints_service(user._id, coord);
+		 await updateBustravelWaypoints_service(user._id, coord);
 		
 		console.log(`bus: ${bus.num}; updatePos: ${JSON.stringify(bus.coord)}`);
 

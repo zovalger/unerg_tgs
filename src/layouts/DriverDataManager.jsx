@@ -53,7 +53,7 @@ export const DriverDataManager = () => {
 					const coord = testMode ? getCenterMap() : await getCoordsDevice();
 
 					// guardar recorrido
-					saveCoordInBusTravel(coord);
+					await saveCoordInBusTravel(coord);
 
 					// colocar pos en el mapa
 					setUserCoord(coord);

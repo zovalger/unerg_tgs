@@ -1,5 +1,7 @@
 import { getRuta_By_BusId_Request } from "@/api/ruta.api";
 import {
+	finishBusTravelDriver_Request,
+	startBusTravelDriver_Request,
 	startInServiceDriver_Request,
 	stopInServiceDriver_Request,
 } from "@/api/userDriver.api";
@@ -26,7 +28,6 @@ export const DriverProvider = ({ children }) => {
 	const [intervalService, setIntervalService] = useState(null);
 
 	const [ourRuta, setOurRuta] = useState(null);
-	const [pivot, setPivot] = useState(0);
 
 	useEffect(() => {
 		if (!socket) return;
@@ -44,46 +45,93 @@ export const DriverProvider = ({ children }) => {
 				});
 	}, [user]);
 
+	// ***********************************************************
+	// 							guardado en el localstorage
+	// ***********************************************************
 	const getRecordTravel = () =>
 		JSON.parse(localStorage.getItem("busTravel")) || {};
 
 	const setRecorTravel = (busTravel) =>
 		localStorage.setItem("busTravel", JSON.stringify(busTravel));
 
-	const verificDistanceWaypoint = (coord, busTravel) => {
-		const visitedes = busTravel.waypointsVisited;
+	// ***********************************************************
+	// 			ver la distancia entre los waypoint de la ruta
+	// ***********************************************************
 
+	const verificDistanceWaypoint = (coord, busTravel) => {
+		let pivot = parseInt(localStorage.getItem("pivotWaypoint"));
+
+		if (pivot >= ourRuta.waypoints.length) return;
+
+		let nextPivot = pivot;
+		const visitados = busTravel.waypointsVisited;
 		const currentCoord = { latitude: coord.lat, longitude: coord.lng };
 
+		// verificar que no nos pasemos del maximo de waypoints de la ruta
+		const pivotTarget = pivot + 2;
+		const sobrante = ourRuta.waypoints.length - 1 - pivotTarget;
+		const maxPivot = sobrante <= -1 ? pivotTarget + sobrante : pivotTarget;
 
-		for (let i = pivot+1; i <= pivot + 3; i++) {
+		console.log("pivote:", pivot, "target:", maxPivot, "sobrante:", sobrante);
+		for (let i = pivot; i <= maxPivot; i++) {
 			const w = ourRuta.waypoints[i];
 			const nextCoord = { latitude: w.coord.lat, longitude: w.coord.lng };
 			const distance = haversine(currentCoord, nextCoord, { unit: "meter" });
 
 			console.log(distance);
-			console.log(distance <= 50);
+
 			// guardar en visited si esta menos de la distancia
-			
+			if (distance <= 50) {
+				console.log(distance <= 50);
+
+				visitados.push(w._id);
+				nextPivot = i + 1;
+			}
 		}
+		console.log(nextPivot);
 
-		//{
-		//	latitude: 27.950575,
-		//	longitude: -82.457178
-		//	}
+		localStorage.setItem("pivotWaypoint", nextPivot);
 
-		return;
+		return visitados;
 	};
-	const saveCoordInBusTravel = (coord) => {
+
+	// ***********************************************************
+	// 	guardar coordenadas y/o finalizar e iniciar nuevamente el busTravel
+	// ***********************************************************
+
+	const saveCoordInBusTravel = async (coord) => {
 		const busTravel = getRecordTravel();
 		const { waypoints } = busTravel;
 
 		const waypointsVisited = verificDistanceWaypoint(coord, busTravel);
+		// todo: ver si ya se culmino
 		if (waypointsVisited) busTravel.waypointsVisited = waypointsVisited;
 
 		busTravel.waypoints = [...waypoints, { coord, date: new Date() }];
-
 		setRecorTravel(busTravel);
+
+		let pivot = parseInt(localStorage.getItem("pivotWaypoint"));
+
+		if (pivot >= ourRuta.waypoints.length) {
+			try {
+				const { data: finishBusTravel } = await finishBusTravelDriver_Request(
+					user._id,
+					busTravel
+				);
+			} catch (error) {}
+
+			try {
+				const { data: newBustravel } = await startBusTravelDriver_Request(
+					user._id
+				);
+				setRecorTravel(newBustravel);
+				localStorage.setItem("pivotWaypoint", 0);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+
+		// todo: enviar culminacion de la ruta
 	};
 
 	const driverInitializer = async () => {
@@ -115,6 +163,9 @@ export const DriverProvider = ({ children }) => {
 				console.log(data);
 				setUser({ ...user, inService: data.inService });
 				setRecorTravel(data.busTravel);
+
+				localStorage.setItem("pivotWaypoint", 0);
+
 				return "Estas en servicio";
 			},
 			(error) => {
@@ -128,6 +179,8 @@ export const DriverProvider = ({ children }) => {
 		);
 	};
 
+	// todo: que se envie la vuelta que se estaba haciendo
+	// todo: no enviar si tiene de 0 a 2 waypoint visitados
 	const endServiceDriver = () => {
 		if (!user) return;
 
@@ -149,8 +202,6 @@ export const DriverProvider = ({ children }) => {
 			}
 		);
 	};
-
-	// informacion de la vuelta del autobus
 
 	// *******************************************************
 	// 									Sockets

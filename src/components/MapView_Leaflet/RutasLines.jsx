@@ -21,7 +21,7 @@ const RutasLines = () => {
 			if (typeof lat != "number" || typeof lng != "number") return true;
 		});
 
-		console.log(error);
+		// console.log(error);
 		if (error >= 0) return;
 
 		return <Routing key={r._id} data={r} map={map} />;
