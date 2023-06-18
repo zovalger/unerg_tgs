@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
+import { useContext } from "react";
 
 //Estilos
 
@@ -11,18 +12,21 @@ import styles from "@/styles/Users/driver/capacidad.module.css";
 import Layout from "@/layouts/Layout";
 
 import { Range, Direction } from "react-range";
-import { Navbar, NavbarToggler, NavbarBrand, Button } from "reactstrap";
+
+import NavBar from "@/components/common/NavBar";
 
 import { IoIosArrowBack } from "react-icons/io";
+
+
+//Contextos
+
 import DriverContext from "@/contexts/Driver.context";
-import { useContext } from "react";
 import UserContext from "@/contexts/User.context";
 import BusContext from "@/contexts/Bus.context";
 import AsidePanel from "@/components/common/AsidePanel";
 import { FaBusinessTime } from "react-icons/fa";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-//Contextos
 
 //****************************** Codigo *****************************//
 
@@ -43,14 +47,25 @@ const Capacidad = () => {
 
 	return (
 		<Layout>
-			<Navbar fixed="top">
-				<div>
-				<div onClick={toggleOffcanvas}>
-							<RxHamburgerMenu />
-						</div>
-				</div>
-				<h2 className={styles.title}>Capacidad del bus</h2>
-			</Navbar>
+				
+			<NavBar
+		
+				Fixed={true}
+				left={
+					<div>
+					<Link href={"./map"} className={styleN.btn_return}>
+					<IoIosArrowBack />
+						</Link>
+					</div>
+				}
+				title={"Capacidad del bus"}
+				right={
+					<>
+				
+					</>
+				}
+			/>
+		
 
 			<div className={styles.container}>
 				<SuperSimple

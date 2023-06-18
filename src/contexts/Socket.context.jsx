@@ -51,10 +51,10 @@ export const SocketProvider = ({ children }) => {
 		socketInitializer();
 
 		//socket.off(socketEventsSystem.updatePosBus);
-		// eventSubscribe.map((event) => {
-		//	socket.off(event);
-		//});
-		//setEventSubscribe([]);
+		// // eventSubscribe.map((event) => {
+		//// 	socket.off(event);
+		//// });
+		//// setEventSubscribe([]);
 	};
 
 	return (

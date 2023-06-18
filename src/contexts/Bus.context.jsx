@@ -3,7 +3,13 @@ import socketEventsSystem from "@/config/socketEventsSystem";
 import MapContext from "./Map.context";
 import SocketContext from "./Socket.context";
 
-const { createContext, useState, useEffect, useContext } = require("react");
+const {
+	createContext,
+	useState,
+	useEffect,
+	useContext,
+	useCallback,
+} = require("react");
 
 const BusContext = createContext();
 
@@ -14,7 +20,7 @@ const BusContext = createContext();
 export const BusProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
 
-	const { updateBus: mapUpdateBus } = useContext(MapContext);
+	const { insertBus } = useContext(MapContext);
 
 	const [buses, setBuses] = useState([]);
 
@@ -22,18 +28,33 @@ export const BusProvider = ({ children }) => {
 		refresh();
 	}, []);
 
+	const actualizarPosBus = useCallback(
+		(busData) => {
+			// console.log(busData);
+			let old = JSON.parse(localStorage.getItem("temporalArrBus") || "[]");
+			let newb = updateBus(busData._id, busData, old);
+
+			localStorage.setItem("temporalArrBus", JSON.stringify(newb));
+
+			insertBus(newb);
+		},
+		[setBuses]
+	);
+
 	useEffect(() => {
 		if (!socket) return;
 		socketInitializer();
-	}, [socket]);
+
+		// elimina el registro del evento `on` cuando el componente se desmonta
+		return () => {
+			socket.off(socketEventsSystem.updatePosBus, actualizarPosBus);
+			// socket.disconnect();
+		};
+	}, [socket, actualizarPosBus]);
 
 	const socketInitializer = async () => {
 		// actualizacion de coordenadas
-		socket.on(socketEventsSystem.updatePosBus, (busData) => {
-			console.log(busData);
-			updateBus(busData)
-			mapUpdateBus(busData);
-		});
+		socket.on(socketEventsSystem.updatePosBus, actualizarPosBus);
 
 		// actualizacion de capacidad
 		socket.on(socketEventsSystem.updateCapacityBus, (busData) => {
@@ -50,14 +71,16 @@ export const BusProvider = ({ children }) => {
 			})
 			.catch((error) => console.log(error));
 	};
-	const insert = (b) => {
+	const insert = (b, old) => {
 		// si no hay datos no hacer nada
 		if (!b) return;
 
 		// ver si es un array para reemplazar el array
-		if (b instanceof Array) return setBuses(b);
 
-		setBuses([...buses, b]);
+		let a = b instanceof Array ? b : old ? [...old, b] : [...buses, b];
+
+		setBuses(a);
+		return a;
 	};
 
 	const getBus = (_id) => {
@@ -81,12 +104,12 @@ export const BusProvider = ({ children }) => {
 				: false
 		);
 
-	const updateBus = (_id, data) => {
-		const i = buses.findIndex((item) => item._id == _id);
+	const updateBus = (_id, data, old) => {
+		const i = old.findIndex((item) => item._id == _id);
 
-		if (i < 0) return insert(data);
+		if (i < 0) return insert(data, old);
 
-		const newSet = buses.map((item) => (item._id == _id ? data : item));
+		const newSet = old.map((item) => (item._id == _id ? data : item));
 		setBuses(newSet);
 
 		return newSet;
