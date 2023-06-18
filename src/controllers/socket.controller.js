@@ -29,6 +29,8 @@ export const socketInit = (req, res) => {
 				console.log(error);
 			}
 
+			console.log(user);
+			
 			// eventos especificos de los conductores
 			driverSocketController(io, socket, user);
 

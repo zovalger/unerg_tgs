@@ -124,36 +124,27 @@ export const MapProvider = ({ children }) => {
 	// 							 Funcionabilidades de los buses
 	// ***************************************************************
 
-	const [Buses, setBuses] = useState([
-		// {
-		// 	_id: "1",
-		// 	idRuta: "1",
-		// 	capacity: 0.5,
-		// 	state: "a",
-		// 	coord: { lat: 9.908, lng: -67.379 },
-		// 	name: "Bus 001",
-		// 	num: "000",
-		// 	placa: "ab00",
-		// },
-	]);
+	const [Buses, setBuses] = useState([]);
 
 	const insertBus = (b = null) => {
 		if (!b) return;
 
-		if (b instanceof Array) return setBuses(b);
+	
 
-		setBuses([...Buses, b]);
+		setBuses(b instanceof Array ? b : [...Buses, b]);
 	};
 
 	const updateBus = (newDataBus) => {
+		console.log("map", newDataBus);
+
 		const { _id } = newDataBus;
 		if (!_id) return;
 
-		const index = Buses.findIndex((bus) => newDataBus._id == bus._id);
+		const index = Buses.findIndex((bus) => _id == bus._id);
 
-		if (index == -1) return insertBus(newDataBus);
+		if (index < 0) return insertBus(newDataBus);
 
-		const newGroup = Buses.map((bus, i) => (i === index ? newDataBus : bus));
+		const newGroup = Buses.map((bus, i) => (bus._id == _id ? newDataBus : bus));
 		insertBus(newGroup);
 	};
 
