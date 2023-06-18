@@ -47,7 +47,6 @@ const Capacidad = () => {
 
 	return (
 		<Layout>
-<<<<<<< HEAD
 				
 			<NavBar
 		
@@ -67,16 +66,6 @@ const Capacidad = () => {
 				}
 			/>
 		
-=======
-			<Navbar fixed="top">
-				<div>
-				<div onClick={toggleOffcanvas}>
-							<RxHamburgerMenu />
-						</div>
-				</div>
-				<h2 className={styles.title}>Capacidad del bus</h2>
-			</Navbar>
->>>>>>> 371747e439365c860fa602e5c48803f8c4eee74c
 
 			<div className={styles.container}>
 				<SuperSimple

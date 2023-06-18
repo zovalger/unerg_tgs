@@ -15,8 +15,8 @@ const SectionThree = () => {
        <div className={styles.img}>
             <Image
                 src={'/Bus_UNERG.jpg'}
-                height={600}
-                width={600}
+                height={800}
+                width={800}
                 alt="Bus de la UNERG"
             />
        </div>
@@ -27,8 +27,8 @@ const SectionThree = () => {
           <p>
             UNERG-TGS se desarrollo con el fin de facilitar toda la información
             necesaria al publico acerca del transporte universitario, a su vez
-            facilitar el trabajo de la administración para la gestión y difución
-            de dicha información{" "}
+            facilitar el trabajo de la administración para la gestión y difusión
+            de dicha información
           </p>
         </div>
       </div>
