@@ -2,16 +2,13 @@
   position: relative;
   height: 90vh;
   width: 100%;
-  background-image: url(/Bus_UNERG.jpg);
-  background-size: cover;
   display: flex;
 }
 
 .img {
   height: 100%;
-  width: 70%;
+  width: 100%;
   position: absolute;
-  right: 0;
   z-index: 0;
 }
 
@@ -20,6 +17,21 @@
   width: 100%;
   height: 100%;
 }
+
+.vector {
+  height: 100%;
+  width: 60%;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+.vector img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
 
 .text {
   display: flex;
@@ -46,4 +58,23 @@
   font-size: 1rem;
   font-weight: 500;
   text-align: center;
+}
+
+@media (max-width:900px) {
+  .img {
+    width: 80%;
+  }
+}
+
+@media (max-width:750px) {
+  .img {
+    width: 95%;
+  }
+}
+
+
+@media (max-width:620px) {
+  .img {
+    width: 95%;
+  }
 }

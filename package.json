@@ -17,6 +17,7 @@
     "eslint": "8.37.0",
     "eslint-config-next": "13.2.4",
     "formik": "^2.2.9",
+    "haversine": "^1.1.1",
     "jose": "^4.14.3",
     "jsonwebtoken": "^9.0.0",
     "leaflet": "^1.9.3",

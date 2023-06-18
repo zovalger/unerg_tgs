@@ -5,47 +5,63 @@ import ToastContext from "@/contexts/Toast.context";
 import UserContext from "@/contexts/User.context";
 import { useContext, useEffect, useState } from "react";
 
-const testMode = false;
+const testMode = true;
 
 export const DriverDataManager = () => {
 	const { user } = useContext(UserContext);
+	const { ourRuta } = useContext(DriverContext);
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
-	const { getCenterMap, getCoordsDevice } = useContext(MapContext);
+	const {
+		getCenterMap,
+		getCoordsDevice,
+		toogleViewUserCoord,
+		setUserCoord,
+		setCenterMap,
+	} = useContext(MapContext);
 	const {
 		sendCoord_by_socket,
 		intervalService,
 		setServiceInterval,
 		clearIntervalService,
+		saveCoordInBusTravel,
 	} = useContext(DriverContext);
 
 	useEffect(() => {
 		toogleService();
-	}, [user, user?.inService]);
+	}, [user, user?.inService, ourRuta]);
 
 	// todo: funcion para iniciar
 
 	const toogleService = async () => {
 		if (user)
-			if (user.inService) {
-				await start();
-			} else {
-				await stop();
-			}
+			if (user.role == "driver")
+				if (user.inService && ourRuta) {
+					await start();
+				} else {
+					await stop();
+				}
 	};
 
 	const start = async () => {
 		if (intervalService) return;
+
+		toogleViewUserCoord(true);
 
 		setServiceInterval(
 			setInterval(
 				async () => {
 					const coord = testMode ? getCenterMap() : await getCoordsDevice();
 
-					console.log(coord);
+					// guardar recorrido
+					saveCoordInBusTravel(coord);
+
+					// colocar pos en el mapa
+					setUserCoord(coord);
+					setCenterMap(coord, 16);
 
 					sendCoord_by_socket(coord);
 				},
-				testMode ? 1000 : 10000
+				testMode ? 1000 : 7000
 			)
 		);
 	};

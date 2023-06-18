@@ -1,16 +1,16 @@
-import { login_Request, logout_Request, profile_Request } from "@/api/auth.api";
+import { getRuta_By_BusId_Request } from "@/api/ruta.api";
 import {
 	startInServiceDriver_Request,
 	stopInServiceDriver_Request,
 } from "@/api/userDriver.api";
 import socketEventsSystem from "@/config/socketEventsSystem";
-import { useRouter } from "next/router";
-import MapContext from "./Map.context";
 import SocketContext from "./Socket.context";
 import ToastContext from "./Toast.context";
 import UserContext from "./User.context";
+import haversine from "haversine";
 
-const { createContext, useState, useEffect, useContext } = require("react");
+import { createContext, useState, useEffect, useContext } from "react";
+import MapContext from "./Map.context";
 
 const DriverContext = createContext();
 
@@ -22,15 +22,69 @@ export const DriverProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
 	const { user, setUser } = useContext(UserContext);
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
-
-	const [Send, setSend] = useState("");
-
+	const { insertRuta, insertWaypoint } = useContext(MapContext);
 	const [intervalService, setIntervalService] = useState(null);
+
+	const [ourRuta, setOurRuta] = useState(null);
+	const [pivot, setPivot] = useState(0);
 
 	useEffect(() => {
 		if (!socket) return;
 		driverInitializer();
 	}, [socket]);
+
+	useEffect(() => {
+		if (user)
+			if (user.role == "driver")
+				getRuta_By_BusId_Request(user.busId).then(({ data }) => {
+					console.log(data);
+					setOurRuta(data);
+					insertRuta([data]);
+					insertWaypoint(data.waypoints);
+				});
+	}, [user]);
+
+	const getRecordTravel = () =>
+		JSON.parse(localStorage.getItem("busTravel")) || {};
+
+	const setRecorTravel = (busTravel) =>
+		localStorage.setItem("busTravel", JSON.stringify(busTravel));
+
+	const verificDistanceWaypoint = (coord, busTravel) => {
+		const visitedes = busTravel.waypointsVisited;
+
+		const currentCoord = { latitude: coord.lat, longitude: coord.lng };
+
+
+		for (let i = pivot+1; i <= pivot + 3; i++) {
+			const w = ourRuta.waypoints[i];
+			const nextCoord = { latitude: w.coord.lat, longitude: w.coord.lng };
+			const distance = haversine(currentCoord, nextCoord, { unit: "meter" });
+
+			console.log(distance);
+			console.log(distance <= 50);
+			// guardar en visited si esta menos de la distancia
+			
+		}
+
+		//{
+		//	latitude: 27.950575,
+		//	longitude: -82.457178
+		//	}
+
+		return;
+	};
+	const saveCoordInBusTravel = (coord) => {
+		const busTravel = getRecordTravel();
+		const { waypoints } = busTravel;
+
+		const waypointsVisited = verificDistanceWaypoint(coord, busTravel);
+		if (waypointsVisited) busTravel.waypointsVisited = waypointsVisited;
+
+		busTravel.waypoints = [...waypoints, { coord, date: new Date() }];
+
+		setRecorTravel(busTravel);
+	};
 
 	const driverInitializer = async () => {
 		// socket.on("update-input", (msg) => {
@@ -60,6 +114,7 @@ export const DriverProvider = ({ children }) => {
 			({ data }) => {
 				console.log(data);
 				setUser({ ...user, inService: data.inService });
+				setRecorTravel(data.busTravel);
 				return "Estas en servicio";
 			},
 			(error) => {
@@ -77,9 +132,9 @@ export const DriverProvider = ({ children }) => {
 		if (!user) return;
 
 		withLoadingSuccessAndErrorFuntionsToast(
-			stopInServiceDriver_Request(user._id),
+			stopInServiceDriver_Request(user._id, getRecordTravel()),
 			({ data }) => {
-				console.log(data);
+				//	console.log(data);
 				setUser({ ...user, inService: data.inService });
 				return "Saliste de servicio";
 			},
@@ -95,6 +150,8 @@ export const DriverProvider = ({ children }) => {
 		);
 	};
 
+	// informacion de la vuelta del autobus
+
 	// *******************************************************
 	// 									Sockets
 	// *******************************************************
@@ -105,7 +162,7 @@ export const DriverProvider = ({ children }) => {
 
 		console.log(coord);
 
-		socket.emit(socketEventsSystem.updatePosBus, coord);
+		socket.volatile.emit(socketEventsSystem.updatePosBus, coord);
 	};
 
 	const sendCapacity_by_socket = (capacity) => {
@@ -139,6 +196,8 @@ export const DriverProvider = ({ children }) => {
 				setServiceInterval,
 				clearIntervalService,
 
+				ourRuta,
+				saveCoordInBusTravel,
 				sendCoord_by_socket,
 				sendCapacity_by_socket,
 

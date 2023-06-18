@@ -1,5 +1,5 @@
 //React-Next
-import Image from "next/image"
+import Image from "next/image";
 
 //Componentes
 
@@ -7,25 +7,33 @@ import Image from "next/image"
 
 //Estilos
 
-import styles from "@/styles/Landing/SectionThree.module.css"
+import styles from "@/styles/Landing/SectionThree.module.css";
 
-const SectionThree = () =>{
-    return(
-        <div className={styles.container}>
-            <div   className={styles.img}>
+const SectionThree = () => {
+  return (
+    <div className={styles.container}>
+       <div className={styles.img}>
             <Image
-                src={"/Vector.svg"}
-                width={800}
-                height={800}
-                alt="vector"
+                src={'/Bus_UNERG.jpg'}
+                height={600}
+                width={600}
+                alt="Bus de la UNERG"
             />
-            <div className={styles.text}>
-                <h2>Sobre Nosotros</h2>
-                <p>UNERG-TGS se desarrollo con el fin de facilitar toda la información necesaria al publico acerca del transporte universitario, a su vez facilitar el trabajo de la administración para la gestión y difución de dicha información </p>
-            </div>
-            </div>
+       </div>
+      <div className={styles.vector}>
+        <Image src={"/Vector.svg"} width={800} height={800} alt="vector" />
+        <div className={styles.text}>
+          <h2>Sobre Nosotros</h2>
+          <p>
+            UNERG-TGS se desarrollo con el fin de facilitar toda la información
+            necesaria al publico acerca del transporte universitario, a su vez
+            facilitar el trabajo de la administración para la gestión y difución
+            de dicha información{" "}
+          </p>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
-export default SectionThree
+export default SectionThree;

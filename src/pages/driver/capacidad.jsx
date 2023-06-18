@@ -23,6 +23,9 @@ import { IoIosArrowBack } from "react-icons/io";
 import DriverContext from "@/contexts/Driver.context";
 import UserContext from "@/contexts/User.context";
 import BusContext from "@/contexts/Bus.context";
+import AsidePanel from "@/components/common/AsidePanel";
+import { FaBusinessTime } from "react-icons/fa";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 
 //****************************** Codigo *****************************//
@@ -38,8 +41,13 @@ const Capacidad = () => {
 		sendCapacity_by_socket(value);
 	};
 
+	//useState
+	const [offcanvasActive, setOffcanvasActive] = useState(false);
+	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
+
 	return (
 		<Layout>
+<<<<<<< HEAD
 				
 			<NavBar
 		
@@ -59,6 +67,16 @@ const Capacidad = () => {
 				}
 			/>
 		
+=======
+			<Navbar fixed="top">
+				<div>
+				<div onClick={toggleOffcanvas}>
+							<RxHamburgerMenu />
+						</div>
+				</div>
+				<h2 className={styles.title}>Capacidad del bus</h2>
+			</Navbar>
+>>>>>>> 371747e439365c860fa602e5c48803f8c4eee74c
 
 			<div className={styles.container}>
 				<SuperSimple
@@ -66,6 +84,27 @@ const Capacidad = () => {
 					onFinalChange={onFinalChange}
 				/>
 			</div>
+
+			<AsidePanel
+					toggleOffcanvas={toggleOffcanvas}
+					offcanvasActive={offcanvasActive}
+				>
+					<button
+						className={styleN.btn_nav}
+						onClick={() =>
+							user && !user.inService
+								? startServiceDriver()
+								: endServiceDriver()
+						}
+					>
+						<FaBusinessTime className={styleN.route} />
+						<p>
+							{user && !user.inService
+								? "Iniciar servicio"
+								: "Detener servicio"}{" "}
+						</p>
+					</button>
+				</AsidePanel>
 		</Layout>
 	);
 };

@@ -120,8 +120,8 @@ const AdminForm = ({ onSubmit, data }) => {
 					email: "",
 
 					perfilImg: {
-						url: null,
-						imgfileId: null,
+						url: "",
+						imgfileId: "",
 					},
 			  },
 		validationSchema: adminUserValidatorSchema,

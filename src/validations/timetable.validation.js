@@ -50,7 +50,6 @@ export const timetableFrontendValidatorSchema = Yup.object().shape({
 		.required("La hora de inicio es obligatoria")
 		.nullable(false)
 		.test("date", "formato incorrecto", (value) => {
-			console.log(value);
 			const hour = value.getHours();
 			const minute = value.getMinutes();
 
