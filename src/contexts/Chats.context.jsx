@@ -42,7 +42,6 @@ export const ChatsProvider = ({ children }) => {
 
 	const chatConnection = (id) => {
 		setDriverId(id);
-		console.log(driverId);
 	};
 
 
@@ -56,11 +55,10 @@ export const ChatsProvider = ({ children }) => {
 			adminId: "",
 		};
 
-		console.log(user)
 		//chatId para mensajes
 		if (user.role === "driver") {
 			data.driverId = user._id;
-			data.chatId = chats._id.toString()
+			data.chatId = chats[0]._id.toString()
 		} else if (user.role === "admin") {
 			data.adminId = user._id;
 			for (let i = 0; i < chats.length; i++) {
@@ -91,10 +89,13 @@ export const ChatsProvider = ({ children }) => {
 
 
 	//Recibir chats
-
 	const reciveChats = () => {
 		socket.on(socketEventsSystem.sendChats, (chats) => {
-			if (!chats) return
+			console.log(chats)
+			if (!chats || (Array.isArray(chats) && chats.length === 0)) return
+			if (!Array.isArray(chats)) {
+				chats = [chats];
+			}
 			setChats(chats);
 			chats.forEach(chat => addChatToObj(chat));
 		});
@@ -125,6 +126,8 @@ export const ChatsProvider = ({ children }) => {
 		<ChatsContext.Provider
 			value={{
 				messages,
+				chatsObj,
+				driverId,
 
 				sendMessage,
 				chatConnection,
