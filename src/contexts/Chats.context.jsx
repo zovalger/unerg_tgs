@@ -25,8 +25,13 @@ export const ChatsProvider = ({ children }) => {
 	useEffect(() => {
 		if (!socket) return;
 		reciveMessage();
-		reciveChats()
+		reciveChats();
 	}, [socket]);
+
+	useEffect(() => { //TODO: REMOVE ME
+		console.log(chatsObj);
+		console.log(chats);
+	}, [chatsObj, chats])
 
 	// *******************************************************
 	// 									Sockets
@@ -36,8 +41,8 @@ export const ChatsProvider = ({ children }) => {
 	//TODO: buscar novia
 
 	const chatConnection = (id) => {
-		setDriverId(id)
-		console.log(driverId)
+		setDriverId(id);
+		console.log(driverId);
 	};
 
 
@@ -51,6 +56,7 @@ export const ChatsProvider = ({ children }) => {
 			adminId: "",
 		};
 
+		console.log(user)
 		//chatId para mensajes
 		if (user.role === "driver") {
 			data.driverId = user._id;
@@ -59,17 +65,14 @@ export const ChatsProvider = ({ children }) => {
 			data.adminId = user._id;
 			for (let i = 0; i < chats.length; i++) {
 				if (chats[i].driverId === driverId) {
-				  data.chatId = chats[i]._id;
+				  data.chatId = chats[i]._id.toString();
 				  break;
 				};
 			};
 		};
 		
 		//objeto chats (sin uso por el momento)
-		addNewMessageToChatObj(data, data.chatId)
-
-		console.log(chats)
-		console.log(chatsObj)
+		addNewMessageToChatObj(data, data.chatId);
 
 		setMessages([...messages, data]);
 		socket.emit(socketEventsSystem.sendMessage, data);
@@ -80,6 +83,8 @@ export const ChatsProvider = ({ children }) => {
 
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
+			if (!newMessage) return
+			addNewMessageToChatObj(newMessage, newMessage.chatId);
 			setMessages((prevMessages) => [...prevMessages, newMessage]);
 		});
 	};
@@ -89,6 +94,7 @@ export const ChatsProvider = ({ children }) => {
 
 	const reciveChats = () => {
 		socket.on(socketEventsSystem.sendChats, (chats) => {
+			if (!chats) return
 			setChats(chats);
 			chats.forEach(chat => addChatToObj(chat));
 		});
@@ -98,7 +104,6 @@ export const ChatsProvider = ({ children }) => {
 	const addChatToObj = (chat) => {
 		if (!chat) return
 		const { _id } = chat;
-		console.log(_id)
 		setChatsObj(prevChatsObj => ({
 			...prevChatsObj,
 			[_id]: []
@@ -107,9 +112,10 @@ export const ChatsProvider = ({ children }) => {
 
 	//Agregar Mensaje a objeto de chats
 	const addNewMessageToChatObj = (newMessage, chatId) => {
+		if (!chatId || !newMessage) return
 		setChatsObj(prevChatsObj => ({
 			...prevChatsObj,
-			[chatId]: [...prevChatsObj[chatId], newMessage]
+			[chatId]: Array.isArray(prevChatsObj[chatId]) ? [...prevChatsObj[chatId], newMessage] : [newMessage]
 		}));
 	};
 

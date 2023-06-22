@@ -35,7 +35,7 @@ const Chat = () => {
 			<ChatView
 				chat={{}}
 				messages={ messages }
-				sendMessage={sendMessage}
+				sendMessage={ sendMessage }
 			/>
 		</Layout>
 	);

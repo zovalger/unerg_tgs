@@ -26,8 +26,6 @@ const ChatView = ({ chat, messages, sendMessage }) => {
 
 		if (!text && !imageFile) return;
 
-		// setMessages([...messages, newMessage]);
-
 		sendMessage(textMessage, imageFile);
 
 		setTextMessage("");
