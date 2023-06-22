@@ -10,7 +10,7 @@ import MessageItem from "./MessageItem";
 import { v4 as uuid } from "uuid";
 import imageAllowedTypes from "@/config/imageAllowedTypes";
 
-const ChatView = ({ chat, messages, sendMessage }) => {
+const ChatView = ({ chat, messages, sendMessage, chatsObj, driverId}) => {
 	const [textMessage, setTextMessage] = useState("");
 	const [imageFile, setImageFile] = useState(null);
 
