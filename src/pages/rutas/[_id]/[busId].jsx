@@ -20,7 +20,7 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import style from "@/styles/Routes/routes_view.module.css";
 import BusContext from "@/contexts/Bus.context";
 import { useContext, useEffect, useState } from "react";
-import { getBusUsersDriver_By_Id_Request } from "@/api/public.api";
+import { getBusUsersDriver_By_Id_Request } from "@/api/bus.api";
 
 //Contextos
 
@@ -36,6 +36,7 @@ const Bus_view = () => {
 
 	const { getBus } = useContext(BusContext);
 	const [drivers, setDrivers] = useState([]);
+
 	const bus = getBus(busId);
 
 	useEffect(() => {
@@ -44,6 +45,7 @@ const Bus_view = () => {
 				.then(({ data }) => setDrivers(data))
 				.catch((error) => console.log(error));
 	}, [_id]);
+	<h2>Autobus Unidad {bus && bus.num}</h2>;
 
 	return (
 		<Layout>
@@ -64,9 +66,7 @@ const Bus_view = () => {
 									<IoIosArrowBack />
 								</Link>
 							</div>
-							<div className={styleN.title_nav}>
-								<h2>Autobus Unidad {bus && bus.num}</h2>
-							</div>
+							<div className={styleN.title_nav}></div>
 						</>
 					}
 					right={<></>}
@@ -77,7 +77,7 @@ const Bus_view = () => {
 				</div>
 
 				<div className="container__rutas">
-					{bus && <InfoBus data={bus} />}
+					{bus && <InfoBus data={bus} />}{" "}
 					{drivers.map((d) => (
 						<InfoCondcutor key={d._id} data={d} />
 					))}

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useContext, useEffect } from "react";
+import { useRouter } from "next/router";
 
 //Estilos
 
@@ -17,7 +18,7 @@ import { IoIosAdd } from "react-icons/io";
 
 import BotonRu from "./BotonRu";
 import { getAllRutas_Request } from "@/api/ruta.api";
-import { useRouter } from "next/router";
+
 
 export default function Routes(props) {
 	const { rutas, insertRuta, setEditingRoute, getRuta } =
