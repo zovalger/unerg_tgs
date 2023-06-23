@@ -54,6 +54,7 @@ export const ChatsProvider = ({ children }) => {
 			text: newMessage,
 			driverId: "",
 			adminId: "",
+			isSent: true,
 		};
 
 		console.log(user)
