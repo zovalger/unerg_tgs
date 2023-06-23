@@ -10,7 +10,7 @@ import MessageItem from "./MessageItem";
 import { v4 as uuid } from "uuid";
 import imageAllowedTypes from "@/config/imageAllowedTypes";
 
-const ChatView = ({ chat, messages, sendMessage }) => {
+const ChatView = ({ chat, messages, sendMessage, chatsObj, chat_Id }) => {
 	const [textMessage, setTextMessage] = useState("");
 	const [imageFile, setImageFile] = useState(null);
 
@@ -83,14 +83,10 @@ const ChatView = ({ chat, messages, sendMessage }) => {
 
 	return (
 		<div className={styleC.chatContainer}>
-      <div className={styleC.messageContainer}>
-        {messages.map((message, index) => (
-          <MessageItem
-            key={message?.id || uuid()}
-            data={message.text}
-            isSent={message.isSent}
-          />
-        ))}
+			<div className={styleC.messageContainer}>
+				{chatsObj[chat_Id]?.map((message, index) => (
+  					<MessageItem key={message?.id || uuid()} data={message.text} isSent={message.isSent}/>
+				))}
 				<div ref={messagesEndRef} />
 			</div>
 			<div className={styleC.inputContainer}>

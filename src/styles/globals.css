@@ -34,6 +34,15 @@
   max-height: 45%;
 }
 
+body::-webkit-scrollbar, .offcanvas-body::-webkit-scrollbar {
+  width: 3px;     
+  height: 2px;   
+}
+
+body::-webkit-scrollbar-thumb, .offcanvas-body::-webkit-scrollbar-thumb {
+  background-color: #00A2FE;
+  border-radius: 3px;
+}
 
 /*************Navbar*************/
 .navbar {
