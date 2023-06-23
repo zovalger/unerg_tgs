@@ -19,6 +19,7 @@ const RutaSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Timetable",
 		default: null,
-	},});
+	},
+});
 
 export default mongoose.models.Ruta || mongoose.model("Ruta", RutaSchema);

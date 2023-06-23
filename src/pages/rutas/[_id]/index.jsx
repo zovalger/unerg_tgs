@@ -30,6 +30,7 @@ import RutaContext from "@/contexts/Ruta.context";
 import { getRuta_By_Id_Request } from "@/api/ruta.api";
 import BusContext from "@/contexts/Bus.context";
 import { getTimetable_By_Id_Request } from "@/api/timetable.api";
+import ToastContext from "@/contexts/Toast.context";
 
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
@@ -44,6 +45,18 @@ const RutaOverview = () => {
 
   const { getRuta, insertRuta, setEditingRoute } = useContext(RutaContext);
   const { getBuses_by_RutaId } = useContext(BusContext);
+
+
+
+
+  const {
+		setCenterMap,
+		getCoordsDevice,
+		insertRuta:mapInsertRuta,
+		setUserCoord,
+		toogleViewUserCoord,
+	} = useContext(MapContext);
+	const { showErrorToast } = useContext(ToastContext);
 
   const [timetable, setTimetable] = useState(null);
 
@@ -113,19 +126,7 @@ const RutaOverview = () => {
               </div>
             </>
           }
-          right={
-            <>
-              <div
-                className={styleN.btn_edit}
-                onClick={() => {
-                  setEditingRoute(data);
-                  router.push(`./${_id}/settings`);
-                }}
-              >
-                <BiPencil />
-              </div>
-            </>
-          }
+     
         />
 
         {/* Contenedor del mapa */}
@@ -146,7 +147,32 @@ const RutaOverview = () => {
             </h2>
             {data &&
               data.waypoints.map((w) => (
-                <BotonPaClient data={w} key={uuid()} />
+                <BotonPaClient data={w} key={uuid()} 
+                
+                onClick={async () => {
+                  const coordDevice = await getCoordsDevice();
+    
+                  if (!coordDevice)
+                    return showErrorToast(
+                      "No se pudo obtener la ubicacion del dispositivo"
+                    );
+    
+                  setUserCoord(coordDevice);
+                  toogleViewUserCoord(true);
+    
+                  mapInsertRuta([
+                    {
+                      _id: uuid(),
+                      status: "a",
+                      waypoints: [{ coord: coordDevice }, { coord: w.coord }],
+                    },
+                  ]);
+    router.push("../map")
+                  setTimeout(() => {
+                    setCenterMap(coordDevice, 16);
+                  }, 1000);
+                }}
+                />
               ))}
           </div>
         </div>
