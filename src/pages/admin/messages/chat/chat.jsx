@@ -11,7 +11,7 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import ChatView from "@/components/messagesView/ChatView";
 
 const Chat = () => {
-	const { sendMessage, chatsObj, driverId, messages } = useContext(ChatsContext);
+	const { sendMessage, chatsObj, chat_Id, messages } = useContext(ChatsContext);
 
 	return (
 		<Layout>
@@ -37,7 +37,7 @@ const Chat = () => {
 				messages={ messages }
 				sendMessage={sendMessage}
 				chatsObj={ chatsObj } 
-				driverId={ driverId }
+				chat_Id={ chat_Id }
 			/>
 		</Layout>
 	);

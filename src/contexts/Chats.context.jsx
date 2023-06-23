@@ -19,7 +19,7 @@ export const ChatsProvider = ({ children }) => {
 
 	const [messages, setMessages] = useState([]);
 	const [chats, setChats] = useState([]);
-	const [driverId, setDriverId] = useState("");
+	const [chat_Id, setChat_Id] = useState("");
 	const [chatsObj, setChatsObj] = useState({});
 
 	useEffect(() => {
@@ -28,10 +28,11 @@ export const ChatsProvider = ({ children }) => {
 		reciveChats();
 	}, [socket]);
 
-	useEffect(() => { //TODO: REMOVE ME
-		console.log(chatsObj);
-		console.log(chats);
-	}, [chatsObj, chats])
+	//useEffect(() => {		TODO: REMOVE ME
+	//	console.log(chatsObj);
+	//	console.log(chats);
+	//	console.log(chat_Id)
+	//}, [chatsObj, chats, chat_Id])
 
 	// *******************************************************
 	// 									Sockets
@@ -41,7 +42,16 @@ export const ChatsProvider = ({ children }) => {
 	//TODO: buscar novia
 
 	const chatConnection = (id) => {
-		setDriverId(id);
+		if (user.role === "admin") {
+			for (let i = 0 ; i < chats.length ; i++) {
+				if (chats[i].driverId === id) {
+				  setChat_Id(chats[i]._id.toString());
+				  break;
+				};
+			};
+		} else if (user.role === "driver") {
+			setChat_Id(chats[0]._id.toString());
+		}
 	};
 
 
@@ -61,12 +71,7 @@ export const ChatsProvider = ({ children }) => {
 			data.chatId = chats[0]._id.toString()
 		} else if (user.role === "admin") {
 			data.adminId = user._id;
-			for (let i = 0; i < chats.length; i++) {
-				if (chats[i].driverId === driverId) {
-				  data.chatId = chats[i]._id.toString();
-				  break;
-				};
-			};
+			data.chatId = chat_Id;
 		};
 		
 		//objeto chats (sin uso por el momento)
@@ -91,7 +96,6 @@ export const ChatsProvider = ({ children }) => {
 	//Recibir chats
 	const reciveChats = () => {
 		socket.on(socketEventsSystem.sendChats, (chats) => {
-			console.log(chats)
 			if (!chats || (Array.isArray(chats) && chats.length === 0)) return
 			if (!Array.isArray(chats)) {
 				chats = [chats];
@@ -127,7 +131,7 @@ export const ChatsProvider = ({ children }) => {
 			value={{
 				messages,
 				chatsObj,
-				driverId,
+				chat_Id,
 
 				sendMessage,
 				chatConnection,
