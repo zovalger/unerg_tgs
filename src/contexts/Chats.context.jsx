@@ -41,6 +41,8 @@ export const ChatsProvider = ({ children }) => {
 	//TODO: integraion db
 	//TODO: buscar novia
 
+	// ************************** Funciones Chat **************************
+
 	const chatConnection = (id) => {
 		if (user.role === "admin" || user.role === "root") {
 			for (let i = 0 ; i < chats.length ; i++) {
@@ -56,7 +58,6 @@ export const ChatsProvider = ({ children }) => {
 
 
 	//Enviar
-
 	const sendMessage = (newMessage) => {
 		let data = {
 			chatId: "",
@@ -69,15 +70,18 @@ export const ChatsProvider = ({ children }) => {
 		//chatId para mensajes
 		if (user.role === "driver") {
 			data.driverId = user._id;
+			data.adminId = null;
 			data.chatId = chats[0]._id.toString()
 		} else if (user.role === "admin") {
 			data.adminId = user._id;
+			data.driverId = null;
 			data.chatId = chat_Id;
 		} else if (user.role === "root") {
 			data.chatId = chat_Id;
+			data.driverId = null;
+			data.adminId = null;
 		};
 		
-		//objeto chats (sin uso por el momento)
 		addNewMessageToChatObj(data, data.chatId);
 
 		setMessages([...messages, data]);
@@ -86,7 +90,6 @@ export const ChatsProvider = ({ children }) => {
 
 
 	//Recibir
-
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
 			if (!newMessage) return
@@ -95,6 +98,12 @@ export const ChatsProvider = ({ children }) => {
 		});
 	};
 
+	// ************************** Recibir mensajes y chats desde la db **************************
+
+	//recibir Mensajes
+	const loadMessages = () => {
+		socket.emit(socketEventsSystem.loadMessages);
+	};
 
 	//Recibir chats
 	const reciveChats = () => {
@@ -107,6 +116,8 @@ export const ChatsProvider = ({ children }) => {
 			chats.forEach(chat => addChatToObj(chat));
 		});
 	};
+
+	// ************************** Funciones del chatObj **************************
 
 	//Agregar chat a objeto de chats
 	const addChatToObj = (chat) => {
@@ -138,6 +149,7 @@ export const ChatsProvider = ({ children }) => {
 
 				sendMessage,
 				chatConnection,
+				loadMessages,
 			}}
 		>
 			{children}

@@ -11,7 +11,11 @@ import styleN from "@/styles/Nav/NavStyle.module.css";
 import ChatView from "@/components/messagesView/ChatView";
 
 const Chat = () => {
-	const { sendMessage, chatsObj, chat_Id, messages } = useContext(ChatsContext);
+	const { sendMessage, loadMessages, chatsObj, chat_Id, messages } = useContext(ChatsContext);
+
+	useEffect (() => {
+		loadMessages();
+	}, []);
 
 	return (
 		<Layout>
