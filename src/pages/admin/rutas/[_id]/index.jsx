@@ -12,6 +12,7 @@ import Layout from "@/layouts/Layout";
 import NavBar from "@/components/common/NavBar";
 import BtnBus from "@/components/RouteView/infoBus/BtnBus";
 import HourBus from "@/components/RouteView/infoBus/HourBus";
+import BotonPaClient from "@/components/RouteView/clientView/BotonPaClient";
 
 import { IoIosArrowBack } from "react-icons/io";
 import { BiPencil } from "react-icons/bi";
@@ -25,10 +26,10 @@ import style from "@/styles/Routes/routes_view.module.css";
 
 import MapContext from "@/contexts/Map.context";
 import RutaContext from "@/contexts/Ruta.context";
-import BotonPa from "@/components/RouteView/bus_stop/BotonPa";
 import { getRuta_By_Id_Request } from "@/api/ruta.api";
 import BusContext from "@/contexts/Bus.context";
 import { getTimetable_By_Id_Request } from "@/api/timetable.api";
+
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 	ssr: false,
@@ -77,10 +78,6 @@ const RutaOverview = () => {
 				.then(({ data }) => setTimetable(data))
 				.catch((error) => console.log(error));
 	}, []);
-
-	const onClick = (_id) => {
-		console.log(_id);
-	};
 
 	const restore = () => {
 		clearWaypoint();
@@ -139,12 +136,12 @@ const RutaOverview = () => {
 						))}
 
 {timetable && <HourBus data={timetable} />}
-						<h2 style={{ textAlign: "center", marginTop: "15px" }}>
+						<h2 style={{ textAlign: "center", marginTop: "15px", marginBottom:"15px" }}>
 							Paradas de autobus
 						</h2>
 						{data &&
 							data.waypoints.map((w) => (
-								<BotonPa data={w} key={uuid()} onClick={onClick} />
+								<BotonPaClient data={w} key={uuid()} />
 							))}
 					</div>
 				</div>
