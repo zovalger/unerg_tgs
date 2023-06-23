@@ -27,6 +27,7 @@ const Home = () => {
   return (
     <Layout>
       <NavBar
+      Fixed={true}
         left={
           <>
             <div onClick={toggleOffcanvas} className={styleN.oculto}>

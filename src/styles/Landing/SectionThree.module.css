@@ -1,0 +1,188 @@
+.container {
+  position: relative;
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.img {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 0;
+}
+
+.img img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.vector {
+  height: 100%;
+  width: 60%;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+.vector img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 52%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  padding: 15px;
+}
+
+.text h2 {
+  font-size: 2.3rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.text p {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+@media (max-width:1000px) {
+  .vector {
+    width: 70%;
+
+ 
+  }
+}
+
+@media (max-width:850px) {
+  .vector {
+    width: 80%;
+
+ 
+  }
+}
+
+@media (max-width:750px) {
+  .vector {
+    width: 90%;
+  }
+
+
+  .text h2 {
+    font-size: 2rem;
+
+  }
+  
+  .text p {
+    font-size: 0.95rem;
+ 
+  }
+}
+
+@media (max-width:650px) {
+
+  .container {
+    
+    min-height: 90vh;
+    height: auto;
+  }
+
+  .img {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    order: 2;
+
+  }
+  
+  
+  .vector {
+
+    height: 100%;
+    width: 100%;
+    position: relative;
+    order: 1;
+  
+  }
+
+  .text h2 {
+    font-size: 1.9rem;
+  }
+  
+  .text p {
+    font-size: 0.85rem;
+ 
+  }
+}
+
+@media (max-width:650px) {
+
+  .container {
+    
+   height: 50vh;
+
+  }
+
+  .img {
+    height: 0%;
+    width: 0%;
+    position: relative;
+    display: none;
+
+  }
+  
+  
+  .vector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: #42B5F5;
+  
+  }
+
+  
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+   
+  .vector img{
+
+    display: none;
+  
+  }
+
+  .text h2 {
+    font-size: 1.9rem;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  
+  .text p {
+    font-size: 0.85rem;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+}

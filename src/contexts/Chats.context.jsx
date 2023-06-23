@@ -4,8 +4,6 @@ import SocketContext from "./Socket.context";
 import ToastContext from "./Toast.context";
 import UserContext from "./User.context";
 
-// import { getAllChats_service } from "@/services/chats.service"
-
 const { createContext, useState, useEffect, useContext } = require("react");
 
 const ChatsContext = createContext();
@@ -20,21 +18,44 @@ export const ChatsProvider = ({ children }) => {
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
 	const [messages, setMessages] = useState([]);
+	const [chats, setChats] = useState([]);
+	const [chat_Id, setChat_Id] = useState("");
+	const [chatsObj, setChatsObj] = useState({});
 
 	useEffect(() => {
 		if (!socket) return;
 		reciveMessage();
+		reciveChats();
 	}, [socket]);
+
+	//useEffect(() => {		TODO: REMOVE ME
+	//	console.log(chatsObj);
+	//	console.log(chats);
+	//	console.log(chat_Id)
+	//}, [chatsObj, chats, chat_Id])
 
 	// *******************************************************
 	// 									Sockets
 	// *******************************************************
 
-	//TODO: Mensajes desde contexto
-
-	//TODO: Schemas
-
 	//TODO: integraion db
+	//TODO: buscar novia
+
+	const chatConnection = (id) => {
+		if (user.role === "admin" || user.role === "root") {
+			for (let i = 0 ; i < chats.length ; i++) {
+				if (chats[i].driverId === id) {
+				  setChat_Id(chats[i]._id.toString());
+				  break;
+				};
+			};
+		} else if (user.role === "driver") {
+			setChat_Id(chats[0]._id.toString());
+		}
+	};
+
+
+	//Enviar
 
 	const sendMessage = (newMessage) => {
 		let data = {
@@ -42,24 +63,81 @@ export const ChatsProvider = ({ children }) => {
 			text: newMessage,
 			driverId: "",
 			adminId: "",
+			isSent: true,
 		};
+
+		//chatId para mensajes
+		if (user.role === "driver") {
+			data.driverId = user._id;
+			data.chatId = chats[0]._id.toString()
+		} else if (user.role === "admin") {
+			data.adminId = user._id;
+			data.chatId = chat_Id;
+		} else if (user.role === "root") {
+			data.chatId = chat_Id;
+		};
+		
+		//objeto chats (sin uso por el momento)
+		addNewMessageToChatObj(data, data.chatId);
+
 		setMessages([...messages, data]);
 		socket.emit(socketEventsSystem.sendMessage, data);
 	};
 
+
+	//Recibir
+
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
-			console.log(newMessage);
+			if (!newMessage) return
+			addNewMessageToChatObj(newMessage, newMessage.chatId);
 			setMessages((prevMessages) => [...prevMessages, newMessage]);
 		});
 	};
+
+
+	//Recibir chats
+	const reciveChats = () => {
+		socket.on(socketEventsSystem.sendChats, (chats) => {
+			if (!chats || (Array.isArray(chats) && chats.length === 0)) return
+			if (!Array.isArray(chats)) {
+				chats = [chats];
+			}
+			setChats(chats);
+			chats.forEach(chat => addChatToObj(chat));
+		});
+	};
+
+	//Agregar chat a objeto de chats
+	const addChatToObj = (chat) => {
+		if (!chat) return
+		const { _id } = chat;
+		setChatsObj(prevChatsObj => ({
+			...prevChatsObj,
+			[_id]: []
+		}));
+	};
+
+	//Agregar Mensaje a objeto de chats
+	const addNewMessageToChatObj = (newMessage, chatId) => {
+		if (!chatId || !newMessage) return
+		setChatsObj(prevChatsObj => ({
+			...prevChatsObj,
+			[chatId]: Array.isArray(prevChatsObj[chatId]) ? [...prevChatsObj[chatId], newMessage] : [newMessage]
+		}));
+	};
+
+
 
 	return (
 		<ChatsContext.Provider
 			value={{
 				messages,
+				chatsObj,
+				chat_Id,
 
 				sendMessage,
+				chatConnection,
 			}}
 		>
 			{children}

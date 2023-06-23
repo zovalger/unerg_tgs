@@ -1,13 +1,25 @@
-import ChatModel from "@/models/Chat.model"; //por alguna razon, al borrar esto todo funciona
+import ChatModel from "@/models/Chat.model"; 
 
-//funcion culera no hace nah, no esta siendo invocada en ningun lugar, solo importada al contexto chats
-export const getAllChats_service = async () => {
+import { createChatForDriver_service } from "@/services/userDriver.service";
+
+export const getChatsByDriverId_service = async (_id) => {
 	try {
-		const chat = await ChatModel.find()
+		let chat = await ChatModel.findOne({driverId: _id})
+		if (!chat) {
+			chat = await createChatForDriver_service(_id);
+		};
+		console.log(chat)
 		return chat;
 	} catch (error) {
 		console.log(error);
-	}
+	};
 };
 
-//PD: no hay mas codigo porque de tanto dar vueltas y no encontrar el error decidi iniciar de 0 con un git clone
+export const getAllChats_service = async () => {
+	try {
+		const chats = await ChatModel.find({})
+		return chats;
+	} catch (error) {
+		console.log(error);
+	};
+};

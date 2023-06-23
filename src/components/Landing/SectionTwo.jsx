@@ -23,7 +23,7 @@ const SectionTwo = () => {
           <div className={styles.text}>
             <h3>Geolocalización</h3>
             <p>
-              Podra ubicar su posición dentro del mapa del sistema con solo
+              Podra ubicar su posición dentro del mapa con solo
               darle a un boton
             </p>
           </div>

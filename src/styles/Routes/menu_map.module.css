@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    border-radius: 2em;
+    padding: 10px;
+    background-color: white;
+    height: 45%;
+    width: 100%;
+    margin-bottom: 5px;
+    overflow-y: scroll;
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+  }
+
+  .container::-webkit-scrollbar {
+  
+    display: none;
+  }
+  

@@ -259,7 +259,7 @@ export const updateCoordBus_service = async (_id, coord) => {
 	const newData = { coord: { lat, lng } };
 
 	try {
-		await BusModel.findByIdAndUpdate(_id, newData);
+		await BusModel.findOneAndUpdate({ _id }, newData);
 
 		const bus = await BusModel.findById(_id);
 

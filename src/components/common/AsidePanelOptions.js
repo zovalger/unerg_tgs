@@ -73,6 +73,12 @@ export const driverOptions = [
 	//	icon: <BsMap className={styleN.route} />,
 	//},
 	{
+		link: `${pathDriver}/map`,
+		name: "Mapa",
+		icon: <BsMap className={styleN.route} />,
+	},
+
+	{
 		link: `${pathDriver}/chat/chat`,
 		name: "Chat",
 		icon: <GrChatOption className={styleN.route} />,

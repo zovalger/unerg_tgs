@@ -29,10 +29,12 @@ export const socketInit = (req, res) => {
 				console.log(error);
 			}
 
+			console.log(user);
+			
 			// eventos especificos de los conductores
 			driverSocketController(io, socket, user);
 
-			chatSocketController(io, socket);
+			chatSocketController(io, socket, user);
 
 			// todo: colocar disconect
 		});

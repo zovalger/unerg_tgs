@@ -11,8 +11,6 @@ const RutasLines = () => {
 		if (!r) return;
 		if (!r.waypoints) return;
 
-		console.log(r);
-
 		const error = r.waypoints?.findIndex((w) => {
 			if (typeof w === "string") return true;
 
@@ -23,7 +21,7 @@ const RutasLines = () => {
 			if (typeof lat != "number" || typeof lng != "number") return true;
 		});
 
-		console.log(error);
+		// console.log(error);
 		if (error >= 0) return;
 
 		return <Routing key={r._id} data={r} map={map} />;
@@ -35,11 +33,9 @@ function Routing({ data, map }) {
 
 	useEffect(() => {
 		if (!map.current) return;
-		console.log(map);
 		const thisMap = map.current;
 
 		const toSee = waypoints.map((w) => w.coord);
-		console.log(toSee);
 		const routingControl = L.Routing.control({
 			waypoints: toSee,
 			addWaypoints: false,

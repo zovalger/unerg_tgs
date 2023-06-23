@@ -1,6 +1,7 @@
 // librerias y hooks
 import { useContext, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 
 // componentes de otras librerias
 import { GoLocation } from "react-icons/go";
@@ -14,6 +15,9 @@ import { Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 // contextos
 import MapContext from "@/contexts/Map.context";
 import WaypointContext from "@/contexts/Waypoint.context";
+import RutaContext from "@/contexts/Ruta.context";
+import { getAllRutas_Request } from "@/api/ruta.api";
+import { getAllWaypoints_Request } from "@/api/public.api";
 
 // my components
 import ButtonFloatingContainer from "@/components/common/ButtonFloating_Container";
@@ -21,15 +25,13 @@ import NavBar from "@/components/common/NavBar";
 import RoutesClient from "@/components/RouteView/clientView/RoutesClient";
 import BotonRuClient from "@/components/RouteView/clientView/BotonRuClient";
 import Bus_stopClient from "@/components/RouteView/clientView/Bus_stopClient";
-
-//Layouts
-
 import Layout from "@/layouts/Layout";
 
 //Estilos
 import style from "@/styles/Routes/routes_view.module.css";
 import styleN from "@/styles/Nav/NavStyle.module.css";
-import { getAllWaypoints_Request } from "@/api/public.api";
+import styleMR from '@/styles/Routes/menu_map.module.css'
+
 
 
 const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
@@ -39,6 +41,8 @@ const MapView = dynamic(() => import("@/components/MapView_Leaflet/MapView"), {
 //**************************************** Codigo ************************************/
 
 const MainMap = () => {
+	const router = useRouter();
+
 	const {
 		toogleViewUserCoord,
 		getCoordsUser,
@@ -48,13 +52,6 @@ const MainMap = () => {
 	} = useContext(MapContext);
 
 	const { insert, waypoints, getWaypoint } = useContext(WaypointContext);
-
-	const [offcanvasActive, setOffcanvasActive] = useState(false);
-	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
-
-	const [ro_active, setRo_active] = useState(false);
-
-	const Ro_Btn = () => setRo_active(!ro_active);
 
 	const getDataWaypoints = async () => {
 		try {
@@ -73,6 +70,27 @@ const MainMap = () => {
 		getDataWaypoints();
 	}, []);
 
+
+	//Rutas del panel
+	const { rutas, insertRuta, setEditingRoute, getRuta } =
+		useContext(RutaContext);
+
+	useEffect(() => {
+		getAllRutas_Request()
+			.then((res) => insertRuta(res.data))
+			.catch((error) => console.log(error));
+	}, []);
+
+
+	//Panel lateral
+	const [offcanvasActive, setOffcanvasActive] = useState(false);
+	const toggleOffcanvas = () => setOffcanvasActive(!offcanvasActive);
+
+	// const [ro_active, setRo_active] = useState(false);
+
+	// const Ro_Btn = () => setRo_active(!ro_active);
+
+
 	//Vista de las rutas
 
 	const [ro_menu, setRo_menu] = useState(false);
@@ -80,7 +98,7 @@ const MainMap = () => {
 	const active_RoM = () => {
 		setRo_menu(!ro_menu);
 		setOffcanvasActive(false);
-		setRo_active(false);
+	
 	};
 
 	//Vista de las paradas
@@ -90,7 +108,6 @@ const MainMap = () => {
 	const active_PaM = () => {
 		setPa_menu(!pa_menu);
 		setOffcanvasActive(false);
-		setRo_active(false);
 	};
 
 	//Cerrar vistas
@@ -98,6 +115,11 @@ const MainMap = () => {
 	const close = () => {
 		setRo_menu(false);
 		setPa_menu(false);
+	};
+
+	const onClick = (_id) => {
+		setEditingRoute(getRuta(_id));
+		router.push(`./rutas/${_id}`);
 	};
 
 	return (
@@ -140,22 +162,21 @@ const MainMap = () => {
 					className={`${"MapView__Container"} ${
 						ro_menu ? "MapView__ContainerRu" : ""
 					}`}
-					onClick={() => {
-						setRo_active(false);
-					}}
 				>
 					<MapView />
 
-					{/*Contenedor desplegable de las rutas*/}
+					{/*Contenedor de las rutas*/}
 
-					{ro_active ? (
-						<div className={style.Route_view}>
+					
+
+					 {/* {ro_active && (
+						<div className={styleMR.container}>
 							<h2>Rutas</h2>
-							{Rutas.map((datos, id_1) => {
-								return <BotonRuClient key={id_1} datos={datos} />;
+							{rutas.map((datos, id_1) => {
+								return <BotonRuClient key={id_1} datos={datos} onClick = {onClick}/>;
 							})}
 						</div>
-					) : undefined}
+					)}  */}
 				</div>
 
 				{/*Abrir vista de rutas*/}
@@ -177,9 +198,9 @@ const MainMap = () => {
 
 				{!ro_menu && !pa_menu && (
 					<ButtonFloatingContainer>
-						<Button color="primary">
+						{/* <Button color="primary">
 							<TbRoute onClick={Ro_Btn} />
-						</Button>
+						</Button> */}
 
 						{/* boton para obtener las coordenadas del usuario y mostrarla en el mapa */}
 						<Button
