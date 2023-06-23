@@ -1,7 +1,10 @@
-import style from "./MessageItem.module.css";
+import React from "react";
+import styles from "./MessageItem.module.css";
 
-const MessageItem = ({ data, user_id }) => {
-	return <div className={style.container}>{data}</div>;
+const MessageItem = ({ data, isSent }) => {
+  const containerClassName = isSent ? styles.sent : styles.received;
+
+  return <div className={containerClassName}>{data}</div>;
 };
 
 export default MessageItem;

@@ -63,6 +63,7 @@ export const ChatsProvider = ({ children }) => {
 			text: newMessage,
 			driverId: "",
 			adminId: "",
+			isSent: true,
 		};
 
 		//chatId para mensajes
