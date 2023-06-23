@@ -8,7 +8,6 @@ export const chatSocketController = (io, socket, user) => {
     roomsUserJoin(io, socket, user)
     
     socket.on(socketEventsSystem.sendMessage, async (message) => {
-        message.text = "Recived: " + message.text
         console.log(message);
         socket.to(message.chatId).emit(socketEventsSystem.reciveMessage, message);
     });

@@ -42,7 +42,7 @@ export const ChatsProvider = ({ children }) => {
 	//TODO: buscar novia
 
 	const chatConnection = (id) => {
-		if (user.role === "admin") {
+		if (user.role === "admin" || user.role === "root") {
 			for (let i = 0 ; i < chats.length ; i++) {
 				if (chats[i].driverId === id) {
 				  setChat_Id(chats[i]._id.toString());
@@ -71,6 +71,8 @@ export const ChatsProvider = ({ children }) => {
 			data.chatId = chats[0]._id.toString()
 		} else if (user.role === "admin") {
 			data.adminId = user._id;
+			data.chatId = chat_Id;
+		} else if (user.role === "root") {
 			data.chatId = chat_Id;
 		};
 		
