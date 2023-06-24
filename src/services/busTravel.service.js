@@ -16,7 +16,7 @@ export const createBusTravel_service = async (driver) => {
 	} catch (error) {
 		console.log(error);
 	}
-	
+
 	const { _id, timetableId, busId } = driver;
 
 	try {
@@ -78,6 +78,16 @@ export const finishBusTravel_service = async (driverId, busTravel = {}) => {
 		await oldBusTravel.save();
 
 		return oldBusTravel;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+export const getAllBusTravel_service = async () => {
+	try {
+		const busTravels = await BusTravelModel.find();
+
+		return busTravels;
 	} catch (error) {
 		console.log(error);
 	}

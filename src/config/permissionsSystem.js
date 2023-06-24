@@ -15,6 +15,7 @@ const permissionsSystem = {
 	adminEdit: "Administradores: Editar registros",
 
 	chatView: "Mensajes: Ver chats",
+	stadistic: "Estadísticas: Ver estadísticas del sistema",
 };
 
 export const getAllPermissions = () => {

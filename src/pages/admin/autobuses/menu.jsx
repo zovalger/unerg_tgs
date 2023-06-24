@@ -89,7 +89,7 @@ const MenuBus = () => {
 				/>
 
 				<div className="container mt-3">
-					<Form inline onSubmit={handleSubmit}>
+					{/* <Form inline onSubmit={handleSubmit}>
 						<FormGroup className="mb-2 mr-sm-2 mb-sm-0">
 							<InputGroup>
 								<Input
@@ -106,7 +106,7 @@ const MenuBus = () => {
 								</Button>
 							</InputGroup>
 						</FormGroup>
-					</Form>
+					</Form> */}
 
 					{buses.map((b) => {
 						return (

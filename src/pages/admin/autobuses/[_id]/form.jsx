@@ -1,7 +1,7 @@
 //React/Next
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 //Componentes
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
@@ -11,12 +11,16 @@ import NavBar from "@/components/common/NavBar";
 import { IoIosArrowBack } from "react-icons/io";
 
 //Estilos
-import styleN from "../../../styles/Nav/NavStyle.module.css";
+import styleN from "@/styles/Nav/NavStyle.module.css";
 import BusForm from "@/components/BusView/BusForm";
 
-
-import { createBus_Request, updateBus_Request } from "@/api/bus.api";
+import {
+	createBus_Request,
+	getBus_By_Id_Request,
+	updateBus_Request,
+} from "@/api/bus.api";
 import BusContext from "@/contexts/Bus.context";
+import RutaContext from "@/contexts/Ruta.context";
 
 const AddBuss = () => {
 	const router = useRouter();
@@ -24,7 +28,8 @@ const AddBuss = () => {
 
 	const [isSubmiting, setIsSubmitin] = useState(false);
 
-	const { updateBus, getBus } = useContext(BusContext);
+	const { updateBus, getBus, buses } = useContext(BusContext);
+	const { getRuta } = useContext(RutaContext);
 
 	const formateToFormBus = (bus) => {
 		if (!bus) return;
@@ -45,14 +50,26 @@ const AddBuss = () => {
 			console.log(res);
 
 			const b = res.data;
-			updateBus(b);
+			updateBus(b._id, b, buses);
 
-			router.back();
+			router.replace(`../${_id}`);
 		} catch (error) {
 			console.log(error);
 			setIsSubmitin(false);
 		}
 	};
+
+	const [bus, setBus] = useState(null);
+
+	useEffect(() => {
+		if (!_id) return;
+
+		getBus_By_Id_Request(_id).then(({ data }) => {
+			const ruta = getRuta(data.ruta);
+			if (!ruta) router.push(`../${_id}`);
+			setBus({ ...data, ruta });
+		});
+	}, [_id]);
 
 	return (
 		<Layout>
@@ -60,19 +77,18 @@ const AddBuss = () => {
 				left={
 					<>
 						<div>
-							<Link href={"./menu"} className={styleN.btn_return}>
+							<Link href={`../${_id}`} className={styleN.btn_return}>
 								<IoIosArrowBack />
 							</Link>
 						</div>
 						<div className={styleN.title_nav}>
-							<h2>Autobuses</h2>
+							{bus && <h2>Bus {bus.num}</h2>}
 						</div>
 					</>
 				}
 				right={<></>}
 			/>
-
-			<BusForm onSubmit={onSubmit} data={formateToFormBus(getBus(_id))} />
+			{bus && <BusForm onSubmit={onSubmit} data={formateToFormBus(bus)} />}
 		</Layout>
 	);
 };

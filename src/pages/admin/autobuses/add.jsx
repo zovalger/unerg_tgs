@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useContext, useState } from "react";
 import Link from "next/link";
 
-
 //Componentes
 
 import Layout from "@/layouts/Layout";
@@ -18,15 +17,9 @@ import { IoIosArrowBack } from "react-icons/io";
 
 import styleN from "@/styles/Nav/NavStyle.module.css";
 
-
-
-
 //Contextos
 
-
 import BusContext from "@/contexts/Bus.context";
-
-
 
 //*********************************  Codigo  **************************//
 const AddBuss = () => {
@@ -49,7 +42,7 @@ const AddBuss = () => {
 			const b = res.data;
 			insert(b);
 
-			router.back();
+			router.replace(`./menu`);
 		} catch (error) {
 			console.log(error);
 			setIsSubmitin(false);
