@@ -54,3 +54,15 @@ export const getAllBusAverias_by_busId_service = async (busId) => {
 		console.log(error);
 	}
 };
+
+export const getAllBusAverias_service = async () => {
+	try {
+		// ir guardando las coordenadas que vienen del autobus
+		const busAverias = await BusAveriaModel.find()
+
+		return busAverias;
+	} catch (error) {
+		console.log(error);
+	}
+};
+

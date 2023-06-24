@@ -49,6 +49,7 @@ export const UserProvider = ({ children }) => {
 		setUser(res.data);
 		console.log("login");
 		console.log(res);
+		// resetSocket();
 
 		return res.data;
 	};
