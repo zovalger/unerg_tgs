@@ -26,20 +26,20 @@ export const ChatsProvider = ({ children }) => {
 		if (!socket) return;
 		reciveMessage();
 		reciveChats();
+		reciveOldMessages();
 	}, [socket]);
 
-	//useEffect(() => {		TODO: REMOVE ME
-	//	console.log(chatsObj);
-	//	console.log(chats);
-	//	console.log(chat_Id)
-	//}, [chatsObj, chats, chat_Id])
+	/*useEffect(() => {		//TODO: REMOVE ME
+		console.log(chatsObj);
+		console.log(chats);
+		console.log(chat_Id)
+	}, [chatsObj, chats, chat_Id]) */
 
 	// *******************************************************
 	// 									Sockets
 	// *******************************************************
 
-	//TODO: integraion db
-	//TODO: buscar novia
+	//TODO: sort old messages
 
 	// ************************** Funciones Chat **************************
 
@@ -101,8 +101,18 @@ export const ChatsProvider = ({ children }) => {
 	// ************************** Recibir mensajes y chats desde la db **************************
 
 	//recibir Mensajes
-	const loadMessages = () => {
-		socket.emit(socketEventsSystem.loadMessages);
+	const reciveOldMessages = () => {
+		socket.on(socketEventsSystem.loadMessages, (data) => {
+			if (!data) return;
+			const messages = data.map(obj => {
+				return {
+					...obj,
+					isSent: addInSentToOldMessages(obj)
+				};
+			});
+			messages.forEach(message => addNewMessageToChatObj(message, message._chatId.toString()));
+			console.log(messages);
+		});
 	};
 
 	//Recibir chats
@@ -138,8 +148,21 @@ export const ChatsProvider = ({ children }) => {
 		}));
 	};
 
+	// ************************** Funciones de Orden **************************
 
-
+	const addInSentToOldMessages = (data) => {
+		switch (user.role) {
+			case "driver":
+				return data.driverId !== null && data.driverId.toString() === user._id.toString();
+			case "admin":
+				return data.adminId !== null && data.adminId.toString() === user._id.toString();
+			case "root":
+				return data.driverId === null && data.adminId === null;
+			default:
+				return false;
+		};
+	};
+	
 	return (
 		<ChatsContext.Provider
 			value={{
@@ -149,7 +172,6 @@ export const ChatsProvider = ({ children }) => {
 
 				sendMessage,
 				chatConnection,
-				loadMessages,
 			}}
 		>
 			{children}

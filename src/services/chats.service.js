@@ -2,6 +2,7 @@ import ChatModel from "@/models/Chat.model";
 import MessageModel from "@/models/Message.model";
 
 import { createChatForDriver_service } from "@/services/userDriver.service";
+import { BiMessageSquare } from "react-icons/bi";
 
 // ****************************** Chats Services ******************************
 
@@ -11,7 +12,6 @@ export const getChatsByDriverId_service = async (_id) => {
 		if (!chat) {
 			chat = await createChatForDriver_service(_id);
 		};
-		console.log(chat)
 		return chat;
 	} catch (error) {
 		console.log(error);
@@ -47,10 +47,18 @@ export const saveNewPhoto_service = async () => {
 
 };
 
+export const getMessagesByChatId_service = async (chatId) => {
+	try {
+		let messages = await MessageModel.find({_chatId: chatId})
+		return messages;
+	} catch (error) {
+		console.log(error);
+	};
+};
+
 export const getAllMessages_service = async () => {
 	try {
 		const messages = await MessageModel.find({})
-		console.log(messages)
 		return messages;
 	} catch (error) {
 		console.log(error);

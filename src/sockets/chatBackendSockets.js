@@ -6,27 +6,44 @@ import {
     getChatsByDriverId_service,
     saveNewMessage_service,
     getAllMessages_service,
+    getMessagesByChatId_service
 } from "@/services/chats.service";
 
 export const chatSocketController = (io, socket, user) => {
+    if (!io || !socket || !user) return;
 
-    roomsUserJoin(io, socket, user)
+    roomsUserJoin(io, socket, user);
     
     socket.on(socketEventsSystem.sendMessage, async (message) => {
         message.isSent = false;
         console.log(message)
-        saveNewMessage_service(message);
+        await saveNewMessage_service(message);
         socket.to(message.chatId).emit(socketEventsSystem.reciveMessage, message);
     });
 
-    socket.on(socketEventsSystem.loadMessages, async () => {
-        getAllMessages_service();
+    socket.on(socketEventsSystem.loadMessagesReq, async () => {
+        
     });
 };
 
+//Carga de mensajes antiguos
+const loadOldMessages = async (socket, user, chatId) => {
+    if (user.role === "admin" || user.role === "root") {
+        const messages = await getAllMessages_service();
+        if (!messages) return;
+        console.log(messages);
+        socket.emit(socketEventsSystem.loadMessages, messages);
+    } else if (user.role === "driver") {
+        const messages = await getMessagesByChatId_service(chatId);
+        if (!messages) return;
+        console.log(messages);
+        socket.emit(socketEventsSystem.loadMessages, messages);
+    };
+};
+
+
 //Funcion encargada de unir al usuario a las rooms de socket
 export const roomsUserJoin = async (io, socket, user) => {
-    if (!user) return;
     await dbConnect();
 
     //se determina el roll del usuario
@@ -38,6 +55,7 @@ export const roomsUserJoin = async (io, socket, user) => {
 
         //se une a la room de socket y se envia el chat al front
         socket.join(chat._id.toString());
+        loadOldMessages(socket, user, chat._id.toString());
         socket.emit(socketEventsSystem.sendChats, chat);
 
     } else if (user.role === "admin" || user.role === "root") {
@@ -50,6 +68,7 @@ export const roomsUserJoin = async (io, socket, user) => {
         chats.forEach((chat) => {
             socket.join(chat._id.toString());
         });
+        loadOldMessages(socket, user);
         socket.emit(socketEventsSystem.sendChats, chats)
     };
 };
