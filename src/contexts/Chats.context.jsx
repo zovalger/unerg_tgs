@@ -26,20 +26,22 @@ export const ChatsProvider = ({ children }) => {
 		if (!socket) return;
 		reciveMessage();
 		reciveChats();
+		reciveOldMessages();
 	}, [socket]);
 
-	//useEffect(() => {		TODO: REMOVE ME
-	//	console.log(chatsObj);
-	//	console.log(chats);
-	//	console.log(chat_Id)
-	//}, [chatsObj, chats, chat_Id])
+	/*useEffect(() => {		//TODO: REMOVE ME
+		console.log(chatsObj);
+		console.log(chats);
+		console.log(chat_Id)
+	}, [chatsObj, chats, chat_Id]) */
 
 	// *******************************************************
 	// 									Sockets
 	// *******************************************************
 
-	//TODO: integraion db
-	//TODO: buscar novia
+	//TODO: sort old messages
+
+	// ************************** Funciones Chat **************************
 
 	const chatConnection = (id) => {
 		if (user.role === "admin" || user.role === "root") {
@@ -56,7 +58,6 @@ export const ChatsProvider = ({ children }) => {
 
 
 	//Enviar
-
 	const sendMessage = (newMessage) => {
 		let data = {
 			chatId: "",
@@ -69,15 +70,18 @@ export const ChatsProvider = ({ children }) => {
 		//chatId para mensajes
 		if (user.role === "driver") {
 			data.driverId = user._id;
+			data.adminId = null;
 			data.chatId = chats[0]._id.toString()
 		} else if (user.role === "admin") {
 			data.adminId = user._id;
+			data.driverId = null;
 			data.chatId = chat_Id;
 		} else if (user.role === "root") {
 			data.chatId = chat_Id;
+			data.driverId = null;
+			data.adminId = null;
 		};
 		
-		//objeto chats (sin uso por el momento)
 		addNewMessageToChatObj(data, data.chatId);
 
 		setMessages([...messages, data]);
@@ -86,7 +90,6 @@ export const ChatsProvider = ({ children }) => {
 
 
 	//Recibir
-
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
 			if (!newMessage) return
@@ -95,6 +98,22 @@ export const ChatsProvider = ({ children }) => {
 		});
 	};
 
+	// ************************** Recibir mensajes y chats desde la db **************************
+
+	//recibir Mensajes
+	const reciveOldMessages = () => {
+		socket.on(socketEventsSystem.loadMessages, (data) => {
+			if (!data) return;
+			const messages = data.map(obj => {
+				return {
+					...obj,
+					isSent: addInSentToOldMessages(obj)
+				};
+			});
+			messages.forEach(message => addNewMessageToChatObj(message, message._chatId.toString()));
+			console.log(messages);
+		});
+	};
 
 	//Recibir chats
 	const reciveChats = () => {
@@ -107,6 +126,8 @@ export const ChatsProvider = ({ children }) => {
 			chats.forEach(chat => addChatToObj(chat));
 		});
 	};
+
+	// ************************** Funciones del chatObj **************************
 
 	//Agregar chat a objeto de chats
 	const addChatToObj = (chat) => {
@@ -127,8 +148,21 @@ export const ChatsProvider = ({ children }) => {
 		}));
 	};
 
+	// ************************** Funciones de Orden **************************
 
-
+	const addInSentToOldMessages = (data) => {
+		switch (user.role) {
+			case "driver":
+				return data.driverId !== null && data.driverId.toString() === user._id.toString();
+			case "admin":
+				return data.adminId !== null && data.adminId.toString() === user._id.toString();
+			case "root":
+				return data.driverId === null && data.adminId === null;
+			default:
+				return false;
+		};
+	};
+	
 	return (
 		<ChatsContext.Provider
 			value={{
