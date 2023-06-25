@@ -23,6 +23,8 @@ import { Col, FormFeedback, FormGroup, Input, Label, Row } from "reactstrap";
 import ItemNumber from "@/components/StadisticView/ItemNumber";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import moment from "moment";
+import BusTravelItem from "@/components/StadisticView/BusTravelItem";
 
 //*************************** Codigo  ************************/
 
@@ -32,10 +34,47 @@ const Stadistics = () => {
 	//useContext
 	const router = useRouter();
 
+	const [stadisticData, setStadisticData] = useState(null);
 	const [indexation, setIndexation] = useState(null);
 
 	useEffect(() => {
-		getStadisticIndexation_Request().then(({ data }) => setIndexation(data));
+		getStadisticIndexation_Request().then(({ data }) => {
+			const i = {
+				buses: {},
+				averias: {},
+				rutas: {},
+				timetables: {},
+				admins: {},
+				drivers: {},
+				waypoints: {},
+			};
+
+			for (const element of data.buses) {
+				i.buses[element._id] = element;
+			}
+			for (const element of data.averias) {
+				i.averias[element._id] = element;
+			}
+
+			for (const element of data.rutas) {
+				i.rutas[element._id] = element;
+			}
+			for (const element of data.timetables) {
+				i.timetables[element._id] = element;
+			}
+			for (const element of data.admins) {
+				i.admins[element._id] = element;
+			}
+			for (const element of data.drivers) {
+				i.drivers[element._id] = element;
+			}
+			for (const element of data.waypoints) {
+				i.waypoints[element._id] = element;
+			}
+
+			setIndexation(i);
+			setStadisticData(data);
+		});
 	}, []);
 
 	// socket de stadisticas
@@ -47,7 +86,7 @@ const Stadistics = () => {
 
 	const formik = useFormik({
 		initialValues: {
-			by: "",
+			by: "rutas",
 			item: "",
 		},
 		validationSchema: Yup.object({}),
@@ -68,26 +107,26 @@ const Stadistics = () => {
 						</div>
 					}
 				/>
-				{indexation && (
+				{stadisticData && (
 					<div className="container mt-3">
 						<Row>
 							<Col xs={12}>
 								<ItemNumber
 									title={"Conexiones abiertas en el servidor"}
-									num={indexation.usersCount.length}
+									num={stadisticData.usersCount.length}
 								/>
 							</Col>
 							<Col xs={6}>
 								<ItemNumber
 									title={"Administradores"}
-									num={indexation.admins.count}
+									num={stadisticData.admins.length}
 								/>
 							</Col>
 							<Col xs={6}>
 								<ItemNumber
 									title={"Conexiones de Administradores"}
 									num={
-										indexation.usersCount.filter(
+										stadisticData.usersCount.filter(
 											(item) => item.role == "admin" || item.role == "root"
 										).length
 									}
@@ -96,14 +135,14 @@ const Stadistics = () => {
 							<Col xs={6}>
 								<ItemNumber
 									title={"Conductores"}
-									num={indexation.drivers.count}
+									num={stadisticData.drivers.length}
 								/>
 							</Col>
 							<Col xs={6}>
 								<ItemNumber
 									title={"Conexiones de Conductores"}
 									num={
-										indexation.usersCount.filter(
+										stadisticData.usersCount.filter(
 											(item) => item.role == "driver"
 										).length
 									}
@@ -146,24 +185,74 @@ const Stadistics = () => {
 									invalid={!!formik.errors.item}
 								>
 									<option value="">Opcion</option>
-{/* 
-									{(() => {
-										let a = [];
-										for (const key in indexation[formik.values.by]) {
-											if (Object.hasOwnProperty.call(object, key)) {
-												const element = indexation[formik.values.by][key];
-												a.push(element);
-											}
-										}
 
-										return a;
-									})()} */}
+									{stadisticData[formik.values.by].map((item) => {
+										if (formik.values.by === "rutas")
+											return (
+												<option value={item._id} key={item._id}>
+													{item.name}
+												</option>
+											);
+
+										if (formik.values.by === "timetables")
+											return (
+												<option value={item._id} key={item._id}>
+													{`${item.name}: ${moment(item.startTime).format(
+														"h:mm a"
+													)} - ${moment(item.endTime).format("h:mm a")}`}
+												</option>
+											);
+										if (formik.values.by === "drivers")
+											return (
+												<option value={item._id} key={item._id}>
+													{item.name} CI: {item.CI}
+												</option>
+											);
+
+										if (formik.values.by === "buses")
+											return (
+												<option value={item._id} key={item._id}>
+													{`Numero: ${item.num} - Placa: ${item.placa}`}
+												</option>
+											);
+									})}
 								</Input>
 								<FormFeedback>{formik.errors.item}</FormFeedback>
 							</FormGroup>
 						</Form>
-						{indexation.busTravels.map((item) => item.startDate)}
-						<div>datos</div>
+
+						{(() => {
+							const items = stadisticData.busTravels.filter((item) => {
+								if (formik.values.by === "rutas")
+									return item.ruta == formik.values.item;
+								if (formik.values.by === "timetables")
+									return (
+										item.timetableDriver == formik.values.item ||
+										item.timetableRuta == formik.values.item
+									);
+								if (formik.values.by === "drivers")
+									return item.driver == formik.values.item;
+								if (formik.values.by === "buses")
+									return item.bus == formik.values.item;
+							});
+
+							return (
+								<>
+									<div>cantidad {items.length}</div>
+
+									
+									{items.map((item) => (
+										<BusTravelItem
+											data={item}
+											key={item._id}
+											indexation={indexation}
+										/>
+									))}
+								</>
+							);
+						})()}
+
+						<div style={{ minHeight: "50vh" }}></div>
 					</div>
 				)}
 			</div>

@@ -23,49 +23,20 @@ export const getStadisticIndexation_service = async () => {
 			waypoints: {},
 		};
 
-		const buses = await getAllActiveBuses_service();
-		const averias = await getAllBusAverias_service();
-		const busTravels = await getAllBusTravel_service();
-		const rutas = await getAllRutas_service();
-		const timetables = await getAllTimetables_service();
-		const admins = await getAllUserAdmin_service();
-		const drivers = await getAllUserDriver_service();
-		const waypoints = await getAllActiveWaypoints_service();
-		const usersCount = await UsersCountModel.find();
+		data.buses = await getAllActiveBuses_service();
+		data.averias = await getAllBusAverias_service();
+		data.busTravels = await getAllBusTravel_service();
+		data.rutas = await getAllRutas_service();
+		data.timetables = await getAllTimetables_service();
+		data.admins = await getAllUserAdmin_service();
+		data.drivers = await getAllUserDriver_service();
+		data.waypoints = await getAllActiveWaypoints_service();
 
-		data.busTravels = busTravels;
-		data.usersCount = usersCount;
-
-		data.buses.count = buses.length;
-		data.averias.count = averias.length;
-		data.rutas.count = rutas.length;
-		data.timetables.count = timetables.length;
-		data.admins.count = admins.length;
-		data.drivers.count = drivers.length;
-		data.waypoints.count = waypoints.length;
-
-		for (const element of buses) {
-			data.buses[element._id] = element;
-		}
-		for (const element of averias) {
-			data.averias[element._id] = element;
-		}
-
-		for (const element of rutas) {
-			data.rutas[element._id] = element;
-		}
-		for (const element of timetables) {
-			data.timetables[element._id] = element;
-		}
-		for (const element of admins) {
-			data.admins[element._id] = element;
-		}
-		for (const element of drivers) {
-			data.drivers[element._id] = element;
-		}
-		for (const element of waypoints) {
-			data.waypoints[element._id] = element;
-		}
+		await UsersCountModel.deleteMany({
+			conectionDate: { $lt: new Date(Date.now() - 6 * 60 * 60 * 1000) },
+		});
+		
+		data.usersCount = await UsersCountModel.find();
 
 		return data;
 	} catch (error) {
@@ -77,6 +48,9 @@ export const addCountUser = async (socketId, user) => {
 	if (!socketId) return;
 
 	try {
+		await UsersCountModel.deleteMany({
+			conectionDate: { $lt: new Date(Date.now() - 6 * 60 * 60 * 1000) },
+		});
 		const n = new UsersCountModel({
 			socket: socketId,
 			conectionDate: new Date(),
@@ -93,6 +67,10 @@ export const subtracCountUser = async (socketId) => {
 	if (!socketId) return;
 
 	try {
+		await UsersCountModel.deleteMany({
+			conectionDate: { $lt: new Date(Date.now() - 6 * 60 * 60 * 1000) },
+		});
+
 		await UsersCountModel.findOneAndDelete({ socket: socketId });
 	} catch (error) {
 		console.log(error);

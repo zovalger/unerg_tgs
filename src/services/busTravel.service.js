@@ -17,9 +17,14 @@ export const createBusTravel_service = async (driver) => {
 		console.log(error);
 	}
 
-	const { _id, timetableId, busId } = driver;
 
+
+	const { _id, timetableId, busId } = driver;
+	
 	try {
+		await finishUnCloseTravel_service();
+
+
 		const bus = await getBus_by_Id_service(busId);
 		const ruta = await getRuta_by_Id_service(bus.ruta);
 
@@ -45,6 +50,9 @@ export const createBusTravel_service = async (driver) => {
 };
 
 export const updateBustravelWaypoints_service = async (driverId, coord) => {
+
+	await finishUnCloseTravel_service();
+
 	// ir guardando las coordenadas que vienen del autobus
 	const busTravel = await BusTravelModel.findOne({
 		driver: driverId,
@@ -59,6 +67,9 @@ export const updateBustravelWaypoints_service = async (driverId, coord) => {
 
 // finalizar el recorrido de una vuelta de una ruta
 export const finishBusTravel_service = async (driverId, busTravel = {}) => {
+
+	// await finishUnCloseTravel_service();
+
 	const { waypoints, waypointsVisited } = busTravel;
 	try {
 		const oldBusTravel = await BusTravelModel.findOne({
@@ -83,12 +94,29 @@ export const finishBusTravel_service = async (driverId, busTravel = {}) => {
 	}
 };
 
+
+
 export const getAllBusTravel_service = async () => {
 	try {
-		const busTravels = await BusTravelModel.find();
+		await finishUnCloseTravel_service();
+
+		const busTravels = await BusTravelModel.find().sort({ startDate: 1 });
 
 		return busTravels;
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+
+export const finishUnCloseTravel_service = async () => {
+	await BusTravelModel.findOneAndUpdate(
+		{
+			$and: [
+				{ endDate: null },
+				{ startDate: { $lt: new Date(Date.now() - 6 * 60 * 60 * 1000) } },
+			],
+		},
+		{ endDate: new Date() }
+	);
 };

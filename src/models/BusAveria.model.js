@@ -7,7 +7,7 @@ const BusAveriaSchema = mongoose.Schema({
 	},
 	content: { type: String },
 
-	date: { type: Date, default: new Date() },
+	date: { type: Date, default:  Date.now() },
 });
 
 export default mongoose.models?.BusAveria ||
