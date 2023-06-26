@@ -19,8 +19,10 @@ export const chatSocketController = (io, socket, user) => {
 	socket.on(socketEventsSystem.sendMessage, async (message) => {
 		message.isSent = false;
 		console.log(message);
-		await saveNewMessage_service(message);
-		socket.to(message.chatId).emit(socketEventsSystem.reciveMessage, message);
+		const messageSaved = await saveNewMessage_service(message);
+		socket
+			.to(message.chatId)
+			.emit(socketEventsSystem.reciveMessage, messageSaved);
 	});
 
 	socket.on(socketEventsSystem.loadMessagesReq, async () => {});
@@ -66,21 +68,5 @@ export const roomsUserJoin = async (io, socket, user) => {
 		});
 		loadOldMessages(socket, user);
 		socket.emit(socketEventsSystem.sendChats, chats);
-	}
-};
-
-export const getAllNamesUsers_service = async () => {
-	try {
-		const drivers = await DriverModel.find(null, { _id: 1, name: 1 });
-		const admins = await AdminModel.find(null, { _id: 1, name: 1 });
-
-		const names = {};
-
-		drivers.forEach((item) => (names[item._id] = item.name));
-		admins.forEach((item) => (names[item._id] = item.name));
-
-		return names;
-	} catch (error) {
-		console.log(error);
 	}
 };
