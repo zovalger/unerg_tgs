@@ -16,7 +16,8 @@ const ChatsContext = createContext();
 export const ChatsProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
 	const { user, setUser } = useContext(UserContext);
-	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
+	const { withLoadingSuccessAndErrorFuntionsToast, showInfoToast } =
+		useContext(ToastContext);
 
 	const [messages, setMessages] = useState([]);
 	const [chats, setChats] = useState([]);
@@ -106,6 +107,7 @@ export const ChatsProvider = ({ children }) => {
 	const reciveMessage = () => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
 			if (!newMessage) return;
+			showInfoToast("Nuevo mensaje");
 			addNewMessageToChatObj(newMessage, newMessage.chatId);
 			setMessages((prevMessages) => [...prevMessages, newMessage]);
 		});
