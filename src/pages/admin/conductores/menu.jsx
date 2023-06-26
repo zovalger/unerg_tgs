@@ -82,7 +82,7 @@ const MenuConductor = () => {
 				/>
 
 				<div className="container mt-3">
-					<Form inline onSubmit={handleSubmit}>
+					{/* <Form inline onSubmit={handleSubmit}>
 						<FormGroup className="mb-2 mr-sm-2 mb-sm-0">
 							<div className="input-group">
 								<Input
@@ -100,7 +100,7 @@ const MenuConductor = () => {
 								</div>
 							</div>
 						</FormGroup>
-					</Form>
+					</Form> */}
 					<div>
 						{drivers &&
 							drivers.map((d) => (
