@@ -1,13 +1,11 @@
 import ErrorsMessages from "@/config/errorsMessages";
-
-import { getAllNamesUsers_service } from "@/sockets/chatBackendSockets";
+import { getAllNamesUsers_service } from "@/services/chats.service";
 
 // ********************************************************************
 // 									buses: Creacion
 // ********************************************************************
 
 export const getAllNamesUsers_controller = async (req, res) => {
-
 	try {
 		// Formateado de datos
 

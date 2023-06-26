@@ -4,6 +4,7 @@ import SocketContext from "./Socket.context";
 import ToastContext from "./Toast.context";
 import UserContext from "./User.context";
 import { getAllNamesUsers_Request } from "@/api/chat.api";
+import { sendImg_Request } from "@/api/file.api"
 
 const { createContext, useState, useEffect, useContext } = require("react");
 
@@ -72,34 +73,42 @@ export const ChatsProvider = ({ children }) => {
 	};
 
 	//Enviar
-	const sendMessage = (newMessage) => {
-		let data = {
-			chatId: "",
+	const sendMessage = async (newMessage, imageFile) => {
+
+		let message = {
+			_chatId: "",
 			text: newMessage,
-			driverId: "",
-			adminId: "",
+			urlPhoto: {
+				url: null,
+				imgfileId: null,
+			},
+			response: null,
+			driverId: null,
+			adminId: null,
 			isSent: true,
 		};
 
 		//chatId para mensajes
 		if (user.role === "driver") {
-			data.driverId = user._id;
-			data.adminId = null;
-			data.chatId = chats[0]._id.toString();
+			message.driverId = user._id;
+			message._chatId = chats[0]._id.toString()
 		} else if (user.role === "admin") {
-			data.adminId = user._id;
-			data.driverId = null;
-			data.chatId = chat_Id;
+			message.adminId = user._id;
+			message._chatId = chat_Id;
 		} else if (user.role === "root") {
-			data.chatId = chat_Id;
-			data.driverId = null;
-			data.adminId = null;
-		}
+			message._chatId = chat_Id;
+		};
 
-		addNewMessageToChatObj(data, data.chatId);
+		if (imageFile) {
+			const {data} = await sendImg_Request({ data: imageFile });
+			message.urlPhoto.url = data.url;
+			message.urlPhoto.imgfileId = data._id;
+		};
 
-		setMessages([...messages, data]);
-		socket.emit(socketEventsSystem.sendMessage, data);
+		addNewMessageToChatObj(message, message._chatId);
+
+		setMessages([...messages, message]);
+		socket.emit(socketEventsSystem.sendMessage, message);
 	};
 
 	//Recibir
@@ -111,13 +120,15 @@ export const ChatsProvider = ({ children }) => {
 		});
 	};
 
+
 	// ************************** Recibir mensajes y chats desde la db **************************
 
 	//recibir Mensajes
 	const reciveOldMessages = () => {
 		socket.on(socketEventsSystem.loadMessages, (data) => {
 			if (!data) return;
-			const messages = data.map((obj) => {
+			data.sort(dateCompare);
+			const messages = data.map(obj => {
 				return {
 					...obj,
 					isSent: addInSentToOldMessages(obj),
@@ -188,6 +199,16 @@ export const ChatsProvider = ({ children }) => {
 		return false;
 	};
 
+	const dateCompare = (a, b) => {
+		if (a.createdAt < b.createdAt) {
+			return -1;
+		};
+		if (a.createdAt > b.createdAt) {
+			return 1;
+		};
+		return 0;
+	};
+	
 	return (
 		<ChatsContext.Provider
 			value={{
