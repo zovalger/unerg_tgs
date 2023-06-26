@@ -13,3 +13,5 @@ export const SENDER_EMAIL_PASSWORD = process.env.SENDER_EMAIL_PASSWORD;
 export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
 export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
 export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+
+export const TEST_MODE = process.env.TEST_MODE || false;
