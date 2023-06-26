@@ -31,11 +31,16 @@ export const getAllChats_service = async () => {
 
 export const saveNewMessage_service = async (data) => {
 	try {
-		const newMessage = new MessageModel({
-			_chatId: data.chatId,
+		const newMessage = new MessageModel({ 
+			_chatId: data._chatId,
 			text: data.text,
+			urlPhoto: {
+				url: data.urlPhoto.url,
+				imgfileId: data.urlPhoto.imgfileId
+			},
+			response: data.response,
 			driverId: data.driverId,
-			adminId: data.adminId,
+			adminId: data.adminId
 		});
 		await newMessage.save()
 	} catch (error) {
