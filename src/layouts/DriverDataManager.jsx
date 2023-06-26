@@ -1,11 +1,10 @@
 import { startInServiceDriver_Request } from "@/api/userDriver.api";
+import { TEST_MODE } from "@/config";
 import DriverContext from "@/contexts/Driver.context";
 import MapContext from "@/contexts/Map.context";
 import ToastContext from "@/contexts/Toast.context";
 import UserContext from "@/contexts/User.context";
 import { useContext, useEffect, useState } from "react";
-
-const testMode = true;
 
 export const DriverDataManager = () => {
 	const { user } = useContext(UserContext);
@@ -50,7 +49,7 @@ export const DriverDataManager = () => {
 		setServiceInterval(
 			setInterval(
 				async () => {
-					const coord = testMode ? getCenterMap() : await getCoordsDevice();
+					const coord = TEST_MODE ? getCenterMap() : await getCoordsDevice();
 
 					// guardar recorrido
 					await saveCoordInBusTravel(coord);
@@ -61,7 +60,7 @@ export const DriverDataManager = () => {
 
 					sendCoord_by_socket(coord);
 				},
-				testMode ? 1000 : 7000
+				TEST_MODE ? 1000 : 7000
 			)
 		);
 	};
