@@ -140,6 +140,7 @@ const MainMap = () => {
 								key={uuid()}
 								onDelete={onDelete}
 								onEdit={onEdit}
+								updateMap={updateMap}
 							/>
 						))}
 					</div>
