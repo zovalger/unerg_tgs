@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const BusTravelSchema = mongoose.Schema({
-	startDate: { type: Date, required: true, default: new Date() },
+	startDate: { type: Date, required: true, default: Date.now() },
 	endDate: { type: Date, default: null },
 
 	driver: {

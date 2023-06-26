@@ -6,6 +6,12 @@ const url = "/api/bus";
 export const createBus_Request = async (data) =>
 	await axios.post(`${url}/`, data);
 
+export const createBusAveria_Request = async (busId, data) =>
+	await axios.post(`${url}/${busId}/averias`, data);
+
+export const getAllBusAveria_Request = async (busId) =>
+	await axios.get(`${url}/${busId}/averias`);
+
 // obtencion
 export const getAllBuses_Request = async () => await axios.get(`${url}`);
 

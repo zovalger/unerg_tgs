@@ -17,8 +17,9 @@ export const SocketProvider = ({ children }) => {
 	const [eventSubscribe, setEventSubscribe] = useState([]);
 
 	useEffect(() => {
+		if (socket) return;
 		socketInitializer();
-	}, []);
+	}, [socket]);
 
 	const socketInitializer = async () => {
 		await fetch("/api/socket");
@@ -47,14 +48,8 @@ export const SocketProvider = ({ children }) => {
 	const offDefaultListeners = () => {};
 
 	const resetSocket = () => {
-		socket.disconnect();
+		if (socket) socket.disconnect();
 		socketInitializer();
-
-		//socket.off(socketEventsSystem.updatePosBus);
-		// // eventSubscribe.map((event) => {
-		//// 	socket.off(event);
-		//// });
-		//// setEventSubscribe([]);
 	};
 
 	return (

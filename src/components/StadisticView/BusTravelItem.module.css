@@ -1,0 +1,11 @@
+.container {
+	/* display: flex; */
+
+	background: #fff;
+	/* box-shadow: 1px 1px 5px #0003;
+	min-height: 10rem;
+	margin-bottom: 1rem; */
+	margin-top: .5rem;
+	padding: 1rem;
+	border-radius: .5rem;
+}

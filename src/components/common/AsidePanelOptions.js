@@ -3,7 +3,7 @@ import { GiBusStop } from "react-icons/gi";
 import { TbRoute, TbBus } from "react-icons/tb";
 import { GrChatOption, GrGroup } from "react-icons/gr";
 import { BiBus } from "react-icons/bi";
-import { AiOutlineFieldTime, AiOutlineUser } from "react-icons/ai";
+import { AiOutlineBarChart, AiOutlineFieldTime, AiOutlineUser } from "react-icons/ai";
 import { BsMap } from "react-icons/bs";
 
 const pathAdmin = "/admin";
@@ -61,6 +61,12 @@ export const adminOptions = [
 		name: "Chat",
 		icon: <GrChatOption className={styleN.route} />,
 		permission: "adminView",
+	},
+	{
+		link: `${pathAdmin}/stadistics`,
+		name: "Estadísticas",
+		icon: <AiOutlineBarChart className={styleN.route} />,
+		permission: "stadistic",
 	},
 ];
 
