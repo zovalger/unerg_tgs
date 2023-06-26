@@ -12,10 +12,10 @@ export default function verificInTimetable(timetable) {
 		return;
 	}
 
-	if (!now.isBetween(start, end)) {
-		console.log("no esta entre las horas de trabajo");
-		return;
-	}
+	// if (!now.isBetween(start, end)) {
+	// 	console.log("no esta entre las horas de trabajo");
+	// 	return;
+	// }
 
 	return true;
 }
