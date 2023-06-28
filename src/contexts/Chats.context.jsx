@@ -46,11 +46,11 @@ export const ChatsProvider = ({ children }) => {
 		setUserNames(n);
 	};
 
-	/*useEffect(() => {		//TODO: REMOVE ME
+	useEffect(() => {		//TODO: REMOVE ME
 		console.log(chatsObj);
 		console.log(chats);
 		console.log(chat_Id)
-	}, [chatsObj, chats, chat_Id]) */
+	}, [chatsObj, chats, chat_Id]) 
 
 	// *******************************************************
 	// 									Sockets
@@ -77,7 +77,7 @@ export const ChatsProvider = ({ children }) => {
 	const sendMessage = async (newMessage, imageFile) => {
 
 		let message = {
-			_chatId: "",
+			_chatId: null,
 			text: newMessage,
 			urlPhoto: {
 				url: null,
@@ -117,7 +117,7 @@ export const ChatsProvider = ({ children }) => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
 			if (!newMessage) return;
 			showInfoToast("Nuevo mensaje");
-			addNewMessageToChatObj(newMessage, newMessage.chatId);
+			addNewMessageToChatObj(newMessage, newMessage._chatId);
 			setMessages((prevMessages) => [...prevMessages, newMessage]);
 		});
 	};
@@ -133,7 +133,7 @@ export const ChatsProvider = ({ children }) => {
 			const messages = data.map(obj => {
 				return {
 					...obj,
-					isSent: addInSentToOldMessages(obj),
+					isSent: false,
 				};
 			});
 			messages.forEach((message) =>
@@ -180,26 +180,6 @@ export const ChatsProvider = ({ children }) => {
 
 	// ************************** Funciones de Orden **************************
 
-	const addInSentToOldMessages = (data) => {
-		// switch (user.role) {
-		// 	case "driver":
-		// 		return (
-		// 			data.driverId !== null &&
-		// 			data.driverId.toString() === user._id.toString()
-		// 		);
-		// 	case "admin":
-		// 		return (
-		// 			data.adminId !== null &&
-		// 			data.adminId.toString() === user._id.toString()
-		// 		);
-		// 	case "root":
-		// 		return data.driverId === null && data.adminId === null;
-		// 	default:
-		// 		return false;
-		// }
-
-		return false;
-	};
 
 	const dateCompare = (a, b) => {
 		if (a.createdAt < b.createdAt) {
