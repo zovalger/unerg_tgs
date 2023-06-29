@@ -1,18 +1,24 @@
-import { useState, useRef, useEffect, useContext } from "react";
-
 import { InputGroup, Input, Button } from "reactstrap";
+import { useState, useRef, useEffect, useContext } from "react";
 import { FaPaperPlane, FaCamera } from "react-icons/fa";
-import ChatsContext from "@/contexts/Chats.context";
+import { v4 as uuid } from "uuid";
 
-import styleC from "@/styles/Chat/chat.module.css";
+import styles from "./ChatView.module.css";
 import MessageItem from "./MessageItem";
 
-import { v4 as uuid } from "uuid";
 import imageAllowedTypes from "@/config/imageAllowedTypes";
+import MessageResponseReference from "./MessageResponseReference";
 
-const ChatView = ({ chat, messages, sendMessage, chatsObj, chat_Id }) => {
+const ChatView = ({
+	chat,
+	messages,
+	sendMessage,
+	chatsObj,
+	chat_Id: _chatId,
+}) => {
 	const [textMessage, setTextMessage] = useState("");
 	const [imageFile, setImageFile] = useState(null);
+	const [responseMessage, setResponseMessage] = useState(null);
 
 	const inputFileRef = useRef(null);
 	const messagesEndRef = useRef(null);
@@ -26,10 +32,11 @@ const ChatView = ({ chat, messages, sendMessage, chatsObj, chat_Id }) => {
 
 		if (!text && !imageFile) return;
 
-		sendMessage(textMessage, imageFile);
+		sendMessage(textMessage, imageFile, responseMessage);
 
 		setTextMessage("");
 		setImageFile(null);
+		setResponseMessage(null);
 		inputFileRef.current.value = "";
 	};
 
@@ -55,21 +62,6 @@ const ChatView = ({ chat, messages, sendMessage, chatsObj, chat_Id }) => {
 		inputFileRef.current.click();
 	};
 
-	// const sendImage = (file) => {
-	// 	if (file) {
-	// 		// eslint-disable-next-line react/jsx-key, @next/next/no-img-element
-	// 		setMessages([
-	// 			...messages,
-	// 			<img
-	// 				src={URL.createObjectURL(file)}
-	// 				alt="Foto"
-	// 				className={styleC.image}
-	// 			/>,
-	// 		]);
-	// 		setImageFile(null);
-	// 	}
-	// };
-
 	const handleKeyPress = (event) => {
 		if (event.key === "Enter") {
 			event.preventDefault();
@@ -82,14 +74,27 @@ const ChatView = ({ chat, messages, sendMessage, chatsObj, chat_Id }) => {
 	}, [messages]);
 
 	return (
-		<div className={styleC.chatContainer}>
-			<div className={styleC.messageContainer}>
-				{chatsObj[chat_Id]?.map((message, index) => (
-  					<MessageItem key={message?.id || uuid()} data={message}/>
+		<div className={styles.chatContainer}>
+			<div className={styles.messageContainer}>
+				{chatsObj[_chatId]?.map((message, index) => (
+					<MessageItem
+						key={message?.id || uuid()}
+						data={message}
+						setResponseMessage={setResponseMessage}
+					/>
 				))}
 				<div ref={messagesEndRef} />
 			</div>
-			<div className={styleC.inputContainer}>
+			{responseMessage && (
+				<MessageResponseReference
+					responseId={responseMessage}
+					_chatId={_chatId}
+					onClick={() => {
+						setResponseMessage(null);
+					}}
+				/>
+			)}
+			<div className={styles.inputContainer}>
 				<InputGroup>
 					<Input
 						type="text"

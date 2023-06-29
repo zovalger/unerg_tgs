@@ -3,49 +3,43 @@ import styles from "./MessageItem.module.css";
 import UserContext from "@/contexts/User.context";
 import ChatsContext from "@/contexts/Chats.context";
 import moment from "moment";
+import MessageResponseReference from "./MessageResponseReference";
 
-const MessageItem = ({ data }) => {
+const MessageItem = ({ data, setResponseMessage }) => {
 	const { chatsObj, userNames, refreshNamesUsers } = useContext(ChatsContext);
 	const { user } = useContext(UserContext);
 
-	const { text, driverId, adminId, _chatId, urlPhoto, createdAt, response } =
-		data;
-	const smsRespondido =
-		response && chatsObj[_chatId].find((sms) => sms._id === response);
+	const {
+		_id,
+		text,
+		driverId,
+		adminId,
+		_chatId,
+		urlPhoto,
+		createdAt,
+		response,
+	} = data;
 
-	const idUserRespondido = smsRespondido
-		? smsRespondido.driverId
-			? smsRespondido.driverId
-			: smsRespondido.adminId
-		: null;
-	const nameRespondido =
-		idUserRespondido === null ? "Root" : userNames[idUserRespondido];
+
 
 	const userId = driverId ? driverId : adminId;
 	const sendingClass = user._id == userId ? styles.sent : styles.received;
 
 	return (
-		<div className={`${styles.container} ${sendingClass}`}>
+		<div
+			className={`${styles.container} ${sendingClass}`}
+			onDoubleClick={() => {
+				setResponseMessage(_id);
+			}}
+		>
 			{user._id != userId && (
 				<div className={styles.people}>
 					<strong> {userId === null ? "Root" : userNames[userId]}</strong>
 				</div>
 			)}
-			{smsRespondido && (
-				<div className={styles.responseContainer}>
-					{smsRespondido.urlPhoto && smsRespondido.urlPhoto.url && (
-						<div className={styles.responseImage}>
-							<img src={smsRespondido.urlPhoto.url} />
-						</div>
-					)}
-					<div className={styles.responseNameAndText}>
-						<div>
-							<strong>{nameRespondido}</strong>
-						</div>
-						<div>{smsRespondido.text}</div>
-					</div>
-				</div>
-			)}
+
+			{response && <MessageResponseReference responseId={response} _chatId={_chatId}/>}
+
 			{urlPhoto && urlPhoto.url && (
 				<div className={styles.image}>
 					<img src={urlPhoto.url} />

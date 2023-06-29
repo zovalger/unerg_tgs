@@ -15,30 +15,38 @@ const Chat = () => {
 
 	return (
 		<Layout>
-			<NavBar
-				title={"Chat"}
-				ViPrincipal={true}
-				left={
-					<div>
-						<Link href={"../menu"} className={styleN.btn_return}>
-							<IoIosArrowBack />
-						</Link>
-					</div>
-				}
-				right={
-					<>
-						<Link href={"./add"}></Link>
-					</>
-				}
-			/>
+			<div
+				style={{
+					height: "100vh",
+					display: "flex",
+					flexDirection: "column",
+				}}
+			>
+				<NavBar
+					title={"Chat"}
+					ViPrincipal={true}
+					left={
+						<div>
+							<Link href={"../menu"} className={styleN.btn_return}>
+								<IoIosArrowBack />
+							</Link>
+						</div>
+					}
+					right={
+						<>
+							<Link href={"./add"}></Link>
+						</>
+					}
+				/>
 
-			<ChatView
-				chat={{}}
-				messages={ messages }
-				sendMessage={ sendMessage }
-				chatsObj={ chatsObj } 
-				chat_Id={ chat_Id }
-			/>
+				<ChatView
+					chat={{}}
+					messages={messages}
+					sendMessage={sendMessage}
+					chatsObj={chatsObj}
+					chat_Id={chat_Id}
+				/>
+			</div>
 		</Layout>
 	);
 };
