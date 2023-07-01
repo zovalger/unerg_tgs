@@ -1,14 +1,18 @@
 /* mensaje respondido */
 
 .container {
-	margin-top: 0.6rem;
-	margin-left: 0.6rem;
-	margin-right: 0.6rem;
-	padding-left: 0.7rem;
+	margin: 0.6rem;
+	margin-bottom: 0;
+	
+	padding: 0.3rem 0.7rem;
+
 	display: flex;
 	align-items: center;
 
 	border-left: 3px solid rgb(0, 162, 255);
+
+	background-color: #7979792a;
+	border-radius: 8px;
 }
 
 .image {

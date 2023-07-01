@@ -12,8 +12,8 @@ import Layout from "@/layouts/Layout";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import UserContext from "@/contexts/User.context";
-import { useContext, useState } from "react";
-import { login_Request } from "@/api/auth.api";
+import { useContext, useEffect, useState } from "react";
+import { login_Request, logout_Request } from "@/api/auth.api";
 
 import { useRouter } from "next/router";
 import SocketContext from "@/contexts/Socket.context";
@@ -22,10 +22,11 @@ import ToastContext from "@/contexts/Toast.context";
 export function Login() {
 	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
 
-	const { login } = useContext(UserContext);
+	const { login, setAuth, setUser, user } = useContext(UserContext);
 	const { resetSocket } = useContext(SocketContext);
 	const [isSubmiting, setIsSubmiting] = useState(false);
 	const router = useRouter();
+	const [logeando, setLogeando] = useState(false);
 
 	const formik = useFormik({
 		initialValues: {
@@ -44,7 +45,7 @@ export function Login() {
 			if (isSubmiting) return;
 			console.log(formData);
 			setIsSubmiting(true);
-
+			setLogeando(true);
 			withLoadingSuccessAndErrorFuntionsToast(
 				login(formData),
 				(user) => {
@@ -67,6 +68,20 @@ export function Login() {
 			);
 		},
 	});
+
+	useEffect(() => {
+		if (user && !logeando) l();
+	}, [user != null]);
+
+	const l = async () => {
+		try {
+			await logout_Request();
+		} catch (error) {}
+		setAuth(false);
+		setUser(null);
+		router.reload();
+	};
+
 	return (
 		<Layout>
 			<div className={style.bg}>

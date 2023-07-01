@@ -8,6 +8,9 @@ import MessageItem from "./MessageItem";
 
 import imageAllowedTypes from "@/config/imageAllowedTypes";
 import MessageResponseReference from "./MessageResponseReference";
+import scaleImage from "@/utils/scaleImage";
+import Image from "next/image";
+import { AiOutlineClose } from "react-icons/ai";
 
 const ChatView = ({
 	chat,
@@ -51,7 +54,8 @@ const ChatView = ({
 		const reader = new FileReader();
 
 		reader.onload = async (event) => {
-			const dataBase64 = event.target.result;
+			const dataBase64 = await scaleImage(event.target.result);
+
 			setImageFile(dataBase64);
 		};
 
@@ -80,7 +84,10 @@ const ChatView = ({
 					<MessageItem
 						key={message?.id || uuid()}
 						data={message}
-						setResponseMessage={setResponseMessage}
+						setResponseMessage={(d) => {
+							// messagesEndRef.current.focus();
+							setResponseMessage(d);
+						}}
 					/>
 				))}
 				<div ref={messagesEndRef} />
@@ -119,6 +126,42 @@ const ChatView = ({
 					/>
 				</InputGroup>
 			</div>
+
+			{imageFile && (
+				<div className={styles.imageSenderPreview}>
+					<div className={styles.imagePreviewPanel}>
+						<div
+							className={styles.closeButton}
+							onClick={() => {
+								setImageFile(null);
+								inputFileRef.current.value = "";
+							}}
+						>
+							<AiOutlineClose />
+						</div>
+						<div
+							className={styles.imagePreview}
+							onClick={handleCameraButtonClick}
+						>
+							<img src={imageFile} alt="sendingImage" />
+						</div>
+
+						<InputGroup>
+							<Input
+								type="text"
+								value={textMessage}
+								onChange={handleInputChange}
+								onKeyPress={handleKeyPress}
+								placeholder="Escribe un mensaje"
+							/>
+
+							<Button color="primary" onClick={handleSendMessage}>
+								<FaPaperPlane />
+							</Button>
+						</InputGroup>
+					</div>
+				</div>
+			)}
 		</div>
 	);
 };
