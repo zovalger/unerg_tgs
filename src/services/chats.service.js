@@ -52,8 +52,6 @@ export const saveNewMessage_service = async (data) => {
 	}
 };
 
-export const saveNewPhoto_service = async () => {};
-
 export const getMessagesByChatId_service = async (chatId) => {
 	try {
 		let messages = await MessageModel.find({ _chatId: chatId });

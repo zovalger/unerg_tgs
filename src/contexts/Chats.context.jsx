@@ -4,7 +4,7 @@ import SocketContext from "./Socket.context";
 import ToastContext from "./Toast.context";
 import UserContext from "./User.context";
 import { getAllNamesUsers_Request } from "@/api/chat.api";
-import { sendImg_Request } from "@/api/file.api"
+import { sendImg_Request } from "@/api/file.api";
 
 const { createContext, useState, useEffect, useContext } = require("react");
 
@@ -17,7 +17,7 @@ const ChatsContext = createContext();
 export const ChatsProvider = ({ children }) => {
 	const { socket } = useContext(SocketContext);
 	const { user, setUser } = useContext(UserContext);
-	const { withLoadingSuccessAndErrorFuntionsToast, showInfoToast } =
+	const { hideAllToasts, showLoadingToast, showInfoToast, showErrorToast } =
 		useContext(ToastContext);
 
 	const [messages, setMessages] = useState([]);
@@ -46,11 +46,12 @@ export const ChatsProvider = ({ children }) => {
 		setUserNames(n);
 	};
 
-	/*useEffect(() => {		//TODO: REMOVE ME
+	useEffect(() => {
+		//TODO: REMOVE ME
 		console.log(chatsObj);
 		console.log(chats);
-		console.log(chat_Id)
-	}, [chatsObj, chats, chat_Id]) */
+		console.log(chat_Id);
+	}, [chatsObj, chats, chat_Id]);
 
 	// *******************************************************
 	// 									Sockets
@@ -74,42 +75,52 @@ export const ChatsProvider = ({ children }) => {
 	};
 
 	//Enviar
-	const sendMessage = async (newMessage, imageFile) => {
+	const sendMessage = async (text, imageFile, response = null) => {
+		try {
+			let message = {
+				_chatId: null,
+				text: text,
+				urlPhoto: {
+					url: null,
+					imgfileId: null,
+				},
+				response,
+				driverId: null,
+				adminId: null,
+				isSent: true,
+			};
 
-		let message = {
-			_chatId: "",
-			text: newMessage,
-			urlPhoto: {
-				url: null,
-				imgfileId: null,
-			},
-			response: null,
-			driverId: null,
-			adminId: null,
-			isSent: true,
-		};
+			//chatId para mensajes
+			if (user.role === "driver") {
+				message.driverId = user._id;
+				message._chatId = chats[0]._id.toString();
+			} else if (user.role === "admin") {
+				message.adminId = user._id;
+				message._chatId = chat_Id;
+			} else if (user.role === "root") {
+				message._chatId = chat_Id;
+			}
 
-		//chatId para mensajes
-		if (user.role === "driver") {
-			message.driverId = user._id;
-			message._chatId = chats[0]._id.toString()
-		} else if (user.role === "admin") {
-			message.adminId = user._id;
-			message._chatId = chat_Id;
-		} else if (user.role === "root") {
-			message._chatId = chat_Id;
-		};
+			if (imageFile) {
+				showLoadingToast("Subiendo imagen");
 
-		if (imageFile) {
-			const {data} = await sendImg_Request({ data: imageFile });
-			message.urlPhoto.url = data.url;
-			message.urlPhoto.imgfileId = data._id;
-		};
+				const { data } = await sendImg_Request({ data: imageFile });
 
-		addNewMessageToChatObj(message, message._chatId);
+				hideAllToasts();
 
-		setMessages([...messages, message]);
-		socket.emit(socketEventsSystem.sendMessage, message);
+				message.urlPhoto.url = data.url;
+				message.urlPhoto.imgfileId = data._id;
+			}
+
+			addNewMessageToChatObj(message, message._chatId);
+
+			setMessages([...messages, message]);
+			socket.emit(socketEventsSystem.sendMessage, message);
+		} catch (error) {
+			hideAllToasts();
+
+			showErrorToast("No se envio el mensaje");
+		}
 	};
 
 	//Recibir
@@ -117,11 +128,10 @@ export const ChatsProvider = ({ children }) => {
 		socket.on(socketEventsSystem.reciveMessage, (newMessage) => {
 			if (!newMessage) return;
 			showInfoToast("Nuevo mensaje");
-			addNewMessageToChatObj(newMessage, newMessage.chatId);
+			addNewMessageToChatObj(newMessage, newMessage._chatId);
 			setMessages((prevMessages) => [...prevMessages, newMessage]);
 		});
 	};
-
 
 	// ************************** Recibir mensajes y chats desde la db **************************
 
@@ -130,10 +140,10 @@ export const ChatsProvider = ({ children }) => {
 		socket.on(socketEventsSystem.loadMessages, (data) => {
 			if (!data) return;
 			data.sort(dateCompare);
-			const messages = data.map(obj => {
+			const messages = data.map((obj) => {
 				return {
 					...obj,
-					isSent: addInSentToOldMessages(obj),
+					isSent: false,
 				};
 			});
 			messages.forEach((message) =>
@@ -180,37 +190,16 @@ export const ChatsProvider = ({ children }) => {
 
 	// ************************** Funciones de Orden **************************
 
-	const addInSentToOldMessages = (data) => {
-		// switch (user.role) {
-		// 	case "driver":
-		// 		return (
-		// 			data.driverId !== null &&
-		// 			data.driverId.toString() === user._id.toString()
-		// 		);
-		// 	case "admin":
-		// 		return (
-		// 			data.adminId !== null &&
-		// 			data.adminId.toString() === user._id.toString()
-		// 		);
-		// 	case "root":
-		// 		return data.driverId === null && data.adminId === null;
-		// 	default:
-		// 		return false;
-		// }
-
-		return false;
-	};
-
 	const dateCompare = (a, b) => {
 		if (a.createdAt < b.createdAt) {
 			return -1;
-		};
+		}
 		if (a.createdAt > b.createdAt) {
 			return 1;
-		};
+		}
 		return 0;
 	};
-	
+
 	return (
 		<ChatsContext.Provider
 			value={{
