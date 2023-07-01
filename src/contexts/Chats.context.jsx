@@ -62,6 +62,8 @@ export const ChatsProvider = ({ children }) => {
 	// ************************** Funciones Chat **************************
 
 	const chatConnection = (id) => {
+		if (!user) return;
+
 		if (user.role === "admin" || user.role === "root") {
 			for (let i = 0; i < chats.length; i++) {
 				if (chats[i].driverId === id) {
@@ -114,8 +116,9 @@ export const ChatsProvider = ({ children }) => {
 
 			addNewMessageToChatObj(message, message._chatId);
 
-			setMessages([...messages, message]);
-			socket.emit(socketEventsSystem.sendMessage, message);
+			socket.emit(socketEventsSystem.sendMessage, message, (res) => {
+				setMessages([...messages, res]);
+			});
 		} catch (error) {
 			hideAllToasts();
 

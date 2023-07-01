@@ -14,16 +14,26 @@ export const chatSocketController = (io, socket, user) => {
 
 	roomsUserJoin(io, socket, user);
 
-	socket.on(socketEventsSystem.sendMessage, async (message) => {
+	socket.on(socketEventsSystem.sendMessage, async (message, callback) => {
 		message.isSent = false;
 		console.log(message);
 		const messageSaved = await saveNewMessage_service(message);
+
+		if (!messageSaved) return;
+
 		socket
 			.to(message._chatId)
 			.emit(socketEventsSystem.reciveMessage, messageSaved);
+
+		callback(messageSaved);
 	});
 
 	socket.on(socketEventsSystem.loadMessagesReq, async () => {});
+
+	socket.on(socketEventsSystem.disconnect, async () => {
+		console.log("restando");
+		socket.off(socketEventsSystem.sendMessage);
+	});
 };
 
 //Carga de mensajes antiguos
