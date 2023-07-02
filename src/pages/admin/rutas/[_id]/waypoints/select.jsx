@@ -100,7 +100,7 @@ const Menu_Paradas = () => {
 					<IoIosAdd />
 				</Link>
 
-				<div className={style.search}>
+				{/* <div className={style.search}>
 					<Form inline onSubmit={handleSubmit}>
 						<FormGroup className="mb-2 mr-sm-2 mb-sm-0">
 							<div className="input-group">
@@ -120,7 +120,7 @@ const Menu_Paradas = () => {
 							</div>
 						</FormGroup>
 					</Form>
-				</div>
+				</div> */}
 				{waypoints?.map((w) => (
 					<BotonPa data={w} key={w.id} onClick={onClick} />
 				))}

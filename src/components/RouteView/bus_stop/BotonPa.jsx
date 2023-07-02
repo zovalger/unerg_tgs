@@ -12,9 +12,9 @@ export default function BotonPa({ data, onClick }) {
 				<h2>{name}</h2>
 				<p>{description}</p>
 			</div>
-			<div className={style.textContainer__km}>
+			{/* <div className={style.textContainer__km}>
 				<p>{km} km</p>
-			</div>
+			</div> */}
 		</div>
 	);
 }

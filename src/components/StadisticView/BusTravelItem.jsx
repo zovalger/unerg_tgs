@@ -2,7 +2,7 @@ import moment from "moment";
 import styles from "./BusTravelItem.module.css";
 
 const BusTravelItem = ({ data, indexation }) => {
-	const startTime = data.startTime;
+	const startDate = data.startDate;
 	const endDate = data.endDate;
 	const ruta = indexation.rutas[data.ruta];
 	const driver = indexation.drivers[data.driver];
@@ -12,7 +12,7 @@ const BusTravelItem = ({ data, indexation }) => {
 
 	return (
 		<div className={styles.container}>
-			<div>Inicio: {moment(startTime).format("YYYY-MM-DD hh:mm a")}</div>
+			<div>Inicio: {moment(startDate).format("YYYY-MM-DD hh:mm a")}</div>
 			<div>Final: {moment(endDate).format("YYYY-MM-DD hh:mm a")}</div>
 			<div>{ruta.name}</div>
 			<div>{driver.name}</div>
