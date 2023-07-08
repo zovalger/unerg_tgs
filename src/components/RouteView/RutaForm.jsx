@@ -176,7 +176,7 @@ export default function RutaForm({ data, onSubmit, path }) {
 							))}
 						</FormGroup>
 
-						<FormGroup switch style={{ padding: 0 }}>
+						{/* <FormGroup switch style={{ padding: 0 }}>
 							<Label className={style.label} for="state">
 								Estado de la Ruta
 							</Label>
@@ -197,7 +197,7 @@ export default function RutaForm({ data, onSubmit, path }) {
 									}}
 								/>
 							</div>
-						</FormGroup>
+						</FormGroup> */}
 
 						<FormGroup
 							style={{

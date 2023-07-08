@@ -117,6 +117,8 @@ export const ChatsProvider = ({ children }) => {
 			addNewMessageToChatObj(message, message._chatId);
 
 			socket.emit(socketEventsSystem.sendMessage, message, (res) => {
+				if (!res) return;
+				
 				setMessages([...messages, res]);
 			});
 		} catch (error) {

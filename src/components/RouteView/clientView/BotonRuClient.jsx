@@ -14,9 +14,9 @@ export default function BotonRuClient({ datos, onClick }) {
 					<h2>{name}</h2>
 					<p>{description}</p>
 				</div>
-				<div className={style.textContainer__Ho}>
+				{/* <div className={style.textContainer__Ho}>
 					<p>hora inical - hora final</p>
-				</div>
+				</div> */}
 			</div>
 		</>
 	);
