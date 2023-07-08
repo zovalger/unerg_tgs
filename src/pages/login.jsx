@@ -20,7 +20,8 @@ import SocketContext from "@/contexts/Socket.context";
 import ToastContext from "@/contexts/Toast.context";
 
 export function Login() {
-	const { withLoadingSuccessAndErrorFuntionsToast } = useContext(ToastContext);
+	const { showSuccessToast, showErrorToast, showLoadingToast, hideAllToasts } =
+		useContext(ToastContext);
 
 	const { login, setAuth, setUser, user } = useContext(UserContext);
 	const { resetSocket } = useContext(SocketContext);
@@ -41,31 +42,26 @@ export function Login() {
 				),
 			password: Yup.string().required(),
 		}),
-		onSubmit: (formData) => {
+		onSubmit: async (formData) => {
 			if (isSubmiting) return;
 			console.log(formData);
 			setIsSubmiting(true);
 			setLogeando(true);
-			withLoadingSuccessAndErrorFuntionsToast(
-				login(formData),
-				(user) => {
-					console.log(user);
-					resetSocket();
 
-					if (user.role == "admin" || user.role == "root")
-						router.push("/admin/map");
-					else router.push(`/driver/capacidad`);
+			try {
+				showLoadingToast();
+				await login(formData), console.log(user);
+				resetSocket();
 
-					return "autenticado correctamente";
-				},
-				(error) => {
-					console.log(error);
-					setIsSubmiting(false);
-					const message = error.response.data.message;
-					console.log(error);
-					return message ? message : error.message;
-				}
-			);
+				showSuccessToast("autenticado correctamente");
+			} catch (error) {
+				hideAllToasts();
+
+				setIsSubmiting(false);
+				const message = error.response.data.message;
+				console.log(error);
+				showErrorToast(message || error.message);
+			}
 		},
 	});
 

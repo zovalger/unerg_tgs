@@ -42,13 +42,17 @@ export const UserProvider = ({ children }) => {
 	};
 
 	const getDataUser = async () => {
-		const res = await profile_Request();
+		const { data: dataUser } = await profile_Request();
 
-		if (res.data.error) throw new Error(res.data.error.message);
+		if (dataUser.error) throw new Error(dataUser.error.message);
 
-		setUser(res.data);
+		setUser(dataUser);
 		console.log("login");
-		console.log(res);
+		console.log();
+
+		if (dataUser.role == "admin" || dataUser.role == "root")
+			router.push("/admin/map");
+		else router.push(`/driver/capacidad`);
 		// resetSocket();
 
 		return res.data;
